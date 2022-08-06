@@ -1,10 +1,11 @@
 <template>
   <div class="the-big-div">
     <div v-for="message in this.$store.state.messages" 
-    v-bind:key="message.id">
-    <p  v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}"> 
-      {{message.body}}
-    </p>
+    v-bind:key="message.id" 
+    v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
+      <p> 
+        {{message.body}}
+      </p>
     </div>
     
     <form v-on:submit.prevent="addMessage()">
@@ -36,8 +37,8 @@ export default {
       }
     }
   }
-
 }
+
 </script>
 
 <style>
@@ -56,18 +57,30 @@ template {
   font-family: 'Quicksand', sans-serif;
 }
 
-.bot {
+div.bot {
   display: flex;
   justify-content: flex-start;
-  width: 40vw;
+  width: 100%;
+}
+
+div.student{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+p {
+  max-width: 60%;
+  padding: .5%;
+}
+
+div.bot p {
   background-color: #71D96F;
 }
 
-.student{
-  display: flex;
-  justify-content: flex-end;
-  width: 40vw;
+div.student p{
   background-color: #34AAE1;
 }
+
 
 </style>
