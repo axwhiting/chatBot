@@ -1,12 +1,13 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
-    <p>You must be authenticated to see this</p>
+    <user-greeting/>
   </div>
 </template>
 
 <script>
+import UserGreeting from '@/components/UserGreeting.vue'
 export default {
+  components: { UserGreeting },
   name: "home"
 };
 </script>
