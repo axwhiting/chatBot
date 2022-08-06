@@ -1,7 +1,4 @@
-
-
 <template>
-
   <div class="user-greeting">
       <h2>Hello student! </h2>
 
@@ -19,8 +16,11 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+
 .user-greeting {
-    font-family: 'Quicksand', sans-serif;
+  display: flex;
+  justify-content: center;
+  font-family: 'Quicksand', sans-serif;
     
 }
 
