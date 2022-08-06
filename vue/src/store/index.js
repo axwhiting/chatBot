@@ -3,10 +3,6 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-
-
-
-
 export default new Vuex.Store({
 
   state: {
@@ -18,7 +14,7 @@ export default new Vuex.Store({
       }, 
       {
        id: 2, 
-       body: "SCOPE IT ALL",
+       body: "What can I call you?",
        sender: "bot",
 
       }
@@ -27,8 +23,10 @@ export default new Vuex.Store({
       body: "",
       sender: "",
     }
-
-
+  },
+  mutations: {
+    ADD_MESSAGE(state, message) {
+      state.messages.push(message);
+    }
   }
-
 });
