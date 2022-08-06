@@ -1,7 +1,12 @@
 <template>
-  <div class="user-greeting">
-      <h2>Hello student! </h2>
+  <div>
+    <div v-for="message in this.$store.state.messages" 
+    v-bind:key="message.id">
+        
+    <p  v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}"> {{message.body}}
+    </p>
 
+    </div>
   </div>
 </template>
 

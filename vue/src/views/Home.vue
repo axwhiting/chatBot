@@ -1,13 +1,13 @@
 <template>
   <div class="home">
-    <user-greeting/>
+    <chat-bot/>
   </div>
 </template>
 
 <script>
-import UserGreeting from '@/components/UserGreeting.vue'
+import ChatBot from '../components/ChatBot.vue';
 export default {
-  components: { UserGreeting },
+  components: { ChatBot },
   name: "home"
 };
 </script>
