@@ -40,8 +40,6 @@ data()
                 link:msgBody.link
             }
             this.$store.commit("ADD_MESSAGE", botMessage)
-
-            
           });
         }
       )
@@ -54,6 +52,8 @@ data()
       }
      
     },
+    //need an "if the message index is 3 , or messages.length = 3 , send list of topics
+    //Or if the message.body != topic, return list of topics
     
     ///this doesn't work
     createListOfTopics(){
