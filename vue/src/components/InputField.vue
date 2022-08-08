@@ -20,16 +20,35 @@ data()
         sender: "student",
         type: "text",
         link:""
-      }
+      },
+      msgWithUsername: {
+        id: this.$store.state.messages.length + 1,
+        body: "",
+        sender: "bot",
+        type: "text",
+        link:""
+      },
     }
   },
-  
   methods: 
   {
     addMessage() {
       const message = this.msg
-    
       this.$store.commit("ADD_MESSAGE", message);
+      if(this.$store.state.messages.length === 3){
+        this.msgWithUsername.body = "Hi, " + this.msg.body + "!";
+        this.$store.commit("ADD_MESSAGE", this.msgWithUsername);
+        chatService.getAllTopics().then(response =>{
+          const botMessage = {
+                  id: this.$store.state.messages.length + 1,
+                  body: response.data.body,
+                  sender: "bot",
+                  type: response.data.type,
+                  link: response.data.link
+          }
+        this.$store.commit("ADD_MESSAGE", botMessage);
+        });
+      } else {
       chatService.sendMessage(this.msg).then(response =>{
           response.data.forEach(msgBody => {
             const botMessage = {
@@ -37,12 +56,12 @@ data()
                 body: msgBody.body,
                 sender: "bot",
                 type: msgBody.type,
-                link:msgBody.link
+                link: msgBody.link
             }
             this.$store.commit("ADD_MESSAGE", botMessage)
           });
-        }
-      )
+        });
+      }
       this.msg = {
         id: this.$store.state.messages.length + 1,
         body: "",

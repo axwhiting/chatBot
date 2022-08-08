@@ -22,7 +22,7 @@ public class MessageController {
         return messageDAO.messages(studentMessage);
     }
     @RequestMapping(value = "/topics", method = RequestMethod.GET)
-    public List<String> topicsList(){
+    public BotMessage topicsList(){
         return messageDAO.getListOfTopics();
     }
 

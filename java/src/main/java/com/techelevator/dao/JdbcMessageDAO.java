@@ -30,14 +30,22 @@ public class JdbcMessageDAO implements MessageDAO{
         return messages;
     }
     //working to get list of all topics for student // need something to trigger
-    public List<String> getListOfTopics(){
-        List<String> topicsList = new ArrayList<>();
+    public BotMessage getListOfTopics(){
+        String topicsList = "";
         String sql = "SELECT DISTINCT topic from responses";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        boolean isfirstResult = true;
         while( results.next() ) {
-            topicsList.add( results.getString("topic") );
+            if(isfirstResult){
+                topicsList = results.getString("topic");
+                isfirstResult = false;
+            } else {
+                topicsList = topicsList + ", " + results.getString("topic");
+            }
         }
-        return topicsList;
+        String customMessage = "I'm happy discuss to following topics with you: " + topicsList + ". Which topic would you like to discuss?";
+        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
+        return botMessage;
     }
 
     private BotMessage mapRowToBotMessage(SqlRowSet row) {
@@ -48,4 +56,11 @@ public class JdbcMessageDAO implements MessageDAO{
         return message;
     }
 
+    private BotMessage mapCustomMessageToBotMessage(String customMessage) {
+        BotMessage message = new BotMessage();
+        message.setBody(customMessage);
+        message.setLink("n/a");
+        message.setType("text");
+        return message;
+    }
 }
