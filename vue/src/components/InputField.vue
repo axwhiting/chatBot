@@ -16,7 +16,9 @@ data()
       msg: {
         id: this.$store.state.messages.length + 1,
         body: "",
-        sender: "student"
+        sender: "student",
+        type: "text",
+        link:""
       }
     }
   },
@@ -30,7 +32,9 @@ data()
             const botMessage = {
                 id: this.$store.state.messages.length + 1,
                 body: msgBody.body,
-                sender: "bot"
+                sender: "bot",
+                type: msgBody.type,
+                link:msgBody.link
             }
             this.$store.commit("ADD_MESSAGE", botMessage);
           });
@@ -39,7 +43,9 @@ data()
       this.msg = {
         id: this.$store.state.messages.length + 1,
         body: "",
-        sender: "student"
+        sender: "student",
+        type: "text",
+        link:""
       }
     }
   }

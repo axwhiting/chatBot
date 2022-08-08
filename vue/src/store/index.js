@@ -11,18 +11,19 @@ export default new Vuex.Store({
         id: 1, 
         body: "Hello!", 
         sender: "bot",
+        type: "text",
+        link:""
       }, 
       {
        id: 2, 
        body: "What can I call you?",
        sender: "bot",
+       type: "text",
+       link:""
 
       }
     ],
-    message: {
-      body: "",
-      sender: "",
-    }
+
   },
   mutations: {
     ADD_MESSAGE(state, message) {

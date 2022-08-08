@@ -21,7 +21,7 @@ CREATE TABLE users (
 
 CREATE TABLE responses (
         response_id SERIAL,
-        catogory varChar(20),
+        category varChar(20),
         topic varChar(20),
         keyword varChar(30),
         subkeyword varChar(30),
@@ -36,7 +36,7 @@ CREATE TABLE responses (
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
 
-INSERT INTO responses (catogory,topic,keyword,subkeyword,content_type,display,display_type,Link,date_last_updated,description) VALUES
+INSERT INTO responses (category,topic,keyword,subkeyword,content_type,display,display_type,Link,date_last_updated,description) VALUES
         ('Bootcamp OS','Description','Description','General','Informational','Bootcamp OS is a Learning Management System ("LMS") used by Tech Elevator//s students to access reading materials, take quizzes, and submit exercises. ','text','n/a','n/a','n/a'),
         ('Bootcamp OS','Terminology','Unit','General','Informational','An unit in Bootcamp OS is a grouping of learning content for a single topic. Often contains reading material, a tutorial, a quiz, and a set of exercises.','text','n/a','n/a','n/a'),
         ('Bootcamp OS','Terminology','Section','General','Informational','A section in Bootcamp OS is a grouping of related units.','text','n/a','n/a','n/a'),

@@ -3,9 +3,10 @@
     <div v-for="message in this.$store.state.messages" 
     v-bind:key="message.id" 
     v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
-      <p> 
+      <p v-show="message.type === 'text'"> 
         {{message.body}}
       </p>
+   <a v-show="message.type === 'link'" v-bind:href="message.link">{{message.body}}</a>
     </div>
  
   </div>
@@ -46,16 +47,18 @@ div.student{
   width: 100%;
 }
 
-p {
+p,a {
   max-width: 60%;
   padding: .5%;
+
+
 }
 
-div.bot p {
+div.bot p, div.bot a {
   background-color: #71D96F;
 }
 
-div.student p{
+div.student p, div.student a{
   background-color: #34AAE1;
 }
 
