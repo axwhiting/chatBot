@@ -8,4 +8,5 @@ import java.util.List;
 public interface MessageDAO {
 
     List<BotMessage> messages(StudentMessage studentMessage);
+    List<String> getListOfTopics();
 }

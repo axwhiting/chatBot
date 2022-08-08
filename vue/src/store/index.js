@@ -23,11 +23,16 @@ export default new Vuex.Store({
 
       }
     ],
+ 
 
   },
   mutations: {
     ADD_MESSAGE(state, message) {
       state.messages.push(message);
+ 
     }
   }
+
+    
+
 });

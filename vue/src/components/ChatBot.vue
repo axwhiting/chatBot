@@ -6,7 +6,7 @@
       <p v-show="message.type === 'text'"> 
         {{message.body}}
       </p>
-   <a v-show="message.type === 'link'" v-bind:href="message.link">{{message.body}}</a>
+   <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
     </div>
  
   </div>

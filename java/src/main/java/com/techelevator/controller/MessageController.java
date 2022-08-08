@@ -21,4 +21,9 @@ public class MessageController {
     public List<BotMessage> sendResponse(@RequestBody StudentMessage studentMessage){
         return messageDAO.messages(studentMessage);
     }
+    @RequestMapping(value = "/topics", method = RequestMethod.GET)
+    public List<String> topicsList(){
+        return messageDAO.getListOfTopics();
+    }
+
 }

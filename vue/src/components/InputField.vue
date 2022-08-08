@@ -11,7 +11,8 @@
 import chatService from '@/services/ChatService'
 export default {
 data()
- {
+ 
+   {
     return {
       msg: {
         id: this.$store.state.messages.length + 1,
@@ -22,10 +23,12 @@ data()
       }
     }
   },
+  
   methods: 
   {
     addMessage() {
       const message = this.msg
+    
       this.$store.commit("ADD_MESSAGE", message);
       chatService.sendMessage(this.msg).then(response =>{
           response.data.forEach(msgBody => {
@@ -36,7 +39,9 @@ data()
                 type: msgBody.type,
                 link:msgBody.link
             }
-            this.$store.commit("ADD_MESSAGE", botMessage);
+            this.$store.commit("ADD_MESSAGE", botMessage)
+
+            
           });
         }
       )
@@ -47,11 +52,19 @@ data()
         type: "text",
         link:""
       }
-    }
+     
+    },
+    
+    ///this doesn't work
+    createListOfTopics(){
+      chatService.getAllTopics().then( response => {
+            this.topicsList = response.data;
+    })
+  
   }
   }
-
-
+  
+}
 </script>
 
 <style>

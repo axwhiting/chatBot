@@ -19,6 +19,7 @@ public class JdbcMessageDAO implements MessageDAO{
     }
 
     @Override
+
     public List<BotMessage> messages(StudentMessage studentMessage) {
         List<BotMessage> messages = new ArrayList<>();
         String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ?";
@@ -28,6 +29,17 @@ public class JdbcMessageDAO implements MessageDAO{
         }
         return messages;
     }
+    //working to get list of all topics for student // need something to trigger
+    public List<String> getListOfTopics(){
+        List<String> topicsList = new ArrayList<>();
+        String sql = "SELECT DISTINCT topic from responses";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while( results.next() ) {
+            topicsList.add( results.getString("topic") );
+        }
+        return topicsList;
+    }
+
     private BotMessage mapRowToBotMessage(SqlRowSet row) {
         BotMessage message = new BotMessage();
         message.setBody(row.getString("display"));
