@@ -13,8 +13,12 @@ public class MessageController {
 
     private MessageDAO messageDAO;
 
+    public MessageController(MessageDAO messageDAO){
+        this.messageDAO = messageDAO;
+    }
+
     @RequestMapping(value = "/messages", method = RequestMethod.POST)
-    public List<BotMessage> sendResponse(@RequestBody String studentMessage){
+    public List<BotMessage> sendResponse(@RequestBody StudentMessage studentMessage){
         return messageDAO.messages(studentMessage);
     }
 }

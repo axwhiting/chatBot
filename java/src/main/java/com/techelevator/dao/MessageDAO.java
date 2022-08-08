@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface MessageDAO {
 
-    List<BotMessage> messages(String studentMessage);
+    List<BotMessage> messages(StudentMessage studentMessage);
 }

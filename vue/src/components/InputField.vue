@@ -26,14 +26,15 @@ data()
       const message = this.msg
       this.$store.commit("ADD_MESSAGE", message);
       chatService.sendMessage(this.msg).then(response =>{
-          const botMessage = {
+          response.data.forEach(msgBody => {
+            const botMessage = {
                 id: this.$store.state.messages.length + 1,
-                body: response.data,
+                body: msgBody.body,
                 sender: "bot"
-
-          }
-         this.$store.commit("ADD_MESSAGE", botMessage);
-      }
+            }
+            this.$store.commit("ADD_MESSAGE", botMessage);
+          });
+        }
       )
       this.msg = {
         id: this.$store.state.messages.length + 1,
@@ -42,7 +43,7 @@ data()
       }
     }
   }
-    }
+  }
 
 
 </script>
