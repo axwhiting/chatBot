@@ -2,7 +2,9 @@ BEGIN TRANSACTION;
 
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS responses;
+Drop Table If EXISTS messageLog;
 DROP SEQUENCE IF EXISTS seq_user_id;
+
 
 CREATE SEQUENCE seq_user_id
   INCREMENT BY 1
@@ -31,6 +33,14 @@ CREATE TABLE responses (
         Link varChar(100),
         date_last_updated varChar(10),
         description varChar(10)
+);
+CREATE TABLE messageLog (
+        message_id SERIAL,
+        user_id int,
+        body varChar(390),
+        sender varChar(10),
+        type varChar(10),
+        link varChar(100)
 );
 
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');

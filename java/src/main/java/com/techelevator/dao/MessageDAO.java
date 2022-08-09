@@ -9,4 +9,7 @@ public interface MessageDAO {
 
     List<BotMessage> messages(StudentMessage studentMessage);
     BotMessage getListOfTopics();
+
+    List<BotMessage>getInitialMessages();
 }
+

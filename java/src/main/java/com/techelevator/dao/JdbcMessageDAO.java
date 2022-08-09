@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.BotMessage;
 import com.techelevator.model.StudentMessage;
+import org.springframework.expression.spel.support.BooleanTypedValue;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,22 @@ public class JdbcMessageDAO implements MessageDAO{
         return botMessage;
     }
 
+    @Override
+    public List<BotMessage> getInitialMessages() {
+       BotMessage firstMessage = mapCustomMessageToBotMessage("Hello who cares");
+       BotMessage secondMessage = mapCustomMessageToBotMessage("New Phone who dis?");
+       String sql = "INSERT INTO messagelog (user_id,body,sender,type,link) " + " VALUES (1,?,?,?,?) RETURNING message_id";
+       firstMessage.setId(jdbcTemplate.queryForObject(sql,int.class, firstMessage.getBody(),firstMessage.getSender(),
+               firstMessage.getType(),firstMessage.getLink()));
+       secondMessage.setId(jdbcTemplate.queryForObject(sql,int.class,secondMessage.getBody(),secondMessage.getSender(),
+               secondMessage.getType(), secondMessage.getLink()));
+       List<BotMessage> initialMessages = new ArrayList<BotMessage>();
+       initialMessages.add(firstMessage);
+       initialMessages.add(secondMessage);
+        return initialMessages;
+
+    }
+
     private BotMessage mapRowToBotMessage(SqlRowSet row) {
         BotMessage message = new BotMessage();
         message.setBody(row.getString("display"));
@@ -63,4 +80,6 @@ public class JdbcMessageDAO implements MessageDAO{
         message.setType("text");
         return message;
     }
+
+
 }

@@ -1,14 +1,23 @@
 package com.techelevator.model;
 
 public class BotMessage {
+    private int id;
 
     private String body;
     private String sender = "bot";
     private String type;
     private String link;
 
+
     public BotMessage(){}
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getSender() {
         return sender;

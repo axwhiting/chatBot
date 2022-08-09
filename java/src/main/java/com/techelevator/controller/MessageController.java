@@ -26,4 +26,8 @@ public class MessageController {
         return messageDAO.getListOfTopics();
     }
 
+    @RequestMapping(value = "/messages/welcome", method = RequestMethod.GET)
+    public List<BotMessage> getInitialMessages() { return messageDAO.getInitialMessages();
+    }
+
 }
