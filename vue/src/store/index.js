@@ -7,21 +7,21 @@ export default new Vuex.Store({
 
   state: {
     messages: [
-      {
-        id: 1, 
-        body: "Hello!", 
-        sender: "bot",
-        type: "text",
-        link:""
-      }, 
-      {
-       id: 2, 
-       body: "What can I call you?",
-       sender: "bot",
-       type: "text",
-       link:""
+      // {
+      //   id: 1, 
+      //   body: "Hello!", 
+      //   sender: "bot",
+      //   type: "text",
+      //   link:""
+      // }, 
+      // {
+      //  id: 2, 
+      //  body: "What can I call you?",
+      //  sender: "bot",
+      //  type: "text",
+      //  link:""
 
-      }
+      // }
     ],
   
 
@@ -31,10 +31,8 @@ export default new Vuex.Store({
       state.messages.push(message);
  
     },
-    INCREMENT_ID(state) {
-      return state.messages.length + 1
-    }
-  }
+   
+    },
 
     
 

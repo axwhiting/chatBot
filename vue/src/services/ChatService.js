@@ -14,6 +14,9 @@ export default {
   },
   getSenderKeyword(keyword){
     return http.get(`/topics/${keyword}`)
+  },
+  getInitialMessages(){
+    return http.get('/messages/welcome')
   }
  
 
