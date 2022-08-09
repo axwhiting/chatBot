@@ -26,7 +26,7 @@ public class JdbcMessageDAO implements MessageDAO{
     public List<Message> messages(StudentMessage studentMessage) {
         List<Message> messages = new ArrayList<>();
         messages.add(studentMessage);
-       String userName = getUserNameById(studentMessage.getUserId());
+        String userName = getUserNameById(studentMessage.getUserId());
        if(userName.equals("Default1234User4321")){
            BotMessage greetingMessage = mapCustomMessageToBotMessage("Hi " + studentMessage.getBody());
            updateUserName(studentMessage.getUserId(), studentMessage.getBody());
@@ -48,13 +48,16 @@ public class JdbcMessageDAO implements MessageDAO{
     public String getUserNameById(int userId){
         String sql = "SELECT username FROM users WHERE user_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
-
-      return String.valueOf(result);
+        String username = "";
+        if (result.next()) {
+            username = result.getString("username");
+        }
+      return username;
     }
 
     public List<BotMessage> getResources(String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
-        String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ?";
+        String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ? AND keyword = 'Description'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
         while (results.next()) {
             topicMessages.add(mapRowToBotMessage(results));
