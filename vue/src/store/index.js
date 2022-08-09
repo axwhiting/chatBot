@@ -30,6 +30,9 @@ export default new Vuex.Store({
     ADD_MESSAGE(state, message) {
       state.messages.push(message);
  
+    },
+    INCREMENT_ID(state) {
+      return state.messages.length + 1
     }
   }
 

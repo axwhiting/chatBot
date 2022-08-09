@@ -47,7 +47,7 @@ data()
                   link: response.data.link
           }
         this.$store.commit("ADD_MESSAGE", botMessage);
-        this.msg.id = this.$store.state.messages.length +1
+        
         });
 
       } else {
@@ -63,8 +63,11 @@ data()
             this.$store.commit("ADD_MESSAGE", botMessage)
           });
         });
+        this.msg.id = this.$store.state.messages.length +1
       }
+      console.log("We're getting a student message");
       this.msg = {
+        
         id: this.$store.state.messages.length + 1,
         body: "",
         sender: "student",
