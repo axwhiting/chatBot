@@ -34,12 +34,13 @@ div {
   bottom: 0;
   z-index: 500;
   height: 10vh;
-  background-color: white;
+  background-color:transparent;
   
 }
 .chat-bot{
   margin-bottom: 10vh;
 }
+
 
 
 </style>

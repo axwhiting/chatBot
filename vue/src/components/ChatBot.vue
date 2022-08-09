@@ -49,18 +49,37 @@ div.student{
 
 p,a {
   max-width: 60%;
-  padding: .5%;
+  padding: 1%;
+  border-radius: 7.5px;
 
 
 }
 
 div.bot p, div.bot a {
-  background-color: #71D96F;
+  background-color: #63e675;
+  /* animation: 1s ease-in-out 0s  slideInLeft; */
+
+
+
+  
 }
 
 div.student p, div.student a{
-  background-color: #34AAE1;
+  background-color: #67c3df;
+  /* animation: 1s ease-in 0s  slideInRight; */
+
 }
+html{
+background: #eee8e8;
+
+
+/* gradient repeating due to input field? 
+background: #FFFFFF;
+background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); */
+}
+
+
+
 
 
 </style>
