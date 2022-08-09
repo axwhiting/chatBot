@@ -34,7 +34,6 @@ template {
   width: 70vw;
   font-family: 'Quicksand', sans-serif;
   justify-content: flex-end;
-
 }
 
 div.bot {
@@ -49,39 +48,26 @@ div.student{
   justify-content: flex-end;
   width: 100%;
   overflow-y: scroll;
-
 }
 
 p,a {
   max-width: 60%;
   padding: 1.5%;
   border-radius: 7.5px;
-
-
 }
-.home{
-      overflow-y: scroll;
 
+.home{
+  overflow-y: scroll;
 }
 
 div.bot p, div.bot a {
   background-color: #63e675;
   animation: 1s ease-in-out 0s  slideInLeft;
-
-
-
-  
 }
 
 div.student p, div.student a{
   background-color: #67c3df;
   /* animation: 1s ease-in 0s  slideInRight; */
-
 }
-
-
-
-
-
 
 </style>

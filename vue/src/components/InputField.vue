@@ -10,9 +10,7 @@
 <script>
 import chatService from '@/services/ChatService'
 export default {
-data()
- 
-   {
+data() {
     return {
       msg: {
         messageId: "",
@@ -21,7 +19,7 @@ data()
         sender: "student",
         type: "text",
         link:""
-      }, 
+      }
     }
   },
    methods:{
@@ -40,7 +38,7 @@ data()
         type: "text",
         link:""
       }
-     }
+    }
   },
   created() {
     chatService.getInitialMessages().then(response => {
@@ -58,11 +56,11 @@ input{
     width: 60%;
     height: 2.5vh;
 }
+
 button{
   height: 3.1vh;
   width: 5vh;
   margin-right: 5%;
-
 }
 
 </style>
