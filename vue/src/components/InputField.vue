@@ -22,7 +22,7 @@ data()
         link:""
       },
       msgWithUsername: {
-        id: this.$store.state.messages.length + 1,
+        id: 4,
         body: "",
         sender: "bot",
         type: "text",
@@ -47,7 +47,9 @@ data()
                   link: response.data.link
           }
         this.$store.commit("ADD_MESSAGE", botMessage);
+        this.msg.id = this.$store.state.messages.length +1
         });
+
       } else {
       chatService.sendMessage(this.msg).then(response =>{
           response.data.forEach(msgBody => {
@@ -87,5 +89,15 @@ data()
 </script>
 
 <style>
+input{
+    width: 60%;
+    height: 2.5vh;
+}
+button{
+  height: 3.1vh;
+  width: 5vh;
+  margin-right: 5%;
+
+}
 
 </style>

@@ -27,18 +27,26 @@ div {
 }
 .home{
   display: flex;
+  height: 100vh;
   flex-direction: column-reverse;
+  justify-content: flex-start;
 }
 .input-field{
   position: fixed;
   bottom: 0;
   z-index: 500;
-  height: 10vh;
+  height: 10%;
   background-color:transparent;
-  
+  width: 100%;
+}
+html{
+background: #eee8e8;
+background: #FFFFFF;
+background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
 }
 .chat-bot{
-  margin-bottom: 10vh;
+  margin-bottom: 10%;
+  height: 90%;
 }
 
 
