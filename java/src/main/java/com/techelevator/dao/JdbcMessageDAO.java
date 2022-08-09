@@ -2,6 +2,8 @@ package com.techelevator.dao;
 
 import com.techelevator.model.BotMessage;
 import com.techelevator.model.StudentMessage;
+import com.techelevator.model.Message;
+
 import org.springframework.expression.spel.support.BooleanTypedValue;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -21,16 +23,35 @@ public class JdbcMessageDAO implements MessageDAO{
 
     @Override
 
-    public List<BotMessage> messages(StudentMessage studentMessage) {
-        List<BotMessage> messages = new ArrayList<>();
-        String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ?";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, studentMessage.getBody());
-        while (results.next()) {
-            messages.add(mapRowToBotMessage(results));
-        }
+    public List<Message> messages(StudentMessage studentMessage) {
+        List<Message> messages = new ArrayList<>();
+//        String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ?";
+//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, studentMessage.getBody());
+//        while (results.next()) {
+//            messages.add(mapRowToBotMessage(results));
+//        }
+        messages.add(studentMessage);
+       String userName = getUserNameById(studentMessage.getUserId());
+       if(!(userName.equals("Default1234User4321"))){
+           BotMessage greetingMessage = mapCustomMessageToBotMessage("Hi" + studentMessage.getBody());
+           updateUserName(studentMessage.getUserId(), studentMessage.getBody());
+           messages.add(greetingMessage);
+       }
         return messages;
     }
-    //working to get list of all topics for student // need something to trigger
+    public void updateUserName(int userId, String userName){
+        String sql = "UPDATE users SET username = ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, userName, userId);
+
+
+    }
+    public String getUserNameById(int userId){
+        String sql = "SELECT username FROM users WHERE user_id = ?";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
+
+      return String.valueOf(result);
+    }
+
     public BotMessage getListOfTopics(){
         String topicsList = "";
         String sql = "SELECT DISTINCT topic from responses";
@@ -68,7 +89,7 @@ public class JdbcMessageDAO implements MessageDAO{
     }
 
     public int getUserId() {
-        String sql = "INSERT INTO users (user_id) VALUES (DEFAULT) RETURNING user_id";
+        String sql = "INSERT INTO users (username) VALUES ('Default1234User4321') RETURNING user_id";
         return jdbcTemplate.queryForObject(sql, int.class);
     }
 

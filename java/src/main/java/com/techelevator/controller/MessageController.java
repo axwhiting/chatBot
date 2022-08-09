@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.MessageDAO;
 import com.techelevator.model.BotMessage;
+import com.techelevator.model.Message;
 import com.techelevator.model.StudentMessage;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/messages", method = RequestMethod.POST)
-    public List<BotMessage> sendResponse(@RequestBody StudentMessage studentMessage){
+    public List<Message> sendResponse(@RequestBody StudentMessage studentMessage){
         return messageDAO.messages(studentMessage);
     }
     @RequestMapping(value = "/topics", method = RequestMethod.GET)
