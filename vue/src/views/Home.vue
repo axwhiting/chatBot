@@ -35,9 +35,11 @@ div {
   z-index: 500;
   height: 10vh;
   background-color: white;
+  
 }
 .chat-bot{
   margin-bottom: 10vh;
 }
+
 
 </style>
