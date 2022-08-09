@@ -3,21 +3,10 @@ BEGIN TRANSACTION;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS responses;
 Drop Table If EXISTS messageLog;
-DROP SEQUENCE IF EXISTS seq_user_id;
-
-
-CREATE SEQUENCE seq_user_id
-  INCREMENT BY 1
-  NO MAXVALUE
-  NO MINVALUE
-  CACHE 1;
-
 
 CREATE TABLE users (
-	user_id int DEFAULT nextval('seq_user_id'::regclass) NOT NULL,
-	username varchar(50) NOT NULL UNIQUE,
-	password_hash varchar(200) NOT NULL,
-	role varchar(50) NOT NULL,
+	user_id SERIAL,
+	username varchar(50),
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
 
@@ -42,9 +31,6 @@ CREATE TABLE messageLog (
         type varChar(10),
         link varChar(100)
 );
-
-INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
-INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
 
 INSERT INTO responses (category,topic,keyword,subkeyword,content_type,display,display_type,Link,date_last_updated,description) VALUES
         ('Bootcamp OS','Description','Description','General','Informational','Bootcamp OS is a Learning Management System ("LMS") used by Tech Elevator//s students to access reading materials, take quizzes, and submit exercises. ','text','n/a','n/a','n/a'),

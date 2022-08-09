@@ -6,34 +6,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 
   state: {
-    messages: [
-      // {
-      //   id: 1, 
-      //   body: "Hello!", 
-      //   sender: "bot",
-      //   type: "text",
-      //   link:""
-      // }, 
-      // {
-      //  id: 2, 
-      //  body: "What can I call you?",
-      //  sender: "bot",
-      //  type: "text",
-      //  link:""
-
-      // }
-    ],
-  
-
+    userId : null,
+    messages: [],
   },
   mutations: {
     ADD_MESSAGE(state, message) {
       state.messages.push(message);
- 
     },
-   
-    },
-
-    
-
+    UPDATE_ID(state, userId) {
+      state.userId = userId
+    }
+  },
 });

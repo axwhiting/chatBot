@@ -51,18 +51,25 @@ public class JdbcMessageDAO implements MessageDAO{
 
     @Override
     public List<BotMessage> getInitialMessages() {
-       BotMessage firstMessage = mapCustomMessageToBotMessage("Hello who cares");
-       BotMessage secondMessage = mapCustomMessageToBotMessage("New Phone who dis?");
-       String sql = "INSERT INTO messagelog (user_id,body,sender,type,link) " + " VALUES (1,?,?,?,?) RETURNING message_id";
-       firstMessage.setId(jdbcTemplate.queryForObject(sql,int.class, firstMessage.getBody(),firstMessage.getSender(),
-               firstMessage.getType(),firstMessage.getLink()));
-       secondMessage.setId(jdbcTemplate.queryForObject(sql,int.class,secondMessage.getBody(),secondMessage.getSender(),
-               secondMessage.getType(), secondMessage.getLink()));
+       BotMessage firstMessage = mapCustomMessageToBotMessage("Hi!");
+       BotMessage secondMessage = mapCustomMessageToBotMessage("What can I call you?");
+       int userId = getUserId();
+       firstMessage.setUserId(userId);
+       secondMessage.setUserId(userId);
+       String sql = "INSERT INTO messagelog (user_id,body,sender,type,link) " + " VALUES (?,?,?,?,?) RETURNING message_id";
+       firstMessage.setMessageId(jdbcTemplate.queryForObject(sql, int.class, firstMessage.getUserId(), firstMessage.getBody(),
+               firstMessage.getSender(), firstMessage.getType(), firstMessage.getLink()));
+       secondMessage.setMessageId(jdbcTemplate.queryForObject(sql, int.class, secondMessage.getUserId(), secondMessage.getBody(),
+               secondMessage.getSender(), secondMessage.getType(), secondMessage.getLink()));
        List<BotMessage> initialMessages = new ArrayList<BotMessage>();
        initialMessages.add(firstMessage);
        initialMessages.add(secondMessage);
-        return initialMessages;
+       return initialMessages;
+    }
 
+    public int getUserId() {
+        String sql = "INSERT INTO users (user_id) VALUES (DEFAULT) RETURNING user_id";
+        return jdbcTemplate.queryForObject(sql, int.class);
     }
 
     private BotMessage mapRowToBotMessage(SqlRowSet row) {

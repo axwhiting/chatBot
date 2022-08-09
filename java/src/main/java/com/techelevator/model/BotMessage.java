@@ -1,8 +1,8 @@
 package com.techelevator.model;
 
 public class BotMessage {
-    private int id;
-
+    private int messageId;
+    private int userId;
     private String body;
     private String sender = "bot";
     private String type;
@@ -11,12 +11,20 @@ public class BotMessage {
 
     public BotMessage(){}
 
-    public int getId() {
-        return id;
+    public int getMessageId() {
+        return messageId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getSender() {

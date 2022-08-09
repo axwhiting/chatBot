@@ -15,38 +15,41 @@ data()
    {
     return {
       msg: {
-        message_id: "",
-        user_id: "",
+        messageId: "",
+        userId: "",
         body: "",
         sender: "student",
         type: "text",
         link:""
-      },
-      
+      }, 
     }
   },
    methods:{
      addMessage() {
+      this.msg.userId = this.$store.state.userId;
        chatService.sendMessage(this.msg).then(response => {
          response.data.forEach(message => {
            this.$store.commit("ADD_MESSAGE", message)
          })
        });
+      this.msg = {
+        messageId: "",
+        userId: "",
+        body: "",
+        sender: "student",
+        type: "text",
+        link:""
+      }
      }
-
-  
- 
   },
   created() {
     chatService.getInitialMessages().then(response => {
-       response.data.forEach(botMessage => {
-          this.$store.commit("ADD_MESSAGE", botMessage)
-          });
-
+      response.data.forEach(botMessage => {
+        this.$store.commit("ADD_MESSAGE", botMessage)
+        this.$store.commit("UPDATE_ID", botMessage.userId)
+      });
     })
-  
-}
-  
+  }
 }
 </script>
 
