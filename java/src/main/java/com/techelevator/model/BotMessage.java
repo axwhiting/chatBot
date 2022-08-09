@@ -4,9 +4,13 @@ public class BotMessage extends Message {
 
     public BotMessage(){}
 
-    private void setSenderToBot() {
-        this.setSender("bot");
-    }
+    private String sender = "bot";
+
+
+//    private void setSenderToBot() {
+//        this.setSender("bot");
+//    }
+
 
 }
 

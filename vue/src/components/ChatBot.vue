@@ -48,8 +48,7 @@ div.student{
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  overflow-y: scroll;
-
+  font-weight: bold;
 }
 
 p,a {
