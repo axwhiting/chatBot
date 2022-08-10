@@ -33,9 +33,20 @@ public class JdbcMessageDAO implements MessageDAO{
            messages.add(greetingMessage);
            messages.add(getListOfTopics());
        } else {
-           messages.addAll(getResources(studentMessage.getBody()));
-
-
+           List<String> topicsList = listOfTopics();
+           List<Message> topicMessages = new ArrayList<>();
+           for(String topic : topicsList){
+               if(studentMessage.getBody().toLowerCase().contains(topic.toLowerCase())){
+                   topicMessages.addAll(getResources(topic));
+                   break;
+               }
+           }
+           if(topicMessages.size() > 0){
+               messages.addAll(topicMessages);
+           } else {
+               BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.");
+                messages.add(didntUnderstandMessage);
+           }
        }
         return messages;
     }
@@ -57,7 +68,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     public List<BotMessage> getResources(String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
-        String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ? AND keyword = 'Description'";
+        String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ? AND keyword = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
         while (results.next()) {
             topicMessages.add(mapRowToBotMessage(results));
@@ -81,6 +92,17 @@ public class JdbcMessageDAO implements MessageDAO{
         String customMessage = "I'm happy discuss to following topics with you: " + topicsList + ". Which topic would you like to discuss?";
         BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
         return botMessage;
+    }
+
+    // Should be combined with getListofTopics() at some point
+    public List<String> listOfTopics(){
+        List<String> topicsList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT topic from responses";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while( results.next() ) {
+            topicsList.add(results.getString("topic"));
+        }
+        return topicsList;
     }
 
     @Override
