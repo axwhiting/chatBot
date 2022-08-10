@@ -74,7 +74,6 @@ public class JdbcMessageDAO implements MessageDAO{
         while (results.next()) {
             topicMessages.add(mapRowToBotMessage(results));
         } return topicMessages;
-
     }
 
     public BotMessage getListOfTopics(){
