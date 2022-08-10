@@ -78,7 +78,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     public BotMessage getListOfTopics(){
         String topicsList = "";
-        String sql = "SELECT DISTINCT topic from responses";
+        String sql = "SELECT DISTINCT topic FROM responses";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         boolean isfirstResult = true;
         while( results.next() ) {
@@ -97,7 +97,7 @@ public class JdbcMessageDAO implements MessageDAO{
     // Should be combined with getListofTopics() at some point
     public List<String> listOfTopics(){
         List<String> topicsList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT topic from responses";
+        String sql = "SELECT DISTINCT topic FROM responses";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while( results.next() ) {
             topicsList.add(results.getString("topic"));
