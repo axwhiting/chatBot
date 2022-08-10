@@ -95,6 +95,7 @@ public class JdbcMessageDAO implements MessageDAO{
     }
 
     // Should be combined with getListofTopics() at some point
+    // look into common misspellings
     public List<String> listOfTopics(){
         List<String> topicsList = new ArrayList<String>();
         String sql = "SELECT DISTINCT topic FROM responses";
