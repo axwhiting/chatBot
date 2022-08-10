@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class JdbcMessageDAO implements MessageDAO{
@@ -22,7 +23,6 @@ public class JdbcMessageDAO implements MessageDAO{
     }
 
     @Override
-
     public List<Message> messages(StudentMessage studentMessage) {
         List<Message> messages = new ArrayList<>();
         messages.add(studentMessage);
@@ -36,7 +36,8 @@ public class JdbcMessageDAO implements MessageDAO{
            List<String> topicsList = listOfTopics();
            List<Message> topicMessages = new ArrayList<>();
            for(String topic : topicsList){
-               if(studentMessage.getBody().toLowerCase().contains(topic.toLowerCase())){
+               String request = studentMessage.getBody().toLowerCase();
+               if(request.contains(topic.toLowerCase())){
                    topicMessages.addAll(getResources(topic));
                    break;
                }
@@ -50,12 +51,12 @@ public class JdbcMessageDAO implements MessageDAO{
        }
         return messages;
     }
+
     public void updateUserName(int userId, String userName){
         String sql = "UPDATE users SET username = ? WHERE user_id = ?";
         jdbcTemplate.update(sql, userName, userId);
-
-
     }
+
     public String getUserNameById(int userId){
         String sql = "SELECT username FROM users WHERE user_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
@@ -146,6 +147,4 @@ public class JdbcMessageDAO implements MessageDAO{
 
         return message;
     }
-
-
 }
