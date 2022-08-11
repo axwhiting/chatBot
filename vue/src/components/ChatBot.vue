@@ -1,12 +1,9 @@
 <template>
   <div class="the-big-div">
-    <div v-for="message in this.$store.state.messages" 
-    v-bind:key="message.id" 
-    v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
-      <p v-show="message.type === 'text'"> 
-        {{message.body}}
-      </p>
-   <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
+    <div v-for="message in this.$store.state.messages" v-bind:key="message.id" 
+      v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
+      <p v-show="message.type === 'text'">{{message.body}}</p>
+      <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
     </div>
  
   </div>
