@@ -238,13 +238,13 @@ INSERT INTO responses (category,topic,keyword,subkeyword,content_type,display,di
         ('Curriculum', 'Test data', 'General', 'General', 'Informational', 'This is test data', 'text', 'n/a', 'n/a', 'n/a');
 
 
-CREATE TABLE commands (
-	command_id SERIAL,
-	command_name varchar(50)
+CREATE TABLE categories (
+	category_id SERIAL,
+	category_name varchar(50)
 );
 
 
-INSERT INTO commands (command_name) VALUES
+INSERT INTO categories (category_name) VALUES
 	('Motivational Quote'),
 	('Pathway'),
 	('Curriculum');

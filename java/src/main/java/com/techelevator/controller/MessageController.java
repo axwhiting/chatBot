@@ -24,15 +24,10 @@ public class MessageController {
         return messageDAO.messages(studentMessage);
     }
 
-    @RequestMapping(value = "/categories", method = RequestMethod.GET)
-    public BotMessage categoryList() {
-        return messageDAO.getListOfCommands();
+    @RequestMapping(value = "/topics", method = RequestMethod.GET)
+    public BotMessage topicsList(){
+        return messageDAO.getListOfTopics();
     }
-
-//    @RequestMapping(value = "/topics", method = RequestMethod.GET)
-//    public BotMessage topicsList(){
-//        return messageDAO.getListOfTopics();
-//    }
 
     @RequestMapping(value = "/messages/welcome", method = RequestMethod.GET)
     public List<BotMessage> getInitialMessages() { return messageDAO.getInitialMessages();
