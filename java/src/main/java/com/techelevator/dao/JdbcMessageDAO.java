@@ -122,7 +122,7 @@ public class JdbcMessageDAO implements MessageDAO{
        initialMessages.add(secondMessage);
        return initialMessages;
     }
-    
+
     public int getUserId() {
         String sql = "INSERT INTO users (username) VALUES ('Default1234User4321') RETURNING user_id";
         return jdbcTemplate.queryForObject(sql, int.class);

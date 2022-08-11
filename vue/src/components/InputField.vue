@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import quoteService from '@services/QuoteService'
 import chatService from '@/services/ChatService'
 export default {
 data()
