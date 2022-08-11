@@ -69,9 +69,8 @@ public class JdbcMessageDAO implements MessageDAO{
 
     public List<BotMessage> getResources(String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
-        String updatedTopic = topic + "%";
         String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ? AND keyword = 'General'";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, updatedTopic);
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
         while (results.next()) {
             topicMessages.add(mapRowToBotMessage(results));
         } return topicMessages;
