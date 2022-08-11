@@ -15,8 +15,6 @@ public interface MessageDAO {
 
     List<BotMessage> getInitialMessages();
 
-
-
 }
 
 

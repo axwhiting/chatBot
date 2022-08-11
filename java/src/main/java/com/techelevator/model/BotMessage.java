@@ -6,12 +6,5 @@ public class BotMessage extends Message {
 
     private String sender = "bot";
 
-
-
-//    private void setSenderToBot() {
-//        this.setSender("bot");
-//    }
-
-
 }
 

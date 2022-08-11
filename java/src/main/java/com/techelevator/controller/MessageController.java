@@ -32,5 +32,4 @@ public class MessageController {
     public List<BotMessage> getInitialMessages() { return messageDAO.getInitialMessages();
     }
 
-
 }
