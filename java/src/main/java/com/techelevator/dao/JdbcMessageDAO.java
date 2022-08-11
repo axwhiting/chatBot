@@ -1,7 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.BotMessage;
-import com.techelevator.model.MotivationalMessage;
+import com.techelevator.model.MotivationalQuote;
 import com.techelevator.model.StudentMessage;
 import com.techelevator.model.Message;
 
@@ -122,12 +122,7 @@ public class JdbcMessageDAO implements MessageDAO{
        initialMessages.add(secondMessage);
        return initialMessages;
     }
-
-   @Override
-    public MotivationalMessage getMotivationalMessage() {
-        return  null;
-   }
-
+    
     public int getUserId() {
         String sql = "INSERT INTO users (username) VALUES ('Default1234User4321') RETURNING user_id";
         return jdbcTemplate.queryForObject(sql, int.class);
