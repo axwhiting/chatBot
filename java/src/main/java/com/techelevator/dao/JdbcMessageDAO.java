@@ -28,71 +28,30 @@ public class JdbcMessageDAO implements MessageDAO{
         List<Message> messages = new ArrayList<>();
         messages.add(studentMessage);
         String userName = getUserNameById(studentMessage.getUserId());
-        if(userName.equals("Default1234User4321")){
-            BotMessage greetingMessage = mapCustomMessageToBotMessage("Hi " + studentMessage.getBody());
-            updateUserName(studentMessage.getUserId(), studentMessage.getBody());
-            messages.add(greetingMessage);
-            messages.add(getListOfCommands());
-        } else {
-            //todo: update this to return list of topics related to command
-
-            // our request is set to the body of the message & get list of commands
-            String request = studentMessage.getBody().toLowerCase();
-            List<String> commandList = listOfCommands();
-            // if our request contains one of the commands
-            for (String category : commandList) {
-                if (request.contains(category.toLowerCase())) {
-                    List<String> topicsList = listOfTopics();
-                    List<Message> topicMessages = new ArrayList<>();
-                    // for each topic in our list for all categories
-                    for(String topic : topicsList){
-                        if(request.contains(topic.toLowerCase())){
-                            topicMessages.addAll(getPathwayResources(topic));
-                            break;
-                        }
-                    }
-                    if(topicMessages.size() > 0){
-                        messages.addAll(topicMessages);
-                    } else {
-                        BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.");
-                        messages.add(didntUnderstandMessage);
-                    }
-                }
-            }
-        }
+       if(userName.equals("Default1234User4321")){
+           BotMessage greetingMessage = mapCustomMessageToBotMessage("Hi " + studentMessage.getBody());
+           updateUserName(studentMessage.getUserId(), studentMessage.getBody());
+           messages.add(greetingMessage);
+           messages.add(getListOfCategories());
+       } else {
+           List<String> topicsList = listOfTopics();
+           List<Message> topicMessages = new ArrayList<>();
+           for(String topic : topicsList){
+               String request = studentMessage.getBody().toLowerCase();
+               if(request.contains(topic.toLowerCase())){
+                   topicMessages.addAll(getPathwayResources(topic));
+                   break;
+               }
+           }
+           if(topicMessages.size() > 0){
+               messages.addAll(topicMessages);
+           } else {
+               BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.");
+                messages.add(didntUnderstandMessage);
+           }
+       }
         return messages;
     }
-//
-//    @Override
-//    public List<Message> messages(StudentMessage studentMessage) {
-//        List<Message> messages = new ArrayList<>();
-//        messages.add(studentMessage);
-//        String userName = getUserNameById(studentMessage.getUserId());
-//       if(userName.equals("Default1234User4321")){
-//           BotMessage greetingMessage = mapCustomMessageToBotMessage("Hi " + studentMessage.getBody());
-//           updateUserName(studentMessage.getUserId(), studentMessage.getBody());
-//           messages.add(greetingMessage);
-//           messages.add(getListOfCommands());
-////           messages.add(getListOfTopics());
-//       } else {
-//           List<String> topicsList = listOfTopics();
-//           List<Message> topicMessages = new ArrayList<>();
-//           for(String topic : topicsList){
-//               String request = studentMessage.getBody().toLowerCase();
-//               if(request.contains(topic.toLowerCase())){
-//                   topicMessages.addAll(getResources(topic));
-//                   break;
-//               }
-//           }
-//           if(topicMessages.size() > 0){
-//               messages.addAll(topicMessages);
-//           } else {
-//               BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.");
-//                messages.add(didntUnderstandMessage);
-//           }
-//       }
-//        return messages;
-//    }
 
     public void updateUserName(int userId, String userName){
         String sql = "UPDATE users SET username = ? WHERE user_id = ?";
@@ -118,23 +77,43 @@ public class JdbcMessageDAO implements MessageDAO{
         } return topicMessages;
     }
 
-//    public BotMessage getListOfTopics(String command){
-//        String topicsList = "";
-//        String sql = "SELECT DISTINCT topic FROM responses WHERE category ILIKE ?";
-//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, command);
-//        boolean isfirstResult = true;
-//        while( results.next() ) {
-//            if(isfirstResult){
-//                topicsList = results.getString("topic");
-//                isfirstResult = false;
-//            } else {
-//                topicsList = topicsList + ", " + results.getString("topic");
-//            }
-//        }
-//        String customMessage = "I'm happy discuss to following topics with you: " + topicsList + ". Which topic would you like to discuss?";
-//        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
-//        return botMessage;
-//    }
+    @Override
+    public BotMessage getListOfCategories() {
+        String categories = "";
+        String sql = "SELECT DISTINCT category_name FROM categories";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        boolean isFirstResult = true;
+        while ( results.next() ) {
+            if (isFirstResult) {
+                categories = results.getString("category_name");
+                isFirstResult = false;
+            } else {
+                categories = categories + ", " + results.getString("category_name");
+            }
+        }
+        String customMessage = "Enter one of the categories below to get started: " + categories + ".";
+        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
+        return botMessage;
+    }
+
+    @Override
+    public BotMessage getListOfTopics(){
+        String topicsList = "";
+        String sql = "SELECT DISTINCT topic FROM responses";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        boolean isfirstResult = true;
+        while( results.next() ) {
+            if(isfirstResult){
+                topicsList = results.getString("topic");
+                isfirstResult = false;
+            } else {
+                topicsList = topicsList + ", " + results.getString("topic");
+            }
+        }
+        String customMessage = "I'm happy discuss to following topics with you: " + topicsList + ". Which topic would you like to discuss?";
+        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
+        return botMessage;
+    }
 
     // Should be combined with getListofTopics() at some point
     // look into common misspellings
@@ -148,33 +127,6 @@ public class JdbcMessageDAO implements MessageDAO{
         return topicsList;
     }
 
-    public BotMessage getListOfCommands() {
-        String commands = "";
-        String sql = "SELECT DISTINCT command_name FROM commands";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        boolean isFirstResult = true;
-        while ( results.next() ) {
-            if (isFirstResult) {
-                commands = results.getString("command_name");
-                isFirstResult = false;
-            } else {
-                commands = commands + ", " + results.getString("command_name");
-            }
-        }
-        String customMessage = "Let me know where you'd like to start by entering one of the following keywords: \n" + commands;
-        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
-        return botMessage;
-    }
-
-    public List<String> listOfCommands() {
-        List<String> topicsList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT command_name FROM commands";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        while( results.next() ) {
-            topicsList.add(results.getString("topic"));
-        }
-        return topicsList;
-    }
 
     @Override
     public List<BotMessage> getInitialMessages() {
@@ -214,7 +166,6 @@ public class JdbcMessageDAO implements MessageDAO{
         message.setLink("n/a");
         message.setType("text");
         message.setSender("bot");
-
         return message;
     }
 }
