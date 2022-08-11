@@ -23,6 +23,9 @@ data()
         type: "text",
         link:""
       }, 
+      quote: {
+        body: ""
+      }
     }
   },
    methods:{

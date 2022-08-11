@@ -235,4 +235,16 @@ INSERT INTO responses (category,topic,keyword,subkeyword,content_type,display,di
         ('Pathway','Working With Recruiter','Section ','Details ','Internal Link','Video: Working with Recruiters','link','https://drive.google.com/file/d/1bSJnO1PAU9mR5-ftAQx7ORj9PJRZ8WNL/view','n/a','n/a'),
         ('Pathway','Working With Recruiter','Section ','Details ','Slides','Slides: Working with recruiters ','link','https://drive.google.com/file/d/1PZotSM8AFCOpBjBsIdf3qu_XrHifTDVN/view','n/a','n/a');
 
+
+CREATE TABLE commands (
+	command_id SERIAL,
+	command_name varchar(50)
+);
+
+
+INSERT INTO commands (command_name) VALUES
+	('motivate'),
+	('pathway'),
+	('curriculum');
+
 COMMIT TRANSACTION;

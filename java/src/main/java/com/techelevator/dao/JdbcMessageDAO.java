@@ -105,6 +105,34 @@ public class JdbcMessageDAO implements MessageDAO{
         return topicsList;
     }
 
+    public BotMessage getListOfCommands() {
+        String commands = "";
+        String sql = "SELECT DISTINCT command_name FROM commands";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        boolean isFirstResult = true;
+        while ( results.next() ) {
+            if (isFirstResult) {
+                commands = results.getString("command_name");
+                isFirstResult = false;
+            } else {
+                commands = commands + ", " + results.getString("command_name");
+            }
+        }
+        String customMessage = "Let me know where you'd like to start by entering one of the following keywords: \n" + commands;
+        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
+        return botMessage;
+    }
+
+    public List<String> listOfCommands() {
+        List<String> commandList = new ArrayList<>();
+        String sql = "SELECT DISTINCT command_name FROM commands";
+        SqlRowSet results =jdbcTemplate.queryForRowSet(sql);
+        while ( results.next() ) {
+            commandList.add(results.getString("command_name"));
+        }
+        return commandList;
+    }
+
     @Override
     public List<BotMessage> getInitialMessages() {
        BotMessage firstMessage = mapCustomMessageToBotMessage("Hi!");

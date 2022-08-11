@@ -6,6 +6,7 @@ const http = axios.create({
 });
 
 export default {
+
   sendMessage(msg) {
     return http.post('/messages', msg);
   },
