@@ -11,8 +11,8 @@ import java.util.List;
 public interface MessageDAO {
 
     List<Message> messages(StudentMessage studentMessage);
-    BotMessage getListOfTopics();
-
+//    BotMessage getListOfTopics();
+    BotMessage getListOfCommands();
     List<BotMessage> getInitialMessages();
 
 }
