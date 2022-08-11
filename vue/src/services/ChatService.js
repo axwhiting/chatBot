@@ -18,7 +18,9 @@ export default {
   },
   getInitialMessages(){
     return http.get('/messages/welcome')
+  },
+  getMotivationalQuote() {
+    return http.get('/quote')
   }
- 
 
 }

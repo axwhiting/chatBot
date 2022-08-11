@@ -35,7 +35,7 @@ public class MessageController {
     @RequestMapping(value = "/messages/welcome", method = RequestMethod.GET)
     public List<BotMessage> getInitialMessages() { return messageDAO.getInitialMessages();
     }
-
+    
     @RequestMapping(value = "/quote")
     public BotMessage getQuote() {
         String url = "https://zenquotes.io/api/random";
