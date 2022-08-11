@@ -49,6 +49,15 @@ background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
   height: 90%;
 }
 
+/* #home{
+   display: grid;
+  grid-template-columns: 1fr, 2fr, 1fr;
+  grid-template-areas:  "... chatbot ...";
+  align-self: center; */
 
+/* #the-big-div {
+  grid-area: chatbot;
+
+} */
 
 </style>

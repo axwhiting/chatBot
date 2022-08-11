@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import quoteService from '@services/QuoteService'
+//import quoteService from '@services/QuoteService'
 import chatService from '@/services/ChatService'
 export default {
 data()
@@ -58,6 +58,7 @@ data()
 </script>
 
 <style>
+
 input{
     width: 60%;
     height: 2.5vh;

@@ -21,8 +21,7 @@ export default {
 
 /* todo: move "template" formatting to the appropriate view */
 template {
-  display: grid;
-  grid-template-columns: 1fr, 2fr, 1fr;
+  align-content: center;
 }
 
 .the-big-div{
@@ -74,10 +73,6 @@ div.student p, div.student a{
   /* animation: 1s ease-in 0s  slideInRight; */
 
 }
-
-
-
-
 
 
 </style>
