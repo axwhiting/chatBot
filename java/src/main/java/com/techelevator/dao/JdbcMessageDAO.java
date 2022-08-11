@@ -1,7 +1,6 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.BotMessage;
-import com.techelevator.model.MotivationalQuote;
 import com.techelevator.model.StudentMessage;
 import com.techelevator.model.Message;
 
@@ -21,35 +20,79 @@ public class JdbcMessageDAO implements MessageDAO{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
+    // todo: update method to return list of available commands
+
     @Override
     public List<Message> messages(StudentMessage studentMessage) {
         List<Message> messages = new ArrayList<>();
         messages.add(studentMessage);
         String userName = getUserNameById(studentMessage.getUserId());
-       if(userName.equals("Default1234User4321")){
-           BotMessage greetingMessage = mapCustomMessageToBotMessage("Hi " + studentMessage.getBody());
-           updateUserName(studentMessage.getUserId(), studentMessage.getBody());
-           messages.add(greetingMessage);
-           messages.add(getListOfTopics());
-       } else {
-           List<String> topicsList = listOfTopics();
-           List<Message> topicMessages = new ArrayList<>();
-           for(String topic : topicsList){
-               String request = studentMessage.getBody().toLowerCase();
-               if(request.contains(topic.toLowerCase())){
-                   topicMessages.addAll(getResources(topic));
-                   break;
-               }
-           }
-           if(topicMessages.size() > 0){
-               messages.addAll(topicMessages);
-           } else {
-               BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.");
-                messages.add(didntUnderstandMessage);
-           }
-       }
+        if(userName.equals("Default1234User4321")){
+            BotMessage greetingMessage = mapCustomMessageToBotMessage("Hi " + studentMessage.getBody());
+            updateUserName(studentMessage.getUserId(), studentMessage.getBody());
+            messages.add(greetingMessage);
+            messages.add(getListOfCommands());
+        } else {
+            //todo: update this to return list of topics related to command
+
+            // our request is set to the body of the message & get list of commands
+            String request = studentMessage.getBody().toLowerCase();
+            List<String> commandList = listOfCommands();
+            // if our request contains one of the commands
+            for (String category : commandList) {
+                if (request.contains(category.toLowerCase())) {
+                    List<String> topicsList = listOfTopics();
+                    List<Message> topicMessages = new ArrayList<>();
+                    // for each topic in our list for all categories
+                    for(String topic : topicsList){
+                        if(request.contains(topic.toLowerCase())){
+                            topicMessages.addAll(getPathwayResources(topic));
+                            break;
+                        }
+                    }
+                    if(topicMessages.size() > 0){
+                        messages.addAll(topicMessages);
+                    } else {
+                        BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.");
+                        messages.add(didntUnderstandMessage);
+                    }
+                }
+            }
+        }
         return messages;
     }
+//
+//    @Override
+//    public List<Message> messages(StudentMessage studentMessage) {
+//        List<Message> messages = new ArrayList<>();
+//        messages.add(studentMessage);
+//        String userName = getUserNameById(studentMessage.getUserId());
+//       if(userName.equals("Default1234User4321")){
+//           BotMessage greetingMessage = mapCustomMessageToBotMessage("Hi " + studentMessage.getBody());
+//           updateUserName(studentMessage.getUserId(), studentMessage.getBody());
+//           messages.add(greetingMessage);
+//           messages.add(getListOfCommands());
+////           messages.add(getListOfTopics());
+//       } else {
+//           List<String> topicsList = listOfTopics();
+//           List<Message> topicMessages = new ArrayList<>();
+//           for(String topic : topicsList){
+//               String request = studentMessage.getBody().toLowerCase();
+//               if(request.contains(topic.toLowerCase())){
+//                   topicMessages.addAll(getResources(topic));
+//                   break;
+//               }
+//           }
+//           if(topicMessages.size() > 0){
+//               messages.addAll(topicMessages);
+//           } else {
+//               BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.");
+//                messages.add(didntUnderstandMessage);
+//           }
+//       }
+//        return messages;
+//    }
 
     public void updateUserName(int userId, String userName){
         String sql = "UPDATE users SET username = ? WHERE user_id = ?";
@@ -66,7 +109,7 @@ public class JdbcMessageDAO implements MessageDAO{
       return username;
     }
 
-    public List<BotMessage> getResources(String topic) {
+    public List<BotMessage> getPathwayResources(String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
         String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ? AND keyword = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
@@ -75,23 +118,23 @@ public class JdbcMessageDAO implements MessageDAO{
         } return topicMessages;
     }
 
-    public BotMessage getListOfTopics(){
-        String topicsList = "";
-        String sql = "SELECT DISTINCT topic FROM responses";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        boolean isfirstResult = true;
-        while( results.next() ) {
-            if(isfirstResult){
-                topicsList = results.getString("topic");
-                isfirstResult = false;
-            } else {
-                topicsList = topicsList + ", " + results.getString("topic");
-            }
-        }
-        String customMessage = "I'm happy discuss to following topics with you: " + topicsList + ". Which topic would you like to discuss?";
-        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
-        return botMessage;
-    }
+//    public BotMessage getListOfTopics(String command){
+//        String topicsList = "";
+//        String sql = "SELECT DISTINCT topic FROM responses WHERE category ILIKE ?";
+//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, command);
+//        boolean isfirstResult = true;
+//        while( results.next() ) {
+//            if(isfirstResult){
+//                topicsList = results.getString("topic");
+//                isfirstResult = false;
+//            } else {
+//                topicsList = topicsList + ", " + results.getString("topic");
+//            }
+//        }
+//        String customMessage = "I'm happy discuss to following topics with you: " + topicsList + ". Which topic would you like to discuss?";
+//        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
+//        return botMessage;
+//    }
 
     // Should be combined with getListofTopics() at some point
     // look into common misspellings
@@ -124,13 +167,13 @@ public class JdbcMessageDAO implements MessageDAO{
     }
 
     public List<String> listOfCommands() {
-        List<String> commandList = new ArrayList<>();
+        List<String> topicsList = new ArrayList<String>();
         String sql = "SELECT DISTINCT command_name FROM commands";
-        SqlRowSet results =jdbcTemplate.queryForRowSet(sql);
-        while ( results.next() ) {
-            commandList.add(results.getString("command_name"));
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while( results.next() ) {
+            topicsList.add(results.getString("topic"));
         }
-        return commandList;
+        return topicsList;
     }
 
     @Override

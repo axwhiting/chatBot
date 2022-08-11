@@ -2,7 +2,8 @@ BEGIN TRANSACTION;
 
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS responses;
-Drop Table If EXISTS messageLog;
+DROP TABLE IF EXISTS messageLog;
+DROP TABLE IF EXISTS commands;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -233,7 +234,8 @@ INSERT INTO responses (category,topic,keyword,subkeyword,content_type,display,di
         ('Pathway','Portfolio Project','General','Presentation','Slides','Portfolio Projects: Keep it Simple Slides','link','https://drive.google.com/file/d/1HpyK4_VuAj4_eJyZg1ebBBwYtLeLBIA7/view','n/a','n/a'),
         ('Pathway','Portfolio Project','Section ','Details ','Informational','A converter program: Any kind of converter program(bonus points if it has multiple convert capabilities): Time, Standard to Metric, Fahrenheit to Celsius.','text','n/a','n/a','n/a'),
         ('Pathway','Working With Recruiter','Section ','Details ','Internal Link','Video: Working with Recruiters','link','https://drive.google.com/file/d/1bSJnO1PAU9mR5-ftAQx7ORj9PJRZ8WNL/view','n/a','n/a'),
-        ('Pathway','Working With Recruiter','Section ','Details ','Slides','Slides: Working with recruiters ','link','https://drive.google.com/file/d/1PZotSM8AFCOpBjBsIdf3qu_XrHifTDVN/view','n/a','n/a');
+        ('Pathway','Working With Recruiter','Section ','Details ','Slides','Slides: Working with recruiters ','link','https://drive.google.com/file/d/1PZotSM8AFCOpBjBsIdf3qu_XrHifTDVN/view','n/a','n/a'),
+        ('Curriculum', 'Test data', 'General', 'General', 'Informational', 'This is test data', 'text', 'n/a', 'n/a', 'n/a');
 
 
 CREATE TABLE commands (
@@ -243,8 +245,8 @@ CREATE TABLE commands (
 
 
 INSERT INTO commands (command_name) VALUES
-	('motivate'),
-	('pathway'),
-	('curriculum');
+	('Motivational Quote'),
+	('Pathway'),
+	('Curriculum');
 
 COMMIT TRANSACTION;

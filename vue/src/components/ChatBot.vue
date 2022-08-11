@@ -1,5 +1,5 @@
 <template>
-  <div class="the-big-div">
+  <div class="the-big-div"> 
     <div v-for="message in this.$store.state.messages" v-bind:key="message.id" 
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
       <p v-show="message.type === 'text'">{{message.body}}</p>
@@ -22,6 +22,10 @@ export default {
 /* todo: move "template" formatting to the appropriate view */
 template {
   align-content: center;
+}
+#home{
+   display: grid;
+  grid-template-columns: 1fr, 2fr, 1fr;
 }
 
 .the-big-div{
@@ -55,6 +59,7 @@ p,a {
 
 }
 .home{
+
       overflow-y: scroll;
 
 }
@@ -72,7 +77,17 @@ div.student p, div.student a{
   background-color: #67c3df;
   /* animation: 1s ease-in 0s  slideInRight; */
 
+
 }
 
+ #the-big-div {
+  grid-area: BigDiv;
+} 
+#chat-bot{
+  grid-area: chatbot;
+}
+#input-field {
+  grid-area: input;
+}
 
 </style>
