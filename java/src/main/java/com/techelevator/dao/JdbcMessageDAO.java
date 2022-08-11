@@ -1,17 +1,16 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.BotMessage;
+import com.techelevator.model.MotivationalMessage;
 import com.techelevator.model.StudentMessage;
 import com.techelevator.model.Message;
 
-import org.springframework.expression.spel.support.BooleanTypedValue;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Component
 public class JdbcMessageDAO implements MessageDAO{
@@ -123,6 +122,11 @@ public class JdbcMessageDAO implements MessageDAO{
        initialMessages.add(secondMessage);
        return initialMessages;
     }
+
+   @Override
+    public MotivationalMessage getMotivationalMessage() {
+        return  null;
+   }
 
     public int getUserId() {
         String sql = "INSERT INTO users (username) VALUES ('Default1234User4321') RETURNING user_id";

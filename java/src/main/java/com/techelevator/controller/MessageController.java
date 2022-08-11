@@ -4,6 +4,7 @@ import com.techelevator.dao.MessageDAO;
 import com.techelevator.model.BotMessage;
 import com.techelevator.model.Message;
 import com.techelevator.model.StudentMessage;
+import com.techelevator.model.MotivationalMessage;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public class MessageController {
 
     @RequestMapping(value = "/messages/welcome", method = RequestMethod.GET)
     public List<BotMessage> getInitialMessages() { return messageDAO.getInitialMessages();
+    }
+    @RequestMapping(value="/motivate", method = RequestMethod.GET)
+    public MotivationalMessage getMotivationalMessage() {return messageDAO.getMotivationalMessage();
     }
 
 }
