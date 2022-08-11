@@ -146,16 +146,6 @@ public class JdbcMessageDAO implements MessageDAO{
        return initialMessages;
     }
 
-   // todo: is this needed or can just use custom message method?
-    public BotMessage mapMotivationalQuoteToBotMessage(String quote) {
-        BotMessage motivationalQuote = new BotMessage();
-        motivationalQuote.setSender("bot");
-        motivationalQuote.setType("quote");
-        motivationalQuote.setLink("n/a");
-        motivationalQuote.setBody(quote);
-        return motivationalQuote;
-    }
-
     public int getUserId() {
         String sql = "INSERT INTO users (username) VALUES ('Default1234User4321') RETURNING user_id";
         return jdbcTemplate.queryForObject(sql, int.class);
@@ -176,7 +166,6 @@ public class JdbcMessageDAO implements MessageDAO{
         message.setLink("n/a");
         message.setType("text");
         message.setSender("bot");
-
         return message;
     }
 }
