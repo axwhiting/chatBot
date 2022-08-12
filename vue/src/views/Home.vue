@@ -50,7 +50,7 @@ background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
   "left footer";
 
   grid-template-columns: 1fr 8fr;
-  grid-template-rows:  6fr 2fr .5fr;
+  grid-template-rows:  12fr 1fr .5fr;
   grid-column-gap: 5px;
   grid-row-gap: 0px;
 }
@@ -65,12 +65,10 @@ background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
   width: 100%;
   grid-area: input;
   align-items: flex-start;
-  padding-top: 15%;
   padding-left: 11%;
 }
 
 .chat-bot {
-  margin-bottom: 10%;
   height: 90%;
   grid-area: chat;
 }
@@ -94,7 +92,7 @@ button {
   color: black;
   cursor: pointer;
   display: inline-block;
-  padding: 5px 20px ;
+  padding: 2px 20px ;
   text-align: center;
   text-decoration: none;
   transition: all 250ms;
