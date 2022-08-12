@@ -4,6 +4,7 @@ import com.techelevator.model.BotMessage;
 import com.techelevator.model.StudentMessage;
 import com.techelevator.model.Message;
 
+import com.techelevator.services.QuoteService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -15,14 +16,12 @@ import java.util.List;
 public class JdbcMessageDAO implements MessageDAO{
 
     private final JdbcTemplate jdbcTemplate;
+    QuoteService quoteService = new QuoteService();
 
     public JdbcMessageDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // this method has been changed to return a list of categories (pathway, curriculum, motivational quote) after getting name
-    // functionality to drill down from selecting the category and returning appropriate action needs to be finished
-    // additions have been commented and original functionality restored in order to not push broken code
     @Override
     public List<Message> messages(StudentMessage studentMessage) {
         List<Message> messages = new ArrayList<>();
@@ -35,26 +34,11 @@ public class JdbcMessageDAO implements MessageDAO{
            messages.add(greetingMessage);
            messages.add(getListOfCategories());
        // Process for Every Message After First Response
+       } else if (studentMessage.getBody().toLowerCase().contains("motivat")) {
+           BotMessage quote = quoteService.getQuote();
+           messages.add(quote);
        } else {
-           String request = studentMessage.getBody().toLowerCase();
-//           List<String> categories = listOfCategories();
-            List<String> topicsList = listOfTopics();
-            List<Message> topicMessages = new ArrayList<>();
-           List<Message> messagesFromCategory = new ArrayList<>();
-//           for (String category : categories) {
-//               if (request.contains(category.toLowerCase())) {
-//                   // write a new method that returns list of topics when given a category
-//                   messagesFromCategory.addAll(getListOfTopics(category));
-//                   break;
-//               }
-//           }
-           for(String topic : topicsList){
-               if(request.contains(topic.toLowerCase())){
-                   topicMessages.addAll(getPathwayResources(topic));
-                   break;
-               }
-           }
-
+           List<BotMessage> topicMessages = messageLogic(studentMessage);
            if(topicMessages.size() > 0){
                messages.addAll(topicMessages);
            } else {
@@ -109,25 +93,29 @@ public class JdbcMessageDAO implements MessageDAO{
             List<String> allTopicsList = listOfAllTopics();
             for (String topic : allTopicsList) {
                 if (recievedMessageLowerCase.contains(topic.toLowerCase())) {
-//                    List<String> keywordList = listOfKeywordsByTopic(topic);
-//                    for (String keyword : keywordList) {
-//                        if (recievedMessageLowerCase.contains(keyword.toLowerCase())) {
-//                            topicMessages.addAll(getKeywordMessagesByTopic(topic, keyword));
-//                            break;
-//                        }
-//                    }
-//                    if (topicMessages.size() == 0) {
-//                        List<String> subkeywordlist = listOfSubkeywordsByTopic(topic);
-//                        for (String subkeyword : subkeywordlist) {
-//                            if (recievedMessageLowerCase.contains(subkeyword.toLowerCase())) {
-//                                topicMessages.addAll(getSubkeywordMessagesByTopic(topic, subkeyword));
-//                                break;
-//                            }
-//                        }
-//                    } else {
+                    List<String> keywordList = listOfKeywordsByTopic(topic);
+                    for (String keyword : keywordList) {
+                        if (recievedMessageLowerCase.contains(keyword.toLowerCase())) {
+                            topicMessages.addAll(getKeywordMessagesByTopic(topic, keyword));
+                            updateUserCurrentDiscussionPosition(userId, "Pathway", topic, keyword);
+                            break;
+                        }
+                    }
+                    if (topicMessages.size() == 0) {
+                        List<String> subkeywordlist = listOfSubkeywordsByTopic(topic);
+                        for (String subkeyword : subkeywordlist) {
+                            if (recievedMessageLowerCase.contains(subkeyword.toLowerCase())) {
+                                topicMessages.addAll(getSubkeywordMessagesByTopic(topic, subkeyword));
+                                updateUserCurrentDiscussionPosition(userId, "Pathway", topic, "None");
+                                break;
+                            }
+                        }
+                    }
+                    if (topicMessages.size() == 0){
                         topicMessages.addAll(getTopicMessagesByTopic(topic));
+                        updateUserCurrentDiscussionPosition(userId, "Pathway", topic, "None");
                         break;
-//                    }
+                    }
                 }
             }
         }
