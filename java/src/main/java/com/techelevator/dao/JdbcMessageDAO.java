@@ -133,8 +133,6 @@ public class JdbcMessageDAO implements MessageDAO{
         return topicMessages;
     }
 
-
-
     public List<BotMessage> getPathwayResources(String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
         String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ? AND keyword = 'General'";
@@ -174,9 +172,6 @@ public class JdbcMessageDAO implements MessageDAO{
         return categories;
     }
 
-    // method needs to take in String category as argument
-    // sql should be updated to "SELECT DISTINCT topic FROM responses WHERE category ILIKE ?"
-    // category should be passed to jdbctemplate call
     @Override
     public BotMessage getListOfTopics(){
         String topicsList = "";
@@ -196,8 +191,6 @@ public class JdbcMessageDAO implements MessageDAO{
         return botMessage;
     }
 
-
-
     @Override
     public List<BotMessage> getInitialMessages() {
        BotMessage firstMessage = mapCustomMessageToBotMessage("Hi!");
@@ -215,8 +208,6 @@ public class JdbcMessageDAO implements MessageDAO{
        initialMessages.add(secondMessage);
        return initialMessages;
     }
-
-
 
     // NEW: DISTINCT Database Entry Lists Methods
     // Should be combined with getListofTopics() at some point
@@ -301,7 +292,6 @@ public class JdbcMessageDAO implements MessageDAO{
         return subkeywordList;
     }
 
-
     // NEW: Messages Based on Discussion Position Methods
     public List<BotMessage> getTopicMessages(String category, String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
@@ -358,7 +348,6 @@ public class JdbcMessageDAO implements MessageDAO{
         } return subkeywordMessages;
     }
 
-
     // User Table Methods
     public int getUserId() {
         String sql = "INSERT INTO users (username, current_category, current_topic, current_keyword) VALUES ('Default1234User4321', 'None', 'None', 'None') RETURNING user_id";
@@ -396,8 +385,6 @@ public class JdbcMessageDAO implements MessageDAO{
         String sql = "UPDATE users SET current_category = ?, current_topic = ?, current_keyword = ? WHERE user_id = ?";
         jdbcTemplate.update(sql, category, topic, keyword, userId);
     }
-
-
 
     // Map To Message Methods
     private BotMessage mapRowToBotMessage(SqlRowSet row) {

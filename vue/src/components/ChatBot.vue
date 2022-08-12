@@ -50,8 +50,7 @@ p,a {
   padding: 1.5%;
   border-radius: 7.5px;
   margin-right: 2%;
-  margin-left:2% ;
-  
+  margin-left:2% 
 }
 
 .home{
