@@ -4,6 +4,7 @@
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
       <p v-show="message.type === 'text'">{{message.body}}</p>
       <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
+      <video><source src="" v-show="message.type === 'link'" v-bind:href="message.link" /></video>
     </div>
   </div>
 </template>

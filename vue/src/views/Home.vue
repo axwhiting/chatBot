@@ -39,10 +39,10 @@ font-family: 'Roboto Mono', monospace;
 }
 
 .body {
-  background: #eee8e8;
+  /* background: #eee8e8;
   background: #FFFFFF;
   background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); 
-  background-color: #dcdcdc;
+  background-color: #dcdcdc; */
   display: grid;
   height: 100vh;
   grid-template-areas: 
