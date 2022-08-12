@@ -74,8 +74,8 @@ public class JdbcMessageDAO implements MessageDAO{
                     topicMessages.addAll(getKeywordMessages(currentCategory, currentTopic, keyword));
                 } if(topicMessages.size() > 0){
                     updateUserCurrentDiscussionPosition(userId, currentCategory, currentTopic, keyword);
+                    break;
                 }
-                break;
             }
 
         } if(!currentCategory.equals("None") || topicMessages.size() == 0){
@@ -85,8 +85,8 @@ public class JdbcMessageDAO implements MessageDAO{
                     topicMessages.addAll(getTopicMessages(currentCategory, topic));
                 } if(topicMessages.size() > 0){
                     updateUserCurrentDiscussionPosition(userId, currentCategory, topic, "None");
+                    break;
                 }
-                break;
             }
 
         } if(topicMessages.size() == 0) {
@@ -116,6 +116,17 @@ public class JdbcMessageDAO implements MessageDAO{
                         updateUserCurrentDiscussionPosition(userId, "Pathway", topic, "None");
                         break;
                     }
+                }
+            }
+        }
+        if(topicMessages.size() == 0) {
+            List<String> categories = listOfCategories();
+            for(String category : categories){
+                if(recievedMessageLowerCase.contains(category.toLowerCase())){
+                    topicMessages.add(getListOfTopics());
+                } if(topicMessages.size() > 0){
+                    updateUserCurrentDiscussionPosition(userId, category, "None", "None");
+                    break;
                 }
             }
         }
@@ -169,7 +180,7 @@ public class JdbcMessageDAO implements MessageDAO{
     @Override
     public BotMessage getListOfTopics(){
         String topicsList = "";
-        String sql = "SELECT DISTINCT topic FROM responses";
+        String sql = "SELECT DISTINCT topic FROM responses WHERE category ILIKE 'Pathway'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         boolean isfirstResult = true;
         while( results.next() ) {
@@ -294,7 +305,7 @@ public class JdbcMessageDAO implements MessageDAO{
     // NEW: Messages Based on Discussion Position Methods
     public List<BotMessage> getTopicMessages(String category, String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
-        String sql = "SELECT display, display_type, link FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword = 'General' AND subkeyword = 'General'";
+        String sql = "SELECT display, display_type, link FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic);
         while (results.next()) {
             topicMessages.add(mapRowToBotMessage(results));
