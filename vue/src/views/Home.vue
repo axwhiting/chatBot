@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
+   <div class="header">Team Alpha ChatBot</div>
     <div class="body">
-      <div class="header"></div>
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
       <div class="left-side"></div>
@@ -34,16 +34,20 @@ font-family: 'Roboto Mono', monospace;}
   flex-direction: column;
 }
 .body{
+  /* background: #eee8e8;
+background: #FFFFFF;
+background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); 
+ background-color: #dcdcdc; */
   display: grid;
   height: 100vh;
   grid-template-areas: 
-  "header header"
+  /* "header header" */
   "left chat"
   "left input"
   "left footer";
 
   grid-template-columns: 1fr 8fr;
-  grid-template-rows: .75fr 6fr 2fr .5fr;
+  grid-template-rows:  6fr 2fr .5fr;
   grid-column-gap: 5px;
   grid-row-gap: 0px;
 
@@ -51,7 +55,7 @@ font-family: 'Roboto Mono', monospace;}
 
 .input-field{
   display: flex;
-  position: relative;
+  position: fixed;
   z-index: 500;
   bottom: 0; 
   height: 10%;
@@ -60,17 +64,10 @@ font-family: 'Roboto Mono', monospace;}
   grid-area: input;
   align-items: flex-start;
   padding-top: 15%;
-
-
-
-}
-html{
-background: #eee8e8;
-background: #FFFFFF;
-background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
-background-color: #dcdcdc;
+  padding-left: 11%;
 
 }
+
 .chat-bot{
   margin-bottom: 10%;
   height: 90%;
@@ -119,7 +116,7 @@ button{
   background-color: #BFC0C0;
 }
 .header{
-  grid-area: header;
+  padding: 20px;
   background-color: #909595;
 }
 .footer{
@@ -128,6 +125,12 @@ button{
 
 }
 
+.header{
+  position:fixed;
+  z-index: 1000;
+  width: 100%;
+ text-align: center;
+}
 
 
 </style>

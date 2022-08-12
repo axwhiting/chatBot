@@ -21,14 +21,16 @@ export default {
 
 /* todo: move "template" formatting to the appropriate view */
 /* template {
-  align-content: center;
-} */
+ 
+  
+}  */
 
 .the-big-div{
   display: flex;
   flex-direction: column;
   font-family: 'Cinzel', serif;
   justify-content: flex-end;
+  
 }
 
 div.bot {
@@ -45,18 +47,19 @@ div.student{
   font-weight: bold;
 }
 
-p,a {
+
+  p,a {
   max-width: 60%;
   padding: 1.5%;
   border-radius: 7.5px;
   margin-right: 2%;
   margin-left:2% ;
+  margin-top: 1%;
+  margin-bottom: 1%
+}
   
-}
 
-.home{
-  overflow-y: scroll;
-}
+
 
 div.bot p, div.bot a {
   background-color: #04BF68;
