@@ -1,7 +1,9 @@
 <template>
-  <div class="home">
-    <input-field class="input-field"/>
-    <chat-bot class ="chat-bot"/>
+  <div class="wrapper">
+    <div class="body">
+      <input-field class="input-field"/>
+      <chat-bot class ="chat-bot"/>
+    </div>
   </div>
 </template>
 
@@ -25,7 +27,11 @@ export default {
 div {
   font-family: 'Quicksand', sans-serif;
 }
-.home{
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.body{
   display: flex;
   height: 100vh;
   flex-direction: column-reverse;
@@ -37,7 +43,7 @@ div {
   z-index: 500;
   height: 10%;
   background-color:transparent;
-  width: 100%;
+  width: 100vw;
 }
 html{
 background: #eee8e8;
@@ -48,7 +54,5 @@ background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
   margin-bottom: 10%;
   height: 90%;
 }
-
- 
 
 </style>

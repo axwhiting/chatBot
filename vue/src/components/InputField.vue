@@ -59,15 +59,13 @@ data()
 
 <style>
 
-input{
+input {
     width: 60%;
     height: 2.5vh;
 }
 button{
-  height: 3.1vh;
-  width: 5vh;
+  height: 3.3vh;
   margin-right: 5%;
-
 }
 
 </style>

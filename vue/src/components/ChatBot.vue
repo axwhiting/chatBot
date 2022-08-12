@@ -5,7 +5,6 @@
       <p v-show="message.type === 'text'">{{message.body}}</p>
       <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
     </div>
- 
   </div>
 </template>
 
@@ -20,21 +19,15 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
 
 /* todo: move "template" formatting to the appropriate view */
-template {
+/* template {
   align-content: center;
-}
-#home{
-   display: grid;
-  grid-template-columns: 1fr, 2fr, 1fr;
-}
+} */
 
 .the-big-div{
   display: flex;
   flex-direction: column;
-  width: 70vw;
   font-family: 'Quicksand', sans-serif;
   justify-content: flex-end;
-
 }
 
 div.bot {
@@ -55,39 +48,21 @@ p,a {
   max-width: 60%;
   padding: 1.5%;
   border-radius: 7.5px;
-
-
 }
+
 .home{
-
-      overflow-y: scroll;
-
+  overflow-y: scroll;
 }
 
 div.bot p, div.bot a {
-  background-color: #63e675;
+  background-color: #04BF68;
   animation: 1s ease-in-out 0s  slideInLeft;
-
-
-
-  
 }
 
 div.student p, div.student a{
-  background-color: #67c3df;
+  background-color: #F2C849;
   /* animation: 1s ease-in 0s  slideInRight; */
 
-
-}
-
- #the-big-div {
-  grid-area: BigDiv;
-} 
-#chat-bot{
-  grid-area: chatbot;
-}
-#input-field {
-  grid-area: input;
 }
 
 </style>
