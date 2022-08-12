@@ -2,9 +2,11 @@
   <div class="wrapper">
     <codee-header />
     <div class="body">
+
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
-      <div class="left-side"></div>
+      <div class="left-side"><avatars />
+</div>
       
     </div>
   </div>
@@ -14,13 +16,15 @@
 import ChatBot from '../components/ChatBot.vue';
 import InputField from '../components/InputField.vue';
 import CodeeHeader from '../components/CodeeHeader.vue'
+import Avatars from '../components/avatars.vue';
 
 export default {
   components: 
   { 
     ChatBot,
     InputField,
-    CodeeHeader
+    CodeeHeader,
+    Avatars
    },
   name: "home"
 };
@@ -81,6 +85,7 @@ input {
   padding: 5px;
   background-color:#ebf2f0;
   margin-left: 2%;
+  
 }
 
 form {
@@ -88,32 +93,39 @@ form {
 }
 
 button {
-  background-color: #04BF68;
-  border-radius: 100px;
-  box-shadow: rgba(28, 148, 74, 0.2) 0 -25px 18px -14px inset,rgba(11, 90, 41, 0.15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-  color: black;
-  cursor: pointer;
+  background-color: #61F1C1;
   display: inline-block;
-  padding: 2px 20px ;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 500px;
+  transition-property: background-color,border-color,color,box-shadow,filter;
+  transition-duration: .3s;
+  border: 1px solid transparent;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
   text-align: center;
-  text-decoration: none;
-  transition: all 250ms;
-  border: 0;
-  font-size: 16px;
-  touch-action: manipulation;
-  margin-left: 2%;
-  font-family: 'Roboto Mono', monospace;
-  font-weight: bolder;
+  padding: 10px 20px;
+  color: #fff;
+  height: 36px;
+  margin-left: 4px;
 }
+button:hover{
+  transform: scale(1.02);
+  background-color: #2B57F1;
+   }
+                
+  
+  
+ 
 
-button {
-  box-shadow: rgba(21, 105, 54, 0.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
-  transform: scale(1.05) rotate(-1deg);
-}
+
 
 .left-side {
   grid-area: left;
   background-color: #BFC0C0;
+  display: flex;
 }
 
 .right-side {
@@ -123,6 +135,14 @@ button {
 
 .footer {
  background-color: #BFC0C0;
+}
+#happy{
+    background-color: #002A42;
+    vertical-align: middle;
+    border-radius: 50%;justify-content: center;
+    padding:10%;
+    margin-left: 22%;
+    
 }
 
 </style>
