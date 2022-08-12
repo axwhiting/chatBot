@@ -4,6 +4,7 @@ import com.techelevator.model.BotMessage;
 import com.techelevator.model.StudentMessage;
 import com.techelevator.model.Message;
 
+import com.techelevator.services.QuoteService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -15,43 +16,29 @@ import java.util.List;
 public class JdbcMessageDAO implements MessageDAO{
 
     private final JdbcTemplate jdbcTemplate;
+    QuoteService quoteService = new QuoteService();
 
     public JdbcMessageDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // this method has been changed to return a list of categories (pathway, curriculum, motivational quote) after getting name
-    // functionality to drill down from selecting the category and returning appropriate action needs to be finished
-    // additions have been commented and original functionality restored in order to not push broken code
     @Override
     public List<Message> messages(StudentMessage studentMessage) {
         List<Message> messages = new ArrayList<>();
         messages.add(studentMessage);
         String userName = getUserNameById(studentMessage.getUserId());
+        // First Response Back To Student with Their Name
        if(userName.equals("Default1234User4321")){
            BotMessage greetingMessage = mapCustomMessageToBotMessage("Nice to meet you, " + studentMessage.getBody() + "!");
            updateUserName(studentMessage.getUserId(), studentMessage.getBody());
            messages.add(greetingMessage);
            messages.add(getListOfCategories());
+       // Process for Every Message After First Response
+       } else if (studentMessage.getBody().toLowerCase().contains("motivat")) {
+           BotMessage quote = quoteService.getQuote();
+           messages.add(quote);
        } else {
-           String request = studentMessage.getBody().toLowerCase();
-//           List<String> categories = listOfCategories();
-            List<String> topicsList = listOfTopics();
-            List<Message> topicMessages = new ArrayList<>();
-           List<Message> messagesFromCategory = new ArrayList<>();
-//           for (String category : categories) {
-//               if (request.contains(category.toLowerCase())) {
-//                   // write a new method that returns list of topics when given a category
-//                   messagesFromCategory.addAll(getListOfTopics(category));
-//                   break;
-//               }
-//           }
-           for(String topic : topicsList){
-               if(request.contains(topic.toLowerCase())){
-                   topicMessages.addAll(getPathwayResources(topic));
-                   break;
-               }
-           }
+           List<BotMessage> topicMessages = messageLogic(studentMessage);
            if(topicMessages.size() > 0){
                messages.addAll(topicMessages);
            } else {
@@ -62,20 +49,80 @@ public class JdbcMessageDAO implements MessageDAO{
         return messages;
     }
 
-    public void updateUserName(int userId, String userName){
-        String sql = "UPDATE users SET username = ? WHERE user_id = ?";
-        jdbcTemplate.update(sql, userName, userId);
+    public List<BotMessage> messageLogic(StudentMessage studentMessage) {
+        int userId = studentMessage.getUserId();
+        String recievedMessageLowerCase = studentMessage.getBody().toLowerCase();
+        List<String> currentDiscussionPosition = getUserCurrentDiscussionPosition(userId);
+        String currentKeyword = currentDiscussionPosition.get(2);
+        String currentTopic = currentDiscussionPosition.get(1);
+        String currentCategory = currentDiscussionPosition.get(0);
+        List<BotMessage> topicMessages = new ArrayList<>();
+
+        if(!currentKeyword.equals("None")){
+            List<String> subkeywordlist = listOfSubkeywords(currentCategory, currentTopic, currentKeyword);
+            for(String subkeyword : subkeywordlist){
+                if(recievedMessageLowerCase.contains(subkeyword.toLowerCase())){
+                    topicMessages.addAll(getSubkeywordMessages(currentCategory, currentTopic, currentKeyword, subkeyword));
+                    break;
+                }
+            }
+
+        } if(!currentTopic.equals("None") || topicMessages.size() == 0){
+            List<String> keywordList = listOfKeywords(currentCategory, currentTopic);
+            for(String keyword : keywordList){
+                if(recievedMessageLowerCase.contains(keyword.toLowerCase())){
+                    topicMessages.addAll(getKeywordMessages(currentCategory, currentTopic, keyword));
+                } if(topicMessages.size() > 0){
+                    updateUserCurrentDiscussionPosition(userId, currentCategory, currentTopic, keyword);
+                }
+                break;
+            }
+
+        } if(!currentCategory.equals("None") || topicMessages.size() == 0){
+            List<String> topicList = listOfTopics(currentCategory);
+            for(String topic : topicList){
+                if(recievedMessageLowerCase.contains(topic.toLowerCase())){
+                    topicMessages.addAll(getTopicMessages(currentCategory, topic));
+                } if(topicMessages.size() > 0){
+                    updateUserCurrentDiscussionPosition(userId, currentCategory, topic, "None");
+                }
+                break;
+            }
+
+        } if(topicMessages.size() == 0) {
+            List<String> allTopicsList = listOfAllTopics();
+            for (String topic : allTopicsList) {
+                if (recievedMessageLowerCase.contains(topic.toLowerCase())) {
+                    List<String> keywordList = listOfKeywordsByTopic(topic);
+                    for (String keyword : keywordList) {
+                        if (recievedMessageLowerCase.contains(keyword.toLowerCase())) {
+                            topicMessages.addAll(getKeywordMessagesByTopic(topic, keyword));
+                            updateUserCurrentDiscussionPosition(userId, "Pathway", topic, keyword);
+                            break;
+                        }
+                    }
+                    if (topicMessages.size() == 0) {
+                        List<String> subkeywordlist = listOfSubkeywordsByTopic(topic);
+                        for (String subkeyword : subkeywordlist) {
+                            if (recievedMessageLowerCase.contains(subkeyword.toLowerCase())) {
+                                topicMessages.addAll(getSubkeywordMessagesByTopic(topic, subkeyword));
+                                updateUserCurrentDiscussionPosition(userId, "Pathway", topic, "None");
+                                break;
+                            }
+                        }
+                    }
+                    if (topicMessages.size() == 0){
+                        topicMessages.addAll(getTopicMessagesByTopic(topic));
+                        updateUserCurrentDiscussionPosition(userId, "Pathway", topic, "None");
+                        break;
+                    }
+                }
+            }
+        }
+        return topicMessages;
     }
 
-    public String getUserNameById(int userId){
-        String sql = "SELECT username FROM users WHERE user_id = ?";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
-        String username = "";
-        if (result.next()) {
-            username = result.getString("username");
-        }
-      return username;
-    }
+
 
     public List<BotMessage> getPathwayResources(String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
@@ -138,17 +185,7 @@ public class JdbcMessageDAO implements MessageDAO{
         return botMessage;
     }
 
-    // Should be combined with getListofTopics() at some point
-    // look into common misspellings
-    public List<String> listOfTopics(){
-        List<String> topicsList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT topic FROM responses";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        while( results.next() ) {
-            topicsList.add(results.getString("topic"));
-        }
-        return topicsList;
-    }
+
 
     @Override
     public List<BotMessage> getInitialMessages() {
@@ -168,11 +205,190 @@ public class JdbcMessageDAO implements MessageDAO{
        return initialMessages;
     }
 
+
+
+    // NEW: DISTINCT Database Entry Lists Methods
+    // Should be combined with getListofTopics() at some point
+    // look into common misspellings
+    public List<String> listOfTopics(){
+        List<String> topicsList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT topic FROM responses";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while( results.next() ) {
+            topicsList.add(results.getString("topic"));
+        }
+        return topicsList;
+    }
+
+    public List<String> listOfCategories2(){
+        List<String> topicList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT category FROM responses";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while( results.next() ) {
+            topicList.add(results.getString("category"));
+        }
+        return topicList;
+    }
+
+    public List<String> listOfTopics(String category){
+        List<String> topicList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT topic FROM responses WHERE category = ? AND topic != 'General'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category);
+        while( results.next() ) {
+            topicList.add(results.getString("topic"));
+        }
+        return topicList;
+    }
+
+    public List<String> listOfAllTopics(){
+        List<String> topicsList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT topic FROM responses";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while( results.next() ) {
+            topicsList.add(results.getString("topic"));
+        }
+        return topicsList;
+    }
+
+    public List<String> listOfKeywords(String category, String topic){
+        List<String> keywordList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT keyword FROM responses WHERE category = ? AND topic = ? AND keyword != 'General'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic);
+        while( results.next() ) {
+            keywordList.add(results.getString("keyword"));
+        }
+        return keywordList;
+    }
+
+    public List<String> listOfKeywordsByTopic(String topic){
+        List<String> keywordList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT keyword FROM responses WHERE topic = ? AND keyword != 'General'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
+        while( results.next() ) {
+            keywordList.add(results.getString("keyword"));
+        }
+        return keywordList;
+    }
+
+    public List<String> listOfSubkeywords(String category, String topic, String keyword){
+        List<String> subkeywordList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT subkeyword FROM responses WHERE category = ? AND topic = ? AND keyword = ? AND subkeyword != 'General'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic, keyword);
+        while( results.next() ) {
+            subkeywordList.add(results.getString("subkeyword"));
+        }
+        return subkeywordList;
+    }
+
+    public List<String> listOfSubkeywordsByTopic(String topic){
+        List<String> subkeywordList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT subkeyword FROM responses WHERE topic = ? AND subkeyword != 'General'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
+        while( results.next() ) {
+            subkeywordList.add(results.getString("subkeyword"));
+        }
+        return subkeywordList;
+    }
+
+
+    // NEW: Messages Based on Discussion Position Methods
+    public List<BotMessage> getTopicMessages(String category, String topic) {
+        List<BotMessage> topicMessages = new ArrayList<>();
+        String sql = "SELECT display, display_type, link FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword = 'General' AND subkeyword = 'General'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic);
+        while (results.next()) {
+            topicMessages.add(mapRowToBotMessage(results));
+        } return topicMessages;
+    }
+
+    public List<BotMessage> getTopicMessagesByTopic(String topic) {
+        List<BotMessage> topicMessages = new ArrayList<>();
+        String sql = "SELECT display, display_type, link FROM responses WHERE topic ILIKE ? AND keyword = 'General'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
+        while (results.next()) {
+            topicMessages.add(mapRowToBotMessage(results));
+        } return topicMessages;
+    }
+
+    public List<BotMessage> getKeywordMessages(String category, String topic, String keyword) {
+        List<BotMessage> keywordMessages = new ArrayList<>();
+        // todo: look into whether subkeyword should always be marked General when keyword is marked General
+        String sql = "SELECT display, display_type, link FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword ILIKE ? AND subkeyword = 'General'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic, keyword);
+        while (results.next()) {
+            keywordMessages.add(mapRowToBotMessage(results));
+        } return keywordMessages;
+    }
+
+    public List<BotMessage> getKeywordMessagesByTopic(String topic, String keyword) {
+        List<BotMessage> keywordMessages = new ArrayList<>();
+        String sql = "SELECT display, display_type, link FROM responses WHERE topic ILIKE ? AND keyword ILIKE ? AND subkeyword = 'General'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic, keyword);
+        while (results.next()) {
+            keywordMessages.add(mapRowToBotMessage(results));
+        } return keywordMessages;
+    }
+
+    public List<BotMessage> getSubkeywordMessages(String category, String topic, String keyword, String subkeyword) {
+        List<BotMessage> subkeywordMessages = new ArrayList<>();
+        String sql = "SELECT display, display_type, link FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword ILIKE ? AND subkeyword ILIKE ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic, keyword, subkeyword);
+        while (results.next()) {
+            subkeywordMessages.add(mapRowToBotMessage(results));
+        } return subkeywordMessages;
+    }
+
+    public List<BotMessage> getSubkeywordMessagesByTopic(String topic, String subkeyword) {
+        List<BotMessage> subkeywordMessages = new ArrayList<>();
+        String sql = "SELECT display, display_type, link FROM responses WHERE  topic ILIKE ? AND subkeyword ILIKE ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic, subkeyword);
+        while (results.next()) {
+            subkeywordMessages.add(mapRowToBotMessage(results));
+        } return subkeywordMessages;
+    }
+
+
+    // User Table Methods
     public int getUserId() {
-        String sql = "INSERT INTO users (username) VALUES ('Default1234User4321') RETURNING user_id";
+        String sql = "INSERT INTO users (username, current_category, current_topic, current_keyword) VALUES ('Default1234User4321', 'None', 'None', 'None') RETURNING user_id";
         return jdbcTemplate.queryForObject(sql, int.class);
     }
 
+    public String getUserNameById(int userId){
+        String sql = "SELECT username FROM users WHERE user_id = ?";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
+        String username = "";
+        if (result.next()) {
+            username = result.getString("username");
+        }
+        return username;
+    }
+
+    public void updateUserName(int userId, String userName){
+        String sql = "UPDATE users SET username = ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, userName, userId);
+    }
+
+    public List<String> getUserCurrentDiscussionPosition(int userId){
+        List<String> currentDiscussionPosition = new ArrayList<String>();
+        String sql = "SELECT current_category, current_topic, current_keyword FROM users WHERE user_id = ?";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
+        if (result.next()) {
+            currentDiscussionPosition.add(result.getString("current_category"));
+            currentDiscussionPosition.add(result.getString("current_topic"));
+            currentDiscussionPosition.add(result.getString("current_keyword"));
+        }
+        return currentDiscussionPosition;
+    }
+
+    public void updateUserCurrentDiscussionPosition(int userId, String category, String topic, String keyword){
+        String sql = "UPDATE users SET current_category = ?, current_topic = ?, current_keyword = ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, category, topic, keyword, userId);
+    }
+
+
+
+    // Map To Message Methods
     private BotMessage mapRowToBotMessage(SqlRowSet row) {
         BotMessage message = new BotMessage();
         message.setBody(row.getString("display"));
