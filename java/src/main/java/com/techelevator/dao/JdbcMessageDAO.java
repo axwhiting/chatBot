@@ -67,7 +67,7 @@ public class JdbcMessageDAO implements MessageDAO{
                 }
             }
 
-        } if(!currentTopic.equals("None") || topicMessages.size() == 0){
+        } if(!currentTopic.equals("None") && topicMessages.size() == 0){
             List<String> keywordList = listOfKeywords(currentCategory, currentTopic);
             for(String keyword : keywordList){
                 if(recievedMessageLowerCase.contains(keyword.toLowerCase())){
@@ -78,7 +78,7 @@ public class JdbcMessageDAO implements MessageDAO{
                 }
             }
 
-        } if(!currentCategory.equals("None") || topicMessages.size() == 0){
+        } if(!currentCategory.equals("None") && topicMessages.size() == 0){
             List<String> topicList = listOfTopics(currentCategory);
             for(String topic : topicList){
                 if(recievedMessageLowerCase.contains(topic.toLowerCase())){
