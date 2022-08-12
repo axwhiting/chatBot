@@ -16,7 +16,8 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@800&display=swap');
 
 /* todo: move "template" formatting to the appropriate view */
 /* template {
@@ -26,7 +27,7 @@ export default {
 .the-big-div{
   display: flex;
   flex-direction: column;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Cinzel', serif;
   justify-content: flex-end;
 }
 
@@ -48,6 +49,9 @@ p,a {
   max-width: 60%;
   padding: 1.5%;
   border-radius: 7.5px;
+  margin-right: 2%;
+  margin-left:2% ;
+  
 }
 
 .home{
@@ -57,10 +61,14 @@ p,a {
 div.bot p, div.bot a {
   background-color: #04BF68;
   animation: 1s ease-in-out 0s  slideInLeft;
+  flex-direction:  row;
+  opacity: 75%;
 }
 
 div.student p, div.student a{
-  background-color: #F2C849;
+  background-color: #F294AD;
+  opacity: 75%;
+
   /* animation: 1s ease-in 0s  slideInRight; */
 
 }
