@@ -20,9 +20,9 @@ public class JdbcMessageDAO implements MessageDAO{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
-    // todo: update method to return list of available commands
-
+    // this method has been changed to return a list of categories (pathway, curriculum, motivational quote) after getting name
+    // functionality to drill down from selecting the category and returning appropriate action needs to be finished
+    // additions have been commented and original functionality restored in order to not push broken code
     @Override
     public List<Message> messages(StudentMessage studentMessage) {
         List<Message> messages = new ArrayList<>();
@@ -30,21 +30,31 @@ public class JdbcMessageDAO implements MessageDAO{
         String userName = getUserNameById(studentMessage.getUserId());
         // First Response Back To Student with Their Name
        if(userName.equals("Default1234User4321")){
-           BotMessage greetingMessage = mapCustomMessageToBotMessage("Hi " + studentMessage.getBody());
+           BotMessage greetingMessage = mapCustomMessageToBotMessage("Nice to meet you, " + studentMessage.getBody() + "!");
            updateUserName(studentMessage.getUserId(), studentMessage.getBody());
            messages.add(greetingMessage);
            messages.add(getListOfCategories());
        // Process for Every Message After First Response
        } else {
-//           List<String> topicsList = listOfTopics();
-           List<BotMessage> topicMessages = messageLogic(studentMessage);
-//           for(String topic : topicsList){
-//               String request = studentMessage.getBody().toLowerCase();
-//               if(request.contains(topic.toLowerCase())){
-//                   topicMessages.addAll(getPathwayResources(topic));
+           String request = studentMessage.getBody().toLowerCase();
+//           List<String> categories = listOfCategories();
+            List<String> topicsList = listOfTopics();
+            List<Message> topicMessages = new ArrayList<>();
+           List<Message> messagesFromCategory = new ArrayList<>();
+//           for (String category : categories) {
+//               if (request.contains(category.toLowerCase())) {
+//                   // write a new method that returns list of topics when given a category
+//                   messagesFromCategory.addAll(getListOfTopics(category));
 //                   break;
 //               }
 //           }
+           for(String topic : topicsList){
+               if(request.contains(topic.toLowerCase())){
+                   topicMessages.addAll(getPathwayResources(topic));
+                   break;
+               }
+           }
+
            if(topicMessages.size() > 0){
                messages.addAll(topicMessages);
            } else {
@@ -155,6 +165,20 @@ public class JdbcMessageDAO implements MessageDAO{
     }
 
     @Override
+    public List<String> listOfCategories() {
+        List<String> categories = new ArrayList<>();
+        String sql = "SELECT DISTINCT category_name FROM categories";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()) {
+            categories.add(results.getString("category_name"));
+        }
+        return categories;
+    }
+
+    // method needs to take in String category as argument
+    // sql should be updated to "SELECT DISTINCT topic FROM responses WHERE category ILIKE ?"
+    // category should be passed to jdbctemplate call
+    @Override
     public BotMessage getListOfTopics(){
         String topicsList = "";
         String sql = "SELECT DISTINCT topic FROM responses";
@@ -172,7 +196,6 @@ public class JdbcMessageDAO implements MessageDAO{
         BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
         return botMessage;
     }
-
 
 
 
@@ -209,7 +232,7 @@ public class JdbcMessageDAO implements MessageDAO{
         return topicsList;
     }
 
-    public List<String> listOfCategories(){
+    public List<String> listOfCategories2(){
         List<String> topicList = new ArrayList<String>();
         String sql = "SELECT DISTINCT category FROM responses";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);

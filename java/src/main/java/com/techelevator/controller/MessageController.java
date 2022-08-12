@@ -27,15 +27,15 @@ public class MessageController {
         return messageDAO.messages(studentMessage);
     }
 
-    @RequestMapping(value = "/topics", method = RequestMethod.GET)
-    public BotMessage topicsList(){
-        return messageDAO.getListOfTopics();
-    }
+//    @RequestMapping(value = "/topics", method = RequestMethod.GET)
+//    public BotMessage topicsList(){
+//        return messageDAO.getListOfTopics();
+//    }
 
     @RequestMapping(value = "/messages/welcome", method = RequestMethod.GET)
     public List<BotMessage> getInitialMessages() { return messageDAO.getInitialMessages();
     }
-    
+
     @RequestMapping(value = "/quote")
     public BotMessage getQuote() {
         String url = "https://zenquotes.io/api/random";
