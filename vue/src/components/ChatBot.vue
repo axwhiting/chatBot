@@ -51,7 +51,7 @@ p,a {
   
 div.bot p, div.bot a {
   background-color: #04BF68;
-  animation: 1s ease-in-out 0s  slideInLeft;
+  /* animation: 1s ease-in-out 0s  slideInLeft; */
   flex-direction:  row;
   opacity: 75%;
 }
