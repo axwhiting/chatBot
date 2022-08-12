@@ -193,7 +193,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     @Override
     public List<BotMessage> getInitialMessages() {
-       BotMessage firstMessage = mapCustomMessageToBotMessage("Hi!");
+       BotMessage firstMessage = mapCustomMessageToBotMessage("Hi, I'm Codee!");
        BotMessage secondMessage = mapCustomMessageToBotMessage("What can I call you?");
        int userId = getUserId();
        firstMessage.setUserId(userId);

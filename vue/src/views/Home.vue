@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-   <div class="header">Team Alpha ChatBot</div>
+    <codee-header />
     <div class="body">
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
@@ -13,12 +13,14 @@
 <script>
 import ChatBot from '../components/ChatBot.vue';
 import InputField from '../components/InputField.vue';
+import CodeeHeader from '../components/CodeeHeader.vue'
+
 export default {
   components: 
   { 
     ChatBot,
     InputField,
-    
+    CodeeHeader
    },
   name: "home"
 };
@@ -37,10 +39,10 @@ font-family: 'Roboto Mono', monospace;
 }
 
 .body {
-  /* background: #eee8e8;
-background: #FFFFFF;
-background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); 
- background-color: #dcdcdc; */
+  background: #eee8e8;
+  background: #FFFFFF;
+  background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); 
+  background-color: #dcdcdc;
   display: grid;
   height: 100vh;
   grid-template-areas: 
@@ -64,7 +66,7 @@ background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
   background-color:transparent;
   width: 100%;
   grid-area: input;
-  align-items: flex-start;
+  align-items: center;
   padding-left: 11%;
 }
 
@@ -117,15 +119,6 @@ button {
 .right-side {
   grid-area: right;
   background-color: #BFC0C0;
-}
-
-.header {
-  padding: 20px;
-  background-color: #909595;
-  position:fixed;
-  z-index: 1000;
-  width: 100%;
-  text-align: center;
 }
 
 .footer {
