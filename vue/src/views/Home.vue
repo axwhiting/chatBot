@@ -1,8 +1,11 @@
 <template>
   <div class="wrapper">
     <div class="body">
+      <div class="header"></div>
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
+      <div class="left-side"></div>
+      
     </div>
   </div>
 </template>
@@ -22,37 +25,109 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 div {
-  font-family: 'Quicksand', sans-serif;
-}
+font-family: 'Roboto Mono', monospace;}
 .wrapper {
   display: flex;
   flex-direction: column;
 }
 .body{
-  display: flex;
+  display: grid;
   height: 100vh;
-  flex-direction: column-reverse;
-  justify-content: flex-start;
+  grid-template-areas: 
+  "header header"
+  "left chat"
+  "left input"
+  "left footer";
+
+  grid-template-columns: 1fr 8fr;
+  grid-template-rows: .75fr 6fr 2fr .5fr;
+  grid-column-gap: 5px;
+  grid-row-gap: 0px;
+
 }
+
 .input-field{
-  position: fixed;
-  bottom: 0;
+  display: flex;
+  position: relative;
   z-index: 500;
+  bottom: 0; 
   height: 10%;
   background-color:transparent;
-  width: 100vw;
+  width: 100%;
+  grid-area: input;
+  align-items: flex-start;
+  padding-top: 15%;
+
+
+
 }
 html{
 background: #eee8e8;
 background: #FFFFFF;
 background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
+background-color: #dcdcdc;
+
 }
 .chat-bot{
   margin-bottom: 10%;
   height: 90%;
+  grid-area: chat;
 }
+input{
+  border-radius: 25px;
+  border: 2px solid #1790BF;
+  padding: 5px;
+  background-color:#ebf2f0;
+  margin-left: 2%;
+  
+}
+form{
+  width:100%;
+}
+button {
+  background-color: #04BF68;
+  border-radius: 100px;
+  box-shadow: rgba(28, 148, 74, 0.2) 0 -25px 18px -14px inset,rgba(11, 90, 41, 0.15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  color: black;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 20px ;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  touch-action: manipulation;
+  margin-left: 2%;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: bolder;
+}
+button{
+  box-shadow: rgba(21, 105, 54, 0.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
+}
+.left-side{
+  grid-area: left;
+  background-color: #BFC0C0;
+
+}
+.right-side{
+  grid-area: right;
+  background-color: #BFC0C0;
+}
+.header{
+  grid-area: header;
+  background-color: #909595;
+}
+.footer{
+ background-color: #BFC0C0;
+
+
+}
+
+
 
 </style>

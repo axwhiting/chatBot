@@ -2,7 +2,8 @@
   <div>
       <form v-on:submit.prevent="addMessage()">
       <input type="text" v-model="msg.body" />
-      <button type="submit" value="Submit">Send</button>
+      
+      <button type="submit" value="Submit" role="button">Send</button>
     </form>
   </div>
 </template>
