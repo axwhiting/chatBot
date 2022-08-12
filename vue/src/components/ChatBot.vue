@@ -53,13 +53,9 @@ div.student{
   padding: 1.5%;
   border-radius: 7.5px;
   margin-right: 2%;
-<<<<<<< HEAD
   margin-left:2% ;
   margin-top: 1%;
   margin-bottom: 1%
-=======
-  margin-left:2% 
->>>>>>> cc77c421fd1008bd07c6210574510efac09a977f
 }
   
 
