@@ -16,21 +16,13 @@ export default {
 </script>
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@800&display=swap');
-
-/* todo: move "template" formatting to the appropriate view */
-/* template {
- 
-  
-}  */
 
 .the-big-div{
   display: flex;
   flex-direction: column;
   font-family: 'Cinzel', serif;
-  justify-content: flex-end;
-  
+  justify-content: flex-end;  
 }
 
 div.bot {
@@ -47,8 +39,7 @@ div.student{
   font-weight: bold;
 }
 
-
-  p,a {
+p,a {
   max-width: 60%;
   padding: 1.5%;
   border-radius: 7.5px;
@@ -58,9 +49,6 @@ div.student{
   margin-bottom: 1%
 }
   
-
-
-
 div.bot p, div.bot a {
   background-color: #04BF68;
   animation: 1s ease-in-out 0s  slideInLeft;
@@ -71,9 +59,6 @@ div.bot p, div.bot a {
 div.student p, div.student a{
   background-color: #F294AD;
   opacity: 75%;
-
-  /* animation: 1s ease-in 0s  slideInRight; */
-
 }
 
 </style>

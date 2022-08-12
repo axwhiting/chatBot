@@ -28,12 +28,15 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 div {
-font-family: 'Roboto Mono', monospace;}
+font-family: 'Roboto Mono', monospace;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
 }
-.body{
+
+.body {
   /* background: #eee8e8;
 background: #FFFFFF;
 background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); 
@@ -50,10 +53,9 @@ background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
   grid-template-rows:  6fr 2fr .5fr;
   grid-column-gap: 5px;
   grid-row-gap: 0px;
-
 }
 
-.input-field{
+.input-field {
   display: flex;
   position: fixed;
   z-index: 500;
@@ -65,25 +67,26 @@ background: linear-gradient(to bottom, #FFFFFF, #D4D6D6);
   align-items: flex-start;
   padding-top: 15%;
   padding-left: 11%;
-
 }
 
-.chat-bot{
+.chat-bot {
   margin-bottom: 10%;
   height: 90%;
   grid-area: chat;
 }
-input{
+
+input {
   border-radius: 25px;
   border: 2px solid #1790BF;
   padding: 5px;
   background-color:#ebf2f0;
   margin-left: 2%;
-  
 }
-form{
+
+form {
   width:100%;
 }
+
 button {
   background-color: #04BF68;
   border-radius: 100px;
@@ -102,35 +105,33 @@ button {
   font-family: 'Roboto Mono', monospace;
   font-weight: bolder;
 }
-button{
+
+button {
   box-shadow: rgba(21, 105, 54, 0.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
   transform: scale(1.05) rotate(-1deg);
 }
-.left-side{
+
+.left-side {
   grid-area: left;
   background-color: #BFC0C0;
-
 }
-.right-side{
+
+.right-side {
   grid-area: right;
   background-color: #BFC0C0;
 }
-.header{
+
+.header {
   padding: 20px;
   background-color: #909595;
-}
-.footer{
- background-color: #BFC0C0;
-
-
-}
-
-.header{
   position:fixed;
   z-index: 1000;
   width: 100%;
- text-align: center;
+  text-align: center;
 }
 
+.footer {
+ background-color: #BFC0C0;
+}
 
 </style>

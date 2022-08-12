@@ -2,7 +2,6 @@
   <div>
       <form v-on:submit.prevent="addMessage()">
       <input type="text" v-model="msg.body" />
-      
       <button type="submit" value="Submit" role="button">Send</button>
     </form>
   </div>
@@ -13,7 +12,6 @@
 import chatService from '@/services/ChatService'
 export default {
 data()
- 
    {
     return {
       msg: {
@@ -64,6 +62,7 @@ input {
     width: 60%;
     height: 2.5vh;
 }
+
 button{
   height: 3.3vh;
   margin-right: 5%;
