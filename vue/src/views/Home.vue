@@ -41,16 +41,20 @@ font-family: 'Roboto Mono', monospace;
 }
 
 .wrapper {
+   background: #eee8e8;
+  background: #FFFFFF;
+  background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); 
+  background-color: #dcdcdc; 
   display: flex;
   flex-direction: column;
+  max-height: 100%;
+  
+ 
 }
 
 .body {
-  /* background: #eee8e8;
-  background: #FFFFFF;
-  background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); 
-  background-color: #dcdcdc; */
   display: grid;
+  overflow-y: auto;
   height: 100vh;
   grid-template-areas: 
   /* "header header" */
@@ -65,8 +69,8 @@ font-family: 'Roboto Mono', monospace;
 }
 
 .input-field {
-  display: flex;
-  position: fixed;
+  
+  position:static;
   z-index: 500;
   bottom: 0; 
   height: 10%;

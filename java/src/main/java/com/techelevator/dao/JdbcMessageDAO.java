@@ -46,7 +46,9 @@ public class JdbcMessageDAO implements MessageDAO{
                 messages.add(didntUnderstandMessage);
            }
        }
-        return messages;
+       List<Message> updatedMessages = setMessageIdAndUserId(messages, studentMessage.getUserId());
+
+       return updatedMessages;
     }
 
     public List<BotMessage> messageLogic(StudentMessage studentMessage) {
@@ -207,6 +209,19 @@ public class JdbcMessageDAO implements MessageDAO{
        initialMessages.add(firstMessage);
        initialMessages.add(secondMessage);
        return initialMessages;
+    }
+    public List<Message> setMessageIdAndUserId(List<Message> inputMessageList, int userId) {
+        List<Message> outputMessageList = new ArrayList<Message>();
+        String sql = "INSERT INTO messagelog (user_id,body,sender,type,link) " + " VALUES (?,?,?,?,?) RETURNING message_id";
+        for (Message message : inputMessageList) {
+            message.setUserId(userId);
+            message.setMessageId(jdbcTemplate.queryForObject(sql, int.class, userId, message.getBody(),message.getSender(), message.getType(), message.getLink()));
+            outputMessageList.add(message);
+        }
+
+        return outputMessageList;
+
+
     }
 
     // NEW: DISTINCT Database Entry Lists Methods
