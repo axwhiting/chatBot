@@ -4,7 +4,7 @@
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
       <p v-show="message.type === 'text'">{{message.body}}</p>
       <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
-      <video><source src="" v-show="message.type === 'link'" v-bind:href="message.link" /></video>
+      <div class="embed" v-show="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
     </div>
   </div>
 </template>
@@ -40,7 +40,7 @@ div.student{
   font-weight: bold;
 }
 
-p,a {
+p, a, .embed {
   max-width: 60%;
   padding: 1.5%;
   border-radius: 7.5px;
@@ -50,7 +50,7 @@ p,a {
   margin-bottom: 1%
 }
   
-div.bot p, div.bot a {
+div.bot p, div.bot a, .embed {
   background-color: #04BF68;
   /* animation: 1s ease-in-out 0s  slideInLeft; */
   flex-direction:  row;

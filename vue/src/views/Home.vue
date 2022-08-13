@@ -107,13 +107,14 @@ button {
   font-weight: 700;
   text-align: center;
   padding: 10px 20px;
-  color: #fff;
+  color: black;
   height: 36px;
   margin-left: 4px;
 }
 button:hover{
   transform: scale(1.02);
   background-color: #2B57F1;
+  color: white;
    }
                 
   
