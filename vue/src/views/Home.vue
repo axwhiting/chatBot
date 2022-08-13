@@ -2,6 +2,7 @@
   <div class="wrapper">
     <codee-header />
     <div class="body">
+      
 
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
