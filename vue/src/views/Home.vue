@@ -6,7 +6,7 @@
 
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
-      <div class="left-side"><avatars />
+      <div class="left-side"><avatars /><email/>
 </div>
       
     </div>
@@ -18,6 +18,7 @@ import ChatBot from '../components/ChatBot.vue';
 import InputField from '../components/InputField.vue';
 import CodeeHeader from '../components/CodeeHeader.vue'
 import Avatars from '../components/avatars.vue';
+import Email from '../components/Email.vue';
 
 export default {
   components: 
@@ -25,7 +26,8 @@ export default {
     ChatBot,
     InputField,
     CodeeHeader,
-    Avatars
+    Avatars,
+    Email
    },
   name: "home"
 };
@@ -117,17 +119,13 @@ button:hover{
   background-color: #2B57F1;
   color: white;
    }
-                
-  
-  
- 
-
-
-
+              
 .left-side {
   grid-area: left;
   background-color: #BFC0C0;
-  display: flex;
+  display:grid;
+  grid-template-rows:  1fr 1fr 1fr 1fr;
+
 }
 
 .right-side {
@@ -144,7 +142,6 @@ button:hover{
     border-radius: 50%;justify-content: center;
     padding:10%;
     margin-left: 22%;
-    
 }
 
 </style>
