@@ -32,8 +32,17 @@
 </template>
 
 <script>
+import emailjs from 'emailjs-com';
 
 export default {
+     name: 'Email',
+        data() {
+         return {
+            name: '',
+            email: '',
+            message: ''
+            }
+        },
     methods:{ 
         showForm() {
             var x = document.getElementById("emailForm");
@@ -44,9 +53,24 @@ export default {
          }   
         }
     },
-   
-   
-}
+    sendEmail(e) {
+      try {
+        emailjs.sendForm('service_codeebot', 'template_codeeBot', e.target,
+        '6JvaykMUbw9sach9s', {
+          name: this.name,
+          email: this.email,
+          message: this.message
+        })
+
+      } catch(error) {
+          console.log({error})
+      }
+      // Reset form field
+      this.name = ''
+      this.email = ''
+      this.message = ''
+    },
+  }
 </script>
  
 <style scoped>
