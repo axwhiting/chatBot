@@ -30,7 +30,7 @@ CREATE TABLE responses (
 CREATE TABLE messageLog (
         message_id SERIAL,
         user_id int,
-        body varChar(390),
+        body varChar(600),
         sender varChar(10),
         type varChar(10),
         link varChar(100)
