@@ -37,6 +37,8 @@ public class JdbcMessageDAO implements MessageDAO{
        } else if (studentMessage.getBody().toLowerCase().contains("motivat")) {
            BotMessage quote = quoteService.getQuote();
            messages.add(quote);
+       } else if (studentMessage.getBody().toLowerCase().contains("interview question")){
+           messages.add(getRandomInterviewQuestion());
        } else {
            List<BotMessage> topicMessages = messageLogic(studentMessage);
            if(topicMessages.size() > 0){
@@ -399,6 +401,16 @@ public class JdbcMessageDAO implements MessageDAO{
     public void updateUserCurrentDiscussionPosition(int userId, String category, String topic, String keyword){
         String sql = "UPDATE users SET current_category = ?, current_topic = ?, current_keyword = ? WHERE user_id = ?";
         jdbcTemplate.update(sql, category, topic, keyword, userId);
+    }
+
+    public Message getRandomInterviewQuestion(){
+        Message question = null;
+        String sql = "select display, link, display_type, codee_style from interview_questions ORDER BY RANDOM () Limit 1";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()) {
+            question = mapRowToBotMessage(results);
+        }
+        return question;
     }
 
     // Map To Message Methods
