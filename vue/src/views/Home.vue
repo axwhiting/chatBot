@@ -78,7 +78,7 @@ font-family: 'Roboto Mono', monospace;
 }
 
 .chat-bot {
-  height: 90vh;
+  height: 90%;
   grid-area: chat;
   overflow-y: auto;
 }
@@ -142,7 +142,8 @@ button:hover{
 #happy{
     background-color: #002A42;
     vertical-align: middle;
-    border-radius: 50%;justify-content: center;
+    border-radius: 50%;
+    justify-content: center;
     padding:10%;
     margin-left: 22%;
 }
