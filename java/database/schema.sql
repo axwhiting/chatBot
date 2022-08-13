@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS responses;
 DROP TABLE IF EXISTS messageLog;
 DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS interview_questions;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -27,6 +28,12 @@ CREATE TABLE responses (
         date_last_updated varChar(10),
         description varChar(10)
 );
+
+CREATE TABLE categories (
+	category_id SERIAL,
+	category_name varchar(50)
+);
+
 CREATE TABLE messageLog (
         message_id SERIAL,
         user_id int,
@@ -35,6 +42,16 @@ CREATE TABLE messageLog (
         type varChar(10),
         link varChar(100)
 );
+
+CREATE TABLE interview_questions (
+    question_id SERIAL,
+    display varChar(200),
+    answer varChar(10),
+    link varChar(110),
+    display_type varChar(10),
+    content_type varChar(10),
+    codee_style varChar(10)
+    );
 
 INSERT INTO responses (category,topic,keyword,subkeyword,content_type,display,display_type,Link,date_last_updated,description) VALUES
     ('Bootcamp OS','Description','Description','General','Informational','Bootcamp OS is a Learning Management System ("LMS") used by Tech Elevator//s students to access reading materials, take quizzes, and submit exercises. ','text','n/a','n/a','n/a'),
@@ -247,12 +264,7 @@ INSERT INTO responses (category,topic,keyword,subkeyword,content_type,display,di
     ('Pathway','Working With Recruiters','Section ','Details ','Slides','Slides: Working with Recruiters ','embed','https://drive.google.com/file/d/1PZotSM8AFCOpBjBsIdf3qu_XrHifTDVN/preview','n/a','n/a'),
     ('Curriculum','Test','General','Test','Informational','This is a test','text','n/a','n/a','n/a');
 
-
-CREATE TABLE categories (
-	category_id SERIAL,
-	category_name varchar(50)
-);
-
+INSERT INTO interview_questions (display,answer,link,display_type,content_type,codee_style) VALUES('n/a','n/a','https://drive.google.com/file/d/1MU9J4ucmmTHi4OXj7M97Tl3O5eTq2Tsp/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1z8LWR1s8vVHbP8UW2TWg0HadHoM8KF62/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1PLcIkBlNLxhhlNJud09NFZ71XTfd3CHT/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1qFXXflSWOnhWaXMU718v4Rudeb26BMmU/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1j6ApZuLYKiJ1vYWXyAsD9pHVyB4fPBkb/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1fcZnFErJaFn5lcklzys3sKywaUD9wzfI/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1iYZLDvDp13UUaUZB599BoXcynYUrOPbo/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1uy6Bj_Z7a_YrAWF5Li8l3dcHYhOYT3Zh/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1iUnK-LiKlGongBQ9hwGH750X5w_AYzRy/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1IqXsmeRYcFDEOIIMnHNtyYeF4IqFu_Zt/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/12q288dFA1sRvLIFwltWBSJovwD-bYPmG/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1_B7E9dQbBHsCczKKHnlJCJOGxolCnung/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1Up34zL4iwBGxReAMfhYHAuYFKSBIhyhQ/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1_HGE41w6UWdY6LvpwdsH3rg_CcMU9VWA/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/11hvABIgTe1tXkYBYszhJyc7zzohA80sX/preview','embed','video','happy'),('n/a','n/a','https://drive.google.com/file/d/1kTJNsiNq6G6MaJTALvm8lDLpvuzDOy1I/preview','embed','video','happy');
 
 INSERT INTO categories (category_name) VALUES
 	('Motivational Quote'),
