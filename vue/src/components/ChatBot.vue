@@ -51,7 +51,7 @@ p, a, .embed {
 }
   
 div.bot p, div.bot a, .embed {
-  background-color: #04BF68;
+  background-color: #61F1C1;
   /* animation: 1s ease-in-out 0s  slideInLeft; */
   flex-direction:  row;
   opacity: 75%;

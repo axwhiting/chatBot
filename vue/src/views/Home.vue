@@ -6,7 +6,7 @@
 
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
-      <div class="left-side"><avatars /><email/>
+      <div class="left-side"><avatars /><new-email/>
 </div>
       
     </div>
@@ -18,7 +18,7 @@ import ChatBot from '../components/ChatBot.vue';
 import InputField from '../components/InputField.vue';
 import CodeeHeader from '../components/CodeeHeader.vue'
 import Avatars from '../components/avatars.vue';
-import Email from '../components/Email.vue';
+import NewEmail from '../components/NewEmail.vue';
 
 export default {
   components: 
@@ -27,9 +27,10 @@ export default {
     InputField,
     CodeeHeader,
     Avatars,
-    Email
+    NewEmail
    },
-  name: "home"
+  name: "home",
+ 
 };
 </script>
 
