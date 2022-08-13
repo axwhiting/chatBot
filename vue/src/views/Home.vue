@@ -38,15 +38,17 @@ font-family: 'Roboto Mono', monospace;
 }
 
 .wrapper {
+  
   display: flex;
   flex-direction: column;
+ 
 }
 
 .body {
-  /* background: #eee8e8;
+   /* background: #eee8e8;
   background: #FFFFFF;
   background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); 
-  background-color: #dcdcdc; */
+  background-color: #dcdcdc;  */
   display: grid;
   height: 100vh;
   grid-template-areas: 
@@ -63,7 +65,7 @@ font-family: 'Roboto Mono', monospace;
 
 .input-field {
   display: flex;
-  position: fixed;
+  position:fixed;
   z-index: 500;
   bottom: 0; 
   height: 10%;
