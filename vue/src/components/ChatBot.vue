@@ -23,7 +23,7 @@ export default {
   display: flex;
   flex-direction: column;
   font-family: 'Cinzel', serif;
-  justify-content: flex-end;
+  justify-content: flex-end;  
 }
 
 div.bot {
