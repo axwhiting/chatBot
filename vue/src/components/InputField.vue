@@ -59,8 +59,8 @@ data()
 <style>
 
 input {
-  width: 75vw;
-  height: 2.5vh;
+    width: 60%;
+    height: 2.5vh;
 }
 
 button{

@@ -2,12 +2,13 @@
   <div class="wrapper">
     <codee-header />
     <div class="body">
+      
+
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
-      <div class="left-side">
-        <avatars />
-        <new-email/>
-      </div>
+      <div class="left-side"><avatars /><new-email/>
+</div>
+      
     </div>
   </div>
 </template>
@@ -47,12 +48,15 @@ font-family: 'Roboto Mono', monospace;
   background-color: #dcdcdc; 
   display: flex;
   flex-direction: column;
-  max-height: 100%; 
+  max-height: 100%;
+  
+ 
 }
 
 .body {
   display: grid;
-  height: 100%;
+  overflow-y: auto;
+  height: 100vh;
   grid-template-areas: 
   /* "header header" */
   "left chat"
@@ -66,21 +70,21 @@ font-family: 'Roboto Mono', monospace;
 }
 
 .input-field {
-  position: fixed;
+  
+  position:static;
   z-index: 500;
   bottom: 0; 
   height: 10%;
   background-color:transparent;
-  width: 100vw;
+  width: 100%;
   grid-area: input;
   align-items: center;
   padding-left: 11%;
 }
 
 .chat-bot {
-  height: 90vh;
+  height: 90%;
   grid-area: chat;
-  overflow-y: auto;
 }
 
 input {
@@ -115,7 +119,6 @@ button {
   height: 36px;
   margin-left: 4px;
 }
-
 button:hover{
   transform: scale(1.02);
   background-color: #2B57F1;
@@ -138,7 +141,6 @@ button:hover{
 .footer {
  background-color: #BFC0C0;
 }
-
 #happy{
     background-color: #002A42;
     vertical-align: middle;
