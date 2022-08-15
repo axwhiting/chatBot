@@ -1,20 +1,21 @@
 <template>
     <div class="navbar">
         <div class="avatars">
-            Avatar placeholder
+          <avatars />  
         </div>
         <div class="menu">
-            Menu:<br>
-            <button @click="toggleForm()" id="about" class="about button">About</button>
-            <button @click="toggleForm()" id="showEmailForm" class="showEmailForm button">Email</button>
-            <button @click="toggleForm()" id="help" class="help button">Help</button>
-            <button id="interview" class="interview button">Interview</button>
+          <button @click="toggleForm()" id="about" class="about button">About</button>
+          <button @click="toggleForm()" id="showEmailForm" class="showEmailForm button">Email</button>
+          <button @click="toggleForm()" id="help" class="help button">Help</button>
+          <button id="interview" class="interview button">Interview</button>
         </div>
     </div>
 </template>
 
 <script>
+import avatars from './avatars.vue'
 export default {
+  components: { avatars },
 
 }
 </script>
@@ -22,7 +23,7 @@ export default {
 <style scoped>
 .navbar {
   display: grid;
-  background-color: BFC0C0;
+  background-color: #BFC0C0;
   grid-template-rows:  auto 1fr;
   grid-template-areas: 
       "avatar"
@@ -31,13 +32,15 @@ export default {
 
 .avatars {
   grid-area: avatar;
+  display: flex;
+  justify-content: center;
 }
 
 .menu {
   grid-area: menu;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .input {
