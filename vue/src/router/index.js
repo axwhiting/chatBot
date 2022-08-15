@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
+import NewHome from '../views/NewHome.vue'
 
 
 Vue.use(Router)
@@ -20,8 +21,8 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: 'homev2',
+      component: NewHome,
 
     }
   ]

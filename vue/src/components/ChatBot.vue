@@ -74,13 +74,11 @@ data()
 
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@800&display=swap');
+<style scoped>
 
 .the-big-div{
   display: flex;
   flex-direction: column;
-  font-family: 'Cinzel', serif;
   justify-content: flex-end;  
 }
 
@@ -109,14 +107,14 @@ p.bot-text, a, .embed {
 }
   
 div.bot p.bot-text, div.bot a, .embed {
-  background-color: #61F1C1;
+  background-color:  #C6E3F0;
   /* animation: 1s ease-in-out 0s  slideInLeft; */
   flex-direction:  row;
   opacity: 75%;
 }
 
 div.student p.bot-text, div.student a{
-  background-color: #F294AD;
+  background-color: #61F1C1;
   opacity: 75%;
 }
 .mc-question {

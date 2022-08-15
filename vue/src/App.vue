@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="AppDiv">
     <router-view />
   </div>
 </template>
 
 <style>
 
-body{
+body {
   margin:0%
 }
 </style>

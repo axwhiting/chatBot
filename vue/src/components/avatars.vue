@@ -1,6 +1,5 @@
 <template>
 <div class="avatars">
-      <img src="../assets/CodeeHelp.png" id="hello" alt="Avatar" class="avatar">
       <img src="../assets/CodeeHappy.png" id="happy" alt="happy avatar">
       </div>
 
@@ -13,11 +12,16 @@ export default {
 }
 </script>
 
-<style>
-.avatar {
-  border-radius: 50%;
-  display: grid;
-}
+<style scoped>
 
+
+#happy {
+  background-color: #002A42;
+  border-radius: 50%;
+  padding: 7px;
+  margin: 20px;
+  margin-bottom: 30px;
+  height: 10vw;
+}
 
 </style>
