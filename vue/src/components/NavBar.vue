@@ -4,9 +4,9 @@
           <avatars />  
         </div>
         <div class="menu">
+          <button @click="toggleForm()" id="help" class="help button">Help</button>
           <button @click="toggleForm()" id="about" class="about button">About</button>
           <button @click="toggleForm()" id="showEmailForm" class="showEmailForm button">Email</button>
-          <button @click="toggleForm()" id="help" class="help button">Help</button>
           <button id="interview" class="interview button">Interview</button>
         </div>
     </div>
@@ -57,7 +57,7 @@ export default {
   background-color: #61F1C1;
   display: inline-block;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1;
   border-radius: 500px;
   transition-property: background-color,border-color,color,box-shadow,filter;
@@ -67,14 +67,13 @@ export default {
   text-transform: uppercase;
   font-weight: 700;
   text-align: center;
-  padding: 10px 20px;
+  padding: 6px 15px;
   color: black;
-  height: 36px;
-  margin-left: 4px;
-  /* height: 3.3vh; */
-  margin-right: 5%;
+  margin-left: 10px;
+  margin-right: 10px;
   margin-top: 2px;
-  margin-bottom: 2px;
+  margin-bottom: 10px;
+  width: 10vw;
 }
 
 .button:hover{

@@ -50,14 +50,14 @@ p, a, .embed {
 }
   
 div.bot p, div.bot a, .embed {
-  background-color: #61F1C1;
+  background-color: #C6E3F0;
   /* animation: 1s ease-in-out 0s  slideInLeft; */
   flex-direction:  row;
   opacity: 75%;
 }
 
 div.student p, div.student a{
-  background-color: #F294AD;
+  background-color: #61F1C1;
   opacity: 75%;
 }
 

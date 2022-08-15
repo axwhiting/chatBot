@@ -19,7 +19,8 @@ export default {
   background-color: #002A42;
   border-radius: 50%;
   padding: 7px;
-  margin: 10px;
+  margin: 20px;
+  margin-bottom: 30px;
   height: 10vw;
 }
 
