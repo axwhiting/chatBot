@@ -39,7 +39,7 @@ public class JdbcMessageDAO implements MessageDAO{
            botMessages.add(getListOfCategories());
            // Process for Every Message After First Response
        }  else if (studentMessage.getBody().toLowerCase().contains("thank")) {
-           botMessages.add(mapCustomMessageToBotMessage("You're Welcome!", "happy"));
+           botMessages.add(mapCustomMessageToBotMessage("You're welcome!", "happy"));
        } else if (lastLogQuestionId != 0) {
            String interviewQuestionAnswer = getInterviewQuestionAnswerByQuestionId(lastLogQuestionId);
            if(!interviewQuestionAnswer.equals("n/a")){
