@@ -32,7 +32,8 @@ data()
       this.msg.userId = this.$store.state.userId;
        chatService.sendMessage(this.msg).then(response => {
          response.data.forEach(message => {
-           this.$store.commit("ADD_MESSAGE", message)
+           this.$store.commit("ADD_MESSAGE", message);
+           this.scrollToBottom();
          })
        });
       this.msg = {
@@ -43,6 +44,17 @@ data()
         type: "text",
         link:""
       }
+     },
+     scrollToBottom() {
+
+       setTimeout( () => {
+          // Get the last child of the document
+          const divToScroll = document.querySelector('div.chatbot').lastChild;
+          divToScroll.scrollIntoView({
+            behavior: 'smooth'
+          });
+       }, 100);
+
      }
   },
   created() {

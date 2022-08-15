@@ -76,9 +76,9 @@ data()
 <style scoped>
 
 .the-big-div{
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  justify-content: flex-end;  
+  justify-content: flex-end;   */
   background-color: gainsboro;
 }
 
