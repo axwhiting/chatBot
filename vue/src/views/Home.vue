@@ -5,12 +5,7 @@
 
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
-      <div class="left-side">
-        <nav-bar />
-        <!-- <avatars /> -->
-        <!-- <new-email/> -->
-        
-      </div>
+      <nav-bar />
       
     </div>
   </div>

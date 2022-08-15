@@ -1,8 +1,8 @@
 <template>
   <div>
-      <form v-on:submit.prevent="addMessage()">
-      <input type="text" v-model="msg.body" />
-      <button type="submit" value="Submit" role="button">Send</button>
+      <form class="form" v-on:submit.prevent="addMessage()">
+      <input class="input" type="text" v-model="msg.body" />
+      <button class="button" type="submit" value="Submit" role="button">Send</button>
     </form>
   </div>
 </template>
@@ -58,7 +58,7 @@ data()
 
 <style>
 
-input {
+.input {
   border-radius: 25px;
   border: 2px solid #1790BF;
   padding: 5px;
@@ -68,7 +68,7 @@ input {
   height: 2.5vh;
 }
 
-button{
+.button{
   background-color: #61F1C1;
   display: inline-block;
   cursor: pointer;
@@ -90,14 +90,14 @@ button{
   margin-right: 5%;
 }
 
-button:hover{
+.button:hover{
   transform: scale(1.02);
   background-color: #2B57F1;
   color: white;
 }
 
 
-form {
+.form {
   width:100%;
 }
 
