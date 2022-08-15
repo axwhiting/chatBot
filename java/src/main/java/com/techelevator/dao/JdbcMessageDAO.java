@@ -29,12 +29,17 @@ public class JdbcMessageDAO implements MessageDAO{
         String userName = getUserNameById(studentMessage.getUserId());
         int lastLogQuestionId = getLastLogQuestionIdByUserId(studentMessage.getUserId());
         // First Response Back To Student with Their Name
-       if(userName.equals("Default1234User4321")){
-           BotMessage greetingMessage = mapCustomMessageToBotMessage("Nice to meet you, " + studentMessage.getBody() + "!", "happy");
+       if(userName.equals("Default1234User4321")) {
+           if(studentMessage.getBody().equalsIgnoreCase("Codee")){
+               botMessages.add(mapCustomMessageToBotMessage("That's my name too!","happy"));
+           } else {
+               botMessages.add(mapCustomMessageToBotMessage("Nice to meet you, " + studentMessage.getBody() + "!", "happy"));
+           }
            updateUserName(studentMessage.getUserId(), studentMessage.getBody());
-           botMessages.add(greetingMessage);
            botMessages.add(getListOfCategories());
-       // Process for Every Message After First Response
+           // Process for Every Message After First Response
+       }  else if (studentMessage.getBody().toLowerCase().contains("thank")) {
+           botMessages.add(mapCustomMessageToBotMessage("You're Welcome!", "happy"));
        } else if (lastLogQuestionId != 0) {
            String interviewQuestionAnswer = getInterviewQuestionAnswerByQuestionId(lastLogQuestionId);
            if(!interviewQuestionAnswer.equals("n/a")){
