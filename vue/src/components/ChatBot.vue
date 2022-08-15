@@ -62,19 +62,12 @@ data()
         isQuestion = false;
       }
     return isQuestion;
-
-
-
     }
-  }
-  
-  }
-  
-
+  } 
+} 
 </script>
 
 <style scoped>
-
 .the-big-div{
   /* display: flex;
   flex-direction: column;
@@ -117,6 +110,7 @@ div.student p.bot-text, div.student a{
   background-color: #61F1C1;
   opacity: 75%;
 }
+
 .mc-question {
    background-color: #C6E3F0;
    opacity: 75%;
@@ -128,20 +122,24 @@ div.student p.bot-text, div.student a{
   margin-top: 1%;
   margin-bottom: 1%
 }
+
 .mc-form {
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
 }
+
 label {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   text-align: left;
 }
+
 #choice {
   width: 2vw;
 }
+
 .mc-button {
    background-color: #a4a8c2;
   display: inline-block;
@@ -159,7 +157,6 @@ label {
   color: black;
   height: 36px;
   width: 20%;
-
 }
 
 </style>

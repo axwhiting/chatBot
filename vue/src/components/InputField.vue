@@ -108,7 +108,6 @@ data()
   color: white;
 }
 
-
 .form {
   width:100%;
 }

@@ -8,13 +8,10 @@
 <script>
 
 export default {
-
 }
 </script>
 
 <style scoped>
-
-
 #happy {
   background-color: #002A42;
   border-radius: 50%;

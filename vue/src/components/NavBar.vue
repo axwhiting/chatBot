@@ -21,7 +21,6 @@ export default {
     avatars,
     NewEmail
   },
-
 }
 </script>
 
@@ -86,7 +85,6 @@ export default {
   background-color: #2B57F1;
   color: white;
 }
-
 
 .form {
   width:100%;
