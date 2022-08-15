@@ -5,6 +5,7 @@
       <p v-show="message.type === 'text'">{{message.body}}</p>
       <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
       <div class="embed" v-show="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
+      <p v-show="message.type === 'question'">{{message.body}}</p>
     </div>
   </div>
 </template>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class JdbcMessageDAO implements MessageDAO{
@@ -24,31 +25,42 @@ public class JdbcMessageDAO implements MessageDAO{
 
     @Override
     public List<Message> messages(StudentMessage studentMessage) {
-        List<Message> messages = new ArrayList<>();
-        messages.add(studentMessage);
+        List<BotMessage> botMessages = new ArrayList<>();
         String userName = getUserNameById(studentMessage.getUserId());
+        int lastLogQuestionId = getLastLogQuestionIdByUserId(studentMessage.getUserId());
         // First Response Back To Student with Their Name
        if(userName.equals("Default1234User4321")){
-           BotMessage greetingMessage = mapCustomMessageToBotMessage("Nice to meet you, " + studentMessage.getBody() + "!");
+           BotMessage greetingMessage = mapCustomMessageToBotMessage("Nice to meet you, " + studentMessage.getBody() + "!", "happy");
            updateUserName(studentMessage.getUserId(), studentMessage.getBody());
-           messages.add(greetingMessage);
-           messages.add(getListOfCategories());
+           botMessages.add(greetingMessage);
+           botMessages.add(getListOfCategories());
        // Process for Every Message After First Response
+       } else if (lastLogQuestionId != 0) {
+           String interviewQuestionAnswer = getInterviewQuestionAnswerByQuestionId(lastLogQuestionId);
+           if(!interviewQuestionAnswer.equals("n/a")){
+               if(studentMessage.getBody().equalsIgnoreCase(interviewQuestionAnswer)){
+                   botMessages.add(mapCustomMessageToBotMessage("You got it right!", "happy"));
+               } else {
+                   botMessages.add(mapCustomMessageToBotMessage("Sorry the answer was " + interviewQuestionAnswer + ".", "sad"));
+               }
+           }
        } else if (studentMessage.getBody().toLowerCase().contains("motivat")) {
            BotMessage quote = quoteService.getQuote();
-           messages.add(quote);
+           botMessages.add(quote);
        } else if (studentMessage.getBody().toLowerCase().contains("interview question")){
-           messages.add(getRandomInterviewQuestion());
+           botMessages.add(getRandomInterviewQuestion());
        } else {
            List<BotMessage> topicMessages = messageLogic(studentMessage);
            if(topicMessages.size() > 0){
-               messages.addAll(topicMessages);
+               botMessages.addAll(topicMessages);
            } else {
-               BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.");
-                messages.add(didntUnderstandMessage);
+               BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.", "sad");
+                botMessages.add(didntUnderstandMessage);
            }
        }
-       List<Message> updatedMessages = setMessageIdAndUserId(messages, studentMessage.getUserId());
+       List<Message> updatedMessages = new ArrayList<Message>();
+       updatedMessages.add(logStudentMessage(studentMessage, studentMessage.getUserId()));
+       updatedMessages.addAll(logBotMessages(botMessages, studentMessage.getUserId()));
 
        return updatedMessages;
     }
@@ -142,7 +154,7 @@ public class JdbcMessageDAO implements MessageDAO{
         String sql = "SELECT display, display_type, link FROM responses WHERE category = 'Pathway' AND topic ILIKE ? AND keyword = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
         while (results.next()) {
-            topicMessages.add(mapRowToBotMessage(results));
+            topicMessages.add(mapRowToBotMessageResponse(results));
         } return topicMessages;
     }
 
@@ -161,7 +173,7 @@ public class JdbcMessageDAO implements MessageDAO{
             }
         }
         String customMessage = "Enter one of the categories below to get started: " + categories + ".";
-        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
+        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage, "magnifier");
         return botMessage;
     }
 
@@ -191,39 +203,42 @@ public class JdbcMessageDAO implements MessageDAO{
             }
         }
         String customMessage = "I'm happy discuss to following topics with you: " + topicsList + ". Which topic would you like to discuss?";
-        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage);
+        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage, "magnifier");
         return botMessage;
     }
 
     @Override
     public List<BotMessage> getInitialMessages() {
-       BotMessage firstMessage = mapCustomMessageToBotMessage("Hi, I'm Codee!");
-       BotMessage secondMessage = mapCustomMessageToBotMessage("What can I call you?");
+       BotMessage firstMessage = mapCustomMessageToBotMessage("Hi, I'm Codee!", "hello");
+       BotMessage secondMessage = mapCustomMessageToBotMessage("What can I call you?", "happy");
        int userId = getUserId();
        firstMessage.setUserId(userId);
        secondMessage.setUserId(userId);
-       String sql = "INSERT INTO messagelog (user_id,body,sender,type,link) " + " VALUES (?,?,?,?,?) RETURNING message_id";
-       firstMessage.setMessageId(jdbcTemplate.queryForObject(sql, int.class, firstMessage.getUserId(), firstMessage.getBody(),
-               firstMessage.getSender(), firstMessage.getType(), firstMessage.getLink()));
-       secondMessage.setMessageId(jdbcTemplate.queryForObject(sql, int.class, secondMessage.getUserId(), secondMessage.getBody(),
-               secondMessage.getSender(), secondMessage.getType(), secondMessage.getLink()));
+       String sql = "INSERT INTO messagelog (user_id,sender,display) " + " VALUES (?,?,?) RETURNING message_id";
+       firstMessage.setMessageId(jdbcTemplate.queryForObject(sql, int.class, firstMessage.getUserId(), firstMessage.getSender(), firstMessage.getBody()));
+       secondMessage.setMessageId(jdbcTemplate.queryForObject(sql, int.class, secondMessage.getUserId(), secondMessage.getSender(), secondMessage.getBody()));
        List<BotMessage> initialMessages = new ArrayList<BotMessage>();
        initialMessages.add(firstMessage);
        initialMessages.add(secondMessage);
        return initialMessages;
     }
-    public List<Message> setMessageIdAndUserId(List<Message> inputMessageList, int userId) {
-        List<Message> outputMessageList = new ArrayList<Message>();
-        String sql = "INSERT INTO messagelog (user_id,body,sender,type,link) " + " VALUES (?,?,?,?,?) RETURNING message_id";
-        for (Message message : inputMessageList) {
-            message.setUserId(userId);
-            message.setMessageId(jdbcTemplate.queryForObject(sql, int.class, userId, message.getBody(),message.getSender(), message.getType(), message.getLink()));
-            outputMessageList.add(message);
+    public StudentMessage logStudentMessage(StudentMessage studentMessage, int userId) {
+        StudentMessage updatedStudentMessage = studentMessage;
+        String sql = "INSERT INTO messagelog (user_id,sender,display) " + " VALUES (?,?,?) RETURNING message_id";
+        updatedStudentMessage.setMessageId(jdbcTemplate.queryForObject(sql, int.class, userId, studentMessage.getSender(), studentMessage.getBody()));
+        updatedStudentMessage.setUserId(userId);
+        return updatedStudentMessage;
+    }
+
+    public List<BotMessage> logBotMessages(List<BotMessage> botMessageList, int userId) {
+        List<BotMessage> updatedBotMessageList = new ArrayList<BotMessage>();
+        String sql = "INSERT INTO messagelog (user_id,sender,display,response_id,question_id) " + " VALUES (?,?,?,?,?) RETURNING message_id";
+        for (BotMessage botMessage : botMessageList) {
+            botMessage.setUserId(userId);
+            botMessage.setMessageId(jdbcTemplate.queryForObject(sql, int.class, userId, botMessage.getSender(), botMessage.getBody(), botMessage.getResponseId(), botMessage.getQuestionId()));
+            updatedBotMessageList.add(botMessage);
         }
-
-        return outputMessageList;
-
-
+        return updatedBotMessageList;
     }
 
     // NEW: DISTINCT Database Entry Lists Methods
@@ -312,56 +327,56 @@ public class JdbcMessageDAO implements MessageDAO{
     // NEW: Messages Based on Discussion Position Methods
     public List<BotMessage> getTopicMessages(String category, String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
-        String sql = "SELECT display, display_type, link FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword = 'General'";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic);
         while (results.next()) {
-            topicMessages.add(mapRowToBotMessage(results));
+            topicMessages.add(mapRowToBotMessageResponse(results));
         } return topicMessages;
     }
 
     public List<BotMessage> getTopicMessagesByTopic(String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
-        String sql = "SELECT display, display_type, link FROM responses WHERE topic ILIKE ? AND keyword = 'General'";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE topic ILIKE ? AND keyword = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
         while (results.next()) {
-            topicMessages.add(mapRowToBotMessage(results));
+            topicMessages.add(mapRowToBotMessageResponse(results));
         } return topicMessages;
     }
 
     public List<BotMessage> getKeywordMessages(String category, String topic, String keyword) {
         List<BotMessage> keywordMessages = new ArrayList<>();
         // todo: look into whether subkeyword should always be marked General when keyword is marked General
-        String sql = "SELECT display, display_type, link FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword ILIKE ? AND subkeyword = 'General'";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword ILIKE ? AND subkeyword = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic, keyword);
         while (results.next()) {
-            keywordMessages.add(mapRowToBotMessage(results));
+            keywordMessages.add(mapRowToBotMessageResponse(results));
         } return keywordMessages;
     }
 
     public List<BotMessage> getKeywordMessagesByTopic(String topic, String keyword) {
         List<BotMessage> keywordMessages = new ArrayList<>();
-        String sql = "SELECT display, display_type, link FROM responses WHERE topic ILIKE ? AND keyword ILIKE ? AND subkeyword = 'General'";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE topic ILIKE ? AND keyword ILIKE ? AND subkeyword = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic, keyword);
         while (results.next()) {
-            keywordMessages.add(mapRowToBotMessage(results));
+            keywordMessages.add(mapRowToBotMessageResponse(results));
         } return keywordMessages;
     }
 
     public List<BotMessage> getSubkeywordMessages(String category, String topic, String keyword, String subkeyword) {
         List<BotMessage> subkeywordMessages = new ArrayList<>();
-        String sql = "SELECT display, display_type, link FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword ILIKE ? AND subkeyword ILIKE ?";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword ILIKE ? AND subkeyword ILIKE ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic, keyword, subkeyword);
         while (results.next()) {
-            subkeywordMessages.add(mapRowToBotMessage(results));
+            subkeywordMessages.add(mapRowToBotMessageResponse(results));
         } return subkeywordMessages;
     }
 
     public List<BotMessage> getSubkeywordMessagesByTopic(String topic, String subkeyword) {
         List<BotMessage> subkeywordMessages = new ArrayList<>();
-        String sql = "SELECT display, display_type, link FROM responses WHERE  topic ILIKE ? AND subkeyword ILIKE ?";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE  topic ILIKE ? AND subkeyword ILIKE ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic, subkeyword);
         while (results.next()) {
-            subkeywordMessages.add(mapRowToBotMessage(results));
+            subkeywordMessages.add(mapRowToBotMessageResponse(results));
         } return subkeywordMessages;
     }
 
@@ -403,32 +418,71 @@ public class JdbcMessageDAO implements MessageDAO{
         jdbcTemplate.update(sql, category, topic, keyword, userId);
     }
 
-    public Message getRandomInterviewQuestion(){
-        Message question = null;
-        String sql = "select display, link, display_type, codee_style from interview_questions ORDER BY RANDOM () Limit 1";
+    public int getLastLogQuestionIdByUserId(int userId) {
+        int lastLogQuestionId = 0;
+        String sql = "SELECT question_id FROM messagelog WHERE user_id = ? ORDER BY message_id DESC LIMIT 1;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
+        if (result.next()) {
+            lastLogQuestionId = result.getInt("question_id");
+        }
+        return lastLogQuestionId;
+    }
+
+
+
+    // Interview Table Methods
+    public BotMessage getRandomInterviewQuestion(){
+        BotMessage question = null;
+        String sql = "SELECT question_id, display, link, display_type, codee_style FROM interview_questions ORDER BY RANDOM () LIMIT 1";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while (results.next()) {
-            question = mapRowToBotMessage(results);
+            question = mapRowToBotMessageInterviewQuestion(results);
         }
         return question;
     }
 
+    public String getInterviewQuestionAnswerByQuestionId(int questionId){
+        String answer = "n/a";
+        String sql = "SELECT answer FROM interview_questions WHERE question_id = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, questionId);
+        if (result.next()) {
+            answer = result.getString("answer");
+        }
+        return answer;
+    }
+
+
+
     // Map To Message Methods
-    private BotMessage mapRowToBotMessage(SqlRowSet row) {
+    private BotMessage mapRowToBotMessageResponse(SqlRowSet row) {
         BotMessage message = new BotMessage();
         message.setBody(row.getString("display"));
         message.setLink(row.getString("link"));
         message.setType(row.getString("display_type"));
         message.setSender("bot");
+        message.setCodeeStyle(row.getString("codee_style"));
+        message.setResponseId(row.getInt("response_id"));
         return message;
     }
 
-    private BotMessage mapCustomMessageToBotMessage(String customMessage) {
+    private BotMessage mapRowToBotMessageInterviewQuestion(SqlRowSet row) {
+        BotMessage message = new BotMessage();
+        message.setBody(row.getString("display"));
+        message.setLink(row.getString("link"));
+        message.setType(row.getString("display_type"));
+        message.setSender("bot");
+        message.setCodeeStyle(row.getString("codee_style"));
+        message.setQuestionId(row.getInt("question_id"));
+        return message;
+    }
+
+    private BotMessage mapCustomMessageToBotMessage(String customMessage, String codeeStyle) {
         BotMessage message = new BotMessage();
         message.setBody(customMessage);
         message.setLink("n/a");
         message.setType("text");
         message.setSender("bot");
+        message.setCodeeStyle(codeeStyle);
         return message;
     }
 }
