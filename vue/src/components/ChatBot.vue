@@ -17,13 +17,11 @@ export default {
 
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@800&display=swap');
+<style scoped>
 
 .the-big-div{
   display: flex;
   flex-direction: column;
-  font-family: 'Cinzel', serif;
   justify-content: flex-end;  
 }
 

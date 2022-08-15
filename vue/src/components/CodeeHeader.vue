@@ -10,16 +10,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .header {
   background-color: #909595;
-  position:fixed;
-  z-index: 1000;
   width: 100%;
+  z-index: 1000;
   text-align: center;
 }
 img {
-  margin-top: 1vh;
+  margin: 1vh;
   max-height: 10vh;
 }
 

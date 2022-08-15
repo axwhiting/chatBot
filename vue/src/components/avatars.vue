@@ -13,7 +13,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .avatar {
   border-radius: 50%;
   display: grid;

@@ -56,7 +56,7 @@ data()
 }
 </script>
 
-<style>
+<style scoped>
 
 .input {
   border-radius: 25px;
