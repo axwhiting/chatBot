@@ -72,7 +72,6 @@ data()
   /* display: flex;
   flex-direction: column;
   justify-content: flex-end;   */
-  background-color: gainsboro;
 }
 
 div.bot {

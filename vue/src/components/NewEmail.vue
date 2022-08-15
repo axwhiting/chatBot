@@ -9,7 +9,7 @@
         <input type="email" name="email">
         <!-- add option for "last message" vs "all message" -->
         <label>Message</label>
-        <textarea name="message" v-model="lastMessage"></textarea>
+        <textarea name="message" v-model="emailBody"></textarea>
         <input class="emailSubmitButton" type="submit" value="Send">
       </form>
     </div>
@@ -20,6 +20,11 @@
 import emailjs from '@emailjs/browser';
 
 export default {
+  data() {
+    return {
+      emailBody: ""
+    }
+  },
   methods: {
     sendEmail() {
       emailjs.sendForm('service_codeebot', 'template_codeeBot', this.$refs.form, '6JvaykMUbw9sach9s')
@@ -40,9 +45,8 @@ export default {
         emailForm.classList.add('hidden');
         emailForm.classList.remove('visible');
       }
-    }
-  },
-  computed: {
+      this.lastMessage();
+    },
     lastMessage() {
       let messageToSend = '';
       let lastMessage = this.$store.state.messages[this.$store.state.messages.length -1];
@@ -53,8 +57,7 @@ export default {
       } else if (lastMessage.type === 'embed') {
         messageToSend = lastMessage.link;
       }
-
-      return messageToSend;
+      this.emailBody = messageToSend;
     }
   }
 }

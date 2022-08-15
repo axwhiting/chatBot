@@ -1,6 +1,6 @@
 <template>
   <div>
-      <form class="form" v-on:submit.prevent="addMessage()">
+    <form class="form" v-on:submit.prevent="addMessage()">
       <input class="input" type="text" v-model="msg.body" />
       <button class="button" type="submit" value="Submit" role="button">Send</button>
     </form>
@@ -70,7 +70,14 @@ data()
 
 <style scoped>
 
+div {
+  display: flex;
+}
+
 .input {
+  display: flex;
+  flex-shrink: 1;
+  flex-basis: 80%;
   border-radius: 25px;
   border: 2px solid #1790BF;
   padding: 5px;
@@ -81,6 +88,8 @@ data()
 }
 
 .button{
+  display: flex;
+  flex-basis: auto;
   background-color: #61F1C1;
   display: inline-block;
   cursor: pointer;
@@ -99,10 +108,11 @@ data()
   height: 36px;
   margin-left: 4px;
   /* height: 3.3vh; */
-  margin-right: 5%;
+  margin-right: 2%;
 }
 
 .button:hover{
+  display: flex;
   transform: scale(1.02);
   background-color: #2B57F1;
   color: white;
