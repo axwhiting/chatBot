@@ -26,19 +26,28 @@ public class JdbcMessageDAO implements MessageDAO{
     @Override
     public List<Message> messages(StudentMessage studentMessage) {
         List<BotMessage> botMessages = new ArrayList<>();
+        List<Message> outputMessages = new ArrayList<Message>();
         String userName = getUserNameById(studentMessage.getUserId());
         int lastLogQuestionId = getLastLogQuestionIdByUserId(studentMessage.getUserId());
+
         // First Response Back To Student with Their Name
-       if(userName.equals("Default1234User4321")) {
-           if(studentMessage.getBody().equalsIgnoreCase("Codee")){
-               botMessages.add(mapCustomMessageToBotMessage("That's my name too!","happy"));
-           } else {
-               botMessages.add(mapCustomMessageToBotMessage("Nice to meet you, " + studentMessage.getBody() + "!", "happy"));
-           }
-           updateUserName(studentMessage.getUserId(), studentMessage.getBody());
-           botMessages.add(getListOfCategories());
-           // Process for Every Message After First Response
-       }  else if (studentMessage.getBody().toLowerCase().contains("thank")) {
+        if(userName.equals("Default1234User4321") && studentMessage.getSender().equals("click")){
+            updateUserName(studentMessage.getUserId(), "Clicked First, No Name Given");
+        }
+        if(!studentMessage.getSender().equals("click")){
+            outputMessages.add(logStudentMessage(studentMessage, studentMessage.getUserId()));
+            if(userName.equals("Default1234User4321")) {
+                if(studentMessage.getBody().equalsIgnoreCase("Codee")){
+                    botMessages.add(mapCustomMessageToBotMessage("That's my name too!","happy"));
+                } else {
+                    botMessages.add(mapCustomMessageToBotMessage("Nice to meet you, " + studentMessage.getBody() + "!", "happy"));
+                }
+                updateUserName(studentMessage.getUserId(), studentMessage.getBody());
+                botMessages.add(getListOfCategories());
+                // Process for Every Message After First Response
+            }
+        }
+        if (studentMessage.getBody().toLowerCase().contains("thank")) {
            botMessages.add(mapCustomMessageToBotMessage("You're welcome!", "happy"));
        } else if (lastLogQuestionId != 0) {
            String interviewQuestionAnswer = getInterviewQuestionAnswerByQuestionId(lastLogQuestionId);
@@ -63,11 +72,10 @@ public class JdbcMessageDAO implements MessageDAO{
                 botMessages.add(didntUnderstandMessage);
            }
        }
-       List<Message> updatedMessages = new ArrayList<Message>();
-       updatedMessages.add(logStudentMessage(studentMessage, studentMessage.getUserId()));
-       updatedMessages.addAll(logBotMessages(botMessages, studentMessage.getUserId()));
 
-       return updatedMessages;
+       outputMessages.addAll(logBotMessages(botMessages, studentMessage.getUserId()));
+
+       return outputMessages;
     }
 
     public List<BotMessage> messageLogic(StudentMessage studentMessage) {

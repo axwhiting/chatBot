@@ -8,9 +8,9 @@
     <div class = "mc-question" v-show="message.type === 'question'"> 
       <p>{{message.body.split('/')[0]}}</p> 
       <form class = "mc-form" v-on:submit.prevent="mcaMessage()"> 
-       <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="A"> {{message.body.split('/')[1]}} </label>
-        <label><input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="B"> {{message.body.split('/')[2]}} </label>
-       <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="C"> {{message.body.split('/')[3]}}</label>
+       <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="A">  {{message.body.split('/')[1]}} </label><br>
+        <label><input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="B">  {{message.body.split('/')[2]}} </label><br>
+       <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="C">  {{message.body.split('/')[3]}}</label><br>
         <button class = "mc-button" type="submit" value="Submit" role="button" :disabled="isMcButtonDisabled">Submit</button>
         </form>  
    </div>
@@ -42,7 +42,8 @@ data()
       this.mca.userId = this.$store.state.userId;
        chatService.sendMessage(this.mca).then(response => {
          response.data.forEach(message => {
-           this.$store.commit("ADD_MESSAGE", message)
+          this.$store.commit("ADD_MESSAGE", message)
+          this.scrollToBottom();
          })
        });
       this.mca = {
@@ -53,6 +54,16 @@ data()
         type: "text",
         link:""
       }
+     },
+      scrollToBottom() {
+       setTimeout( () => {
+        // Get the last child of the document
+        const divToScroll = document.querySelector('div.chatbot').lastChild;
+        divToScroll.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }, 
+      100);
      }
   },
   computed: {
@@ -158,4 +169,7 @@ label {
   width: 20%;
 }
 
+.mc-input {
+  margin: 10px;
+}
 </style>
