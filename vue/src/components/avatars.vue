@@ -22,6 +22,8 @@ export default {
   margin: 20px;
   margin-bottom: 30px;
   height: 10vw;
+  max-width: 70px;
+  max-height: 70px
 }
 
 </style>

@@ -2,14 +2,14 @@
   <div class="emailContainer">
     <button @click="toggleForm()" id="showEmailForm" class="showEmailForm">Email</button>
     <div id="emailForm" class="hidden" ref="emailForm">
-      <form ref="form" @submit.prevent="sendEmail">
+      <form ref="form" class="emailForm" @submit.prevent="sendEmail">
         <label>Name</label>
         <input type="text" name="name">
         <label>Email</label>
         <input type="email" name="email">
         <label>Message</label>
         <textarea name="message"></textarea>
-        <input type="submit" value="Send">
+        <input class="emailSubmitButton" type="submit" value="Send">
       </form>
     </div>
   </div>
@@ -29,12 +29,7 @@ export default {
         });
         this.$refs.form.reset();
     },
-    // showForm() {
-    //   var x = document.getElementById("emailForm");
-    //   if (x.style.display === "none") {
-    //     x.style.display = "block";
-    //   } 
-    // },
+
     toggleForm() {
       let emailForm = this.$refs.emailForm;
       if (emailForm.classList.contains('hidden')) {
@@ -51,6 +46,7 @@ export default {
  
 <style scoped>
 * {box-sizing: border-box;}
+
 #showEmailForm{
     margin-left: 20%;
     margin: 8%;
@@ -62,6 +58,14 @@ export default {
     align-items:center;
 }
 
+.emailForm {
+  max-width: 20vw;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 label {
   float: left;
   margin-left: 4%;
@@ -69,7 +73,7 @@ label {
 
 input[type=text], [type=email], textarea {
   width: 80%;
-  padding: 10px;
+  padding: 5px;
   border: 2px solid #1790BF;
   border-radius: 25px;
   box-sizing: border-box;
@@ -97,7 +101,6 @@ input[type=submit] {
   padding: 10px 20px;
   color: black;
   height: 36px;
-  margin: 8%;
   margin-left: 20%;
 }
 
@@ -107,12 +110,44 @@ input[type=submit]:hover {
   color: white;
 }
 
+textarea {
+  height: 100px;
+}
+
 .hidden {
   display: none;
 }
 
 .visible {
   display: block;
+}
+
+button {
+  background-color: #61F1C1;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  border-radius: 500px;
+  transition-property: background-color,border-color,color,box-shadow,filter;
+  transition-duration: .3s;
+  border: 1px solid transparent;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+  padding: 6px 15px;
+  color: black;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  width: 12vw;
+}
+
+button:hover{
+  transform: scale(1.02);
+  background-color: #2B57F1;
+  color: white;
 }
 
 </style>

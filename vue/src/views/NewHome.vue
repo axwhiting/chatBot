@@ -17,7 +17,6 @@ import ChatBot from '../components/ChatBot.vue';
 import NavBar from '../components/NavBar.vue';
 import InputField from '../components/InputField.vue';
 
-
 export default {
     name: "homev2",
     components: {

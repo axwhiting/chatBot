@@ -64,7 +64,7 @@ data()
   padding: 5px;
   background-color:#ebf2f0;
   margin-left: 2%;
-  width: 60%;
+  width: 82%;
   height: 2.5vh;
 }
 

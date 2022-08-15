@@ -6,16 +6,21 @@
         <div class="menu">
           <button @click="toggleForm()" id="help" class="help button">Help</button>
           <button @click="toggleForm()" id="about" class="about button">About</button>
-          <button @click="toggleForm()" id="showEmailForm" class="showEmailForm button">Email</button>
           <button id="interview" class="interview button">Interview</button>
+          <new-email />
         </div>
     </div>
 </template>
 
 <script>
-import avatars from './avatars.vue'
+import avatars from './avatars.vue';
+import NewEmail from './NewEmail.vue';
+
 export default {
-  components: { avatars },
+  components: { 
+    avatars,
+    NewEmail
+  },
 
 }
 </script>
@@ -41,6 +46,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .input {
@@ -69,11 +75,10 @@ export default {
   text-align: center;
   padding: 6px 15px;
   color: black;
+  width: 12vw;
   margin-left: 10px;
   margin-right: 10px;
-  margin-top: 2px;
-  margin-bottom: 10px;
-  width: 10vw;
+  margin-top: 10px;
 }
 
 .button:hover{
