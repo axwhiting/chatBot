@@ -4,8 +4,8 @@
           <avatars />  
         </div>
         <div class="menu">
-          <button @click="toggleForm()" id="help" class="help button">Help</button>
-          <button @click="toggleForm()" id="about" class="about button">About</button>
+          <button @click="sendClick()" id="help" class="help button">Help</button>
+          <button @click="sendClick('pathway')" id="about" class="about button">About</button>
           <button id="interview" class="interview button">Interview</button>
           <new-email />
         </div>
@@ -15,12 +15,58 @@
 <script>
 import avatars from './avatars.vue';
 import NewEmail from './NewEmail.vue';
+import chatService from '@/services/ChatService';
+// import VueResizeText from 'vue-resize-text';
 
 export default {
   components: { 
     avatars,
     NewEmail
   },
+  data()
+   {
+    return {
+      msg: {
+        messageId: "",
+        userId: "",
+        body: "",
+        sender: "click",
+        type: "text",
+        link:""
+      }
+    }
+  },
+  methods: {
+    sendClick(buttonClicked) {
+      this.msg.body = buttonClicked;
+      this.msg.userId = this.$store.state.userId;
+       chatService.sendMessage(this.msg).then(response => {
+         response.data.forEach(message => {
+           this.$store.commit("ADD_MESSAGE", message);
+           this.scrollToBottom();
+         })
+       });
+      this.msg = {
+        messageId: "",
+        userId: "",
+        body: "",
+        sender: "click",
+        type: "text",
+        link:""
+      }
+    },
+    scrollToBottom() {
+      setTimeout( () => {
+          // Get the last child of the document
+          const divToScroll = document.querySelector('div.chatbot').lastChild;
+          divToScroll.scrollIntoView({
+            behavior: 'smooth'
+          });
+       }, 
+       100);
+     } 
+  }
+
 }
 </script>
 

@@ -11,7 +11,7 @@
 //import quoteService from '@services/QuoteService'
 import chatService from '@/services/ChatService'
 export default {
-data()
+  data()
    {
     return {
       msg: {
@@ -21,9 +21,6 @@ data()
         sender: "student",
         type: "text",
         link:""
-      }, 
-      quote: {
-        body: ""
       }
     }
   },
@@ -46,15 +43,14 @@ data()
       }
      },
      scrollToBottom() {
-
        setTimeout( () => {
           // Get the last child of the document
           const divToScroll = document.querySelector('div.chatbot').lastChild;
           divToScroll.scrollIntoView({
             behavior: 'smooth'
           });
-       }, 100);
-
+       }, 
+       100);
      }
   },
   created() {
@@ -77,13 +73,12 @@ div {
 .input {
   display: flex;
   flex-shrink: 1;
-  flex-basis: 80%;
   border-radius: 25px;
   border: 2px solid #1790BF;
   padding: 5px;
   background-color:#ebf2f0;
   margin-left: 2%;
-  width: 82%;
+  width: 85%;
   height: 2.5vh;
 }
 
@@ -119,7 +114,9 @@ div {
 }
 
 .form {
+  display: flex;
   width:100%;
+  justify-content: center;
 }
 
 </style>
