@@ -16,7 +16,6 @@
 import avatars from './avatars.vue';
 import NewEmail from './NewEmail.vue';
 import chatService from '@/services/ChatService';
-// import VueResizeText from 'vue-resize-text';
 
 export default {
   components: { 
