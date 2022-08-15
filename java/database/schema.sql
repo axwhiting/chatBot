@@ -10,7 +10,7 @@ CREATE TABLE users (
 	user_id SERIAL,
 	username varchar(50),
 	current_category varchar(10),
-	current_topic varchar(10),
+	current_topic varchar(20),
 	current_keyword varchar(10),
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
