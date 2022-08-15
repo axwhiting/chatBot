@@ -5,7 +5,6 @@
       <p class = "bot-text" v-show="message.type === 'text'">{{message.body}}</p>
       <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
       <div class="embed" v-show="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
-      <p v-show="message.type === 'question'">{{message.body}}</p>
     <div class = "mc-question" v-show="message.type === 'question'"> 
       <p>{{message.body.split('/')[0]}}</p> 
       <form class = "mc-form" v-on:submit.prevent="mcaMessage()"> 
@@ -118,7 +117,7 @@ div.student p.bot-text, div.student a{
   opacity: 75%;
 }
 .mc-question {
-   background-color: #61F1C1;
+   background-color: #C6E3F0;
    opacity: 75%;
   max-width: 60%;
   padding: 1.5%;
