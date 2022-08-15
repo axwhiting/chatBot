@@ -16,6 +16,7 @@ export default {
 <style>
 .avatar {
   border-radius: 50%;
+  display: grid;
 }
 
 

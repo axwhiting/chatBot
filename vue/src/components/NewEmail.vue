@@ -59,7 +59,7 @@ export default {
 .emailContainer{
     display: flex;
     flex-direction: column;
-    align-items:center
+    align-items:center;
 }
 
 label {

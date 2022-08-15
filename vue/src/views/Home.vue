@@ -2,12 +2,15 @@
   <div class="wrapper">
     <codee-header />
     <div class="body">
-      
 
       <input-field class="input-field"/>
       <chat-bot class ="chat-bot"/>
-      <div class="left-side"><avatars /><new-email/>
-</div>
+      <div class="left-side">
+        <nav-bar />
+        <!-- <avatars /> -->
+        <!-- <new-email/> -->
+        
+      </div>
       
     </div>
   </div>
@@ -16,9 +19,10 @@
 <script>
 import ChatBot from '../components/ChatBot.vue';
 import InputField from '../components/InputField.vue';
-import CodeeHeader from '../components/CodeeHeader.vue'
-import Avatars from '../components/avatars.vue';
-import NewEmail from '../components/NewEmail.vue';
+import CodeeHeader from '../components/CodeeHeader.vue';
+import NavBar from '../components/NavBar.vue';
+// import Avatars from '../components/avatars.vue';
+// import NewEmail from '../components/NewEmail.vue';
 
 export default {
   components: 
@@ -26,8 +30,9 @@ export default {
     ChatBot,
     InputField,
     CodeeHeader,
-    Avatars,
-    NewEmail
+    NavBar
+    // Avatars,
+    // NewEmail
    },
   name: "home",
  
@@ -42,15 +47,13 @@ font-family: 'Roboto Mono', monospace;
 }
 
 .wrapper {
-   background: #eee8e8;
+  background: #eee8e8;
   background: #FFFFFF;
   background: linear-gradient(to bottom, #FFFFFF, #D4D6D6); 
   background-color: #dcdcdc; 
   display: flex;
   flex-direction: column;
   max-height: 100%;
-  
- 
 }
 
 .body {
@@ -70,7 +73,6 @@ font-family: 'Roboto Mono', monospace;
 }
 
 .input-field {
-  
   position:static;
   z-index: 500;
   bottom: 0; 
@@ -87,50 +89,12 @@ font-family: 'Roboto Mono', monospace;
   grid-area: chat;
 }
 
-input {
-  border-radius: 25px;
-  border: 2px solid #1790BF;
-  padding: 5px;
-  background-color:#ebf2f0;
-  margin-left: 2%;
-  
-}
-
-form {
-  width:100%;
-}
-
-button {
-  background-color: #61F1C1;
-  display: inline-block;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  border-radius: 500px;
-  transition-property: background-color,border-color,color,box-shadow,filter;
-  transition-duration: .3s;
-  border: 1px solid transparent;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 700;
-  text-align: center;
-  padding: 10px 20px;
-  color: black;
-  height: 36px;
-  margin-left: 4px;
-}
-button:hover{
-  transform: scale(1.02);
-  background-color: #2B57F1;
-  color: white;
-   }
               
 .left-side {
   grid-area: left;
   background-color: #BFC0C0;
   display:grid;
-  grid-template-rows:  1fr 1fr 1fr 1fr;
-
+  /* grid-template-rows:  1fr 1fr 1fr 1fr; */
 }
 
 .right-side {
@@ -141,6 +105,7 @@ button:hover{
 .footer {
  background-color: #BFC0C0;
 }
+
 #happy{
     background-color: #002A42;
     vertical-align: middle;

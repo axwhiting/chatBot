@@ -59,13 +59,46 @@ data()
 <style>
 
 input {
-    width: 60%;
-    height: 2.5vh;
+  border-radius: 25px;
+  border: 2px solid #1790BF;
+  padding: 5px;
+  background-color:#ebf2f0;
+  margin-left: 2%;
+  width: 60%;
+  height: 2.5vh;
 }
 
 button{
-  height: 3.3vh;
+  background-color: #61F1C1;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 500px;
+  transition-property: background-color,border-color,color,box-shadow,filter;
+  transition-duration: .3s;
+  border: 1px solid transparent;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+  padding: 10px 20px;
+  color: black;
+  height: 36px;
+  margin-left: 4px;
+  /* height: 3.3vh; */
   margin-right: 5%;
+}
+
+button:hover{
+  transform: scale(1.02);
+  background-color: #2B57F1;
+  color: white;
+}
+
+
+form {
+  width:100%;
 }
 
 </style>
