@@ -7,8 +7,9 @@
         <input type="text" name="name">
         <label>Email</label>
         <input type="email" name="email">
+        <!-- add option for "last message" vs "all message" -->
         <label>Message</label>
-        <textarea name="message"></textarea>
+        <textarea name="message" v-model="lastMessage"></textarea>
         <input class="emailSubmitButton" type="submit" value="Send">
       </form>
     </div>
@@ -40,6 +41,21 @@ export default {
         emailForm.classList.remove('visible');
       }
     }
+  },
+  computed: {
+    lastMessage() {
+      let messageToSend = '';
+      let lastMessage = this.$store.state.messages[this.$store.state.messages.length -1];
+      if (lastMessage.type === 'text') {
+        messageToSend = lastMessage.body;
+      } else if (lastMessage.type === 'link') {
+        messageToSend = lastMessage.link;
+      } else if (lastMessage.type === 'embed') {
+        messageToSend = lastMessage.link;
+      }
+
+      return messageToSend;
+    }
   }
 }
 </script>
@@ -49,7 +65,7 @@ export default {
 
 #showEmailForm{
     margin-left: 20%;
-    margin: 8%;
+    margin: 10px;
 }
 
 .emailContainer{
