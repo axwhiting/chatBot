@@ -8,9 +8,12 @@
         <label>Email</label>
         <input type="email" name="email">
         <!-- add option for "last message" vs "all message" -->
-        <label>Message</label>
-        <textarea name="message" v-model="emailBody"></textarea>
+        <div class="email-options-container">
+          <label class="email-options"><input type="radio" name="email" v-on:change.prevent="lastMessages()">Send last Codee messages</label>
+          <label class="email-options"><input type="radio" name="email" v-on:change.prevent="fullChatLog()">Send full chat log</label>
+        </div>
         <input class="emailSubmitButton" type="submit" value="Send">
+        <textarea name="message" class="text-area" v-model="emailBody"></textarea>
       </form>
     </div>
   </div>
@@ -45,19 +48,47 @@ export default {
         emailForm.classList.add('hidden');
         emailForm.classList.remove('visible');
       }
-      this.lastMessage();
+      this.lastMessages();
     },
-    lastMessage() {
-      let messageToSend = '';
-      let lastMessage = this.$store.state.messages[this.$store.state.messages.length -1];
-      if (lastMessage.type === 'text') {
-        messageToSend = lastMessage.body;
-      } else if (lastMessage.type === 'link') {
-        messageToSend = lastMessage.link;
-      } else if (lastMessage.type === 'embed') {
-        messageToSend = lastMessage.link;
+    lastMessages() {
+      let botMessages = [];
+      let currentMessages = this.$store.state.messages;
+      for (let i = currentMessages.length - 1; i >= 0; i--) {
+        if (currentMessages[i].sender === 'bot') {
+          botMessages.unshift(currentMessages[i]);
+        } else {
+          break;
+        }
       }
-      this.emailBody = messageToSend;
+      let messagesToSend = "";
+      botMessages.forEach(message => {
+        if (message.type === 'link') {
+          messagesToSend = messagesToSend + "Codee: " + message.body + ": " + message.link + '\n';
+        } else if (message.type === 'embed') {
+          messagesToSend = messagesToSend + "Codee: " + message.body + ": " + message.link + '\n';
+        } else {
+          messagesToSend = messagesToSend + "Codee: " + message.body + '\n';
+        }
+        }
+      );
+      this.emailBody = messagesToSend;
+    },
+    fullChatLog() {
+      let chatHistory = this.$store.state.messages;
+      let messagesToSend = "";
+      chatHistory.forEach(message => {
+        if (message.sender === 'student') {
+          messagesToSend = messagesToSend + 'Student: ' + message.body + '\n';
+        } else if (message.type === 'link') {
+          messagesToSend = messagesToSend + 'Codee: ' + message.body + ': ' + message.link + '\n';
+        } else if (message.type === 'embed') {
+          messagesToSend = messagesToSend + 'Codee: ' + message.body + ': ' + message.link + '\n';
+        } else {
+          messagesToSend = messagesToSend + 'Codee: ' + message.body + '\n';
+        }
+        }
+      );
+      this.emailBody = messagesToSend;
     }
   }
 }
@@ -83,6 +114,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 
 label {
@@ -91,7 +123,7 @@ label {
 }
 
 input[type=text], [type=email], textarea {
-  width: 80%;
+  width: 90%;
   padding: 5px;
   border: 2px solid #1790BF;
   border-radius: 25px;
@@ -107,7 +139,7 @@ input[type=submit] {
   background-color: #61F1C1;
   display: inline-block;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1;
   border-radius: 500px;
   transition-property: background-color,border-color,color,box-shadow,filter;
@@ -117,10 +149,12 @@ input[type=submit] {
   text-transform: uppercase;
   font-weight: 700;
   text-align: center;
-  padding: 10px 20px;
+  padding: 6px 15px;
   color: black;
-  height: 36px;
-  margin-left: 20%;
+  width: 12vw;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
 }
 
 input[type=submit]:hover {
@@ -141,7 +175,7 @@ textarea {
   display: block;
 }
 
-button {
+.showEmailForm {
   background-color: #61F1C1;
   display: inline-block;
   cursor: pointer;
@@ -163,10 +197,50 @@ button {
   width: 12vw;
 }
 
+/* .emailSubmitButton {
+  background-color: #61F1C1;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  border-radius: 500px;
+  transition-property: background-color,border-color,color,box-shadow,filter;
+  transition-duration: .3s;
+  border: 1px solid transparent;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+  padding: 6px 15px;
+  color: black;
+  width: 12vw;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 12vw;
+} */
+
 button:hover{
   transform: scale(1.02);
   background-color: #2B57F1;
   color: white;
+}
+
+.email-options-container {
+  display: flex;
+  flex-direction: column;
+  width: 12vw;
+  align-content: space-around;
+}
+
+.email-options {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.text-area {
+  z-index: -1000;
+  height: 1px;
 }
 
 </style>

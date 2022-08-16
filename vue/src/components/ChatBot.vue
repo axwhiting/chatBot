@@ -2,10 +2,10 @@
   <div class="the-big-div"> 
     <div v-for="message in this.$store.state.messages" v-bind:key="message.id" 
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
-      <p class = "bot-text" v-show="message.type === 'text'">{{message.body}}</p>
-      <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
-      <div class="embed" v-show="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
-      <div class = "mc-question" v-show="message.type === 'question'"> 
+      <p class = "bot-text" v-if="message.type === 'text'">{{message.body}}</p>
+      <a v-if="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
+      <div class="embed" v-if="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
+      <div class = "mc-question" v-if="message.type === 'question'"> 
         <p>{{message.body.split('/')[0]}}</p> 
         <form class = "mc-form" v-on:submit.prevent="mcaMessage()"> 
           <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="A">  {{message.body.split('/')[1]}} </label><br>
@@ -179,7 +179,7 @@ label {
 .mc-input {
   margin: 10px;
 }
-div.student{
+/* div.student{
   animation: .2s ease-in-out 0s  slideInRight;
 
 
@@ -199,6 +199,6 @@ div.bot {
     transform-origin: -1800px 50%;
     opacity: 1;
   }
-}
+} */
 
 </style>
