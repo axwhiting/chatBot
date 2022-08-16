@@ -3,9 +3,9 @@
     <button @click="toggleForm()" id="showEmailForm" class="showEmailForm">Email</button>
     <div id="emailForm" class="hidden" ref="emailForm">
       <form ref="form" class="emailForm" @submit.prevent="sendEmail">
-        <label>Name</label>
+        <label>Your Name:</label>
         <input type="text" name="name">
-        <label>Email</label>
+        <label>Recipient Email:</label>
         <input type="email" name="email">
         <!-- add option for "last message" vs "all message" -->
         <div class="email-options-container">
@@ -114,7 +114,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  font-weight: bold;
 }
 
 label {

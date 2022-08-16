@@ -4,7 +4,7 @@
     <div v-for="message in this.$store.state.messages" v-bind:key="message.id" 
     
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
-        <img src="@/assets/cropHappy.png" id="happy" alt="Happy robot with arms reached out">
+        <img v-if="message.sender === 'bot'" src="@/assets/cropHappy.png" id="happy" alt="Happy robot with arms reached out">
       <p class = "bot-text" v-if="message.type === 'text'">{{message.body}}</p>
       <a v-if="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
       <div class="embed" v-if="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
@@ -84,18 +84,13 @@ data()
 </script>
 
 <style scoped>
-.the-big-div{
-  /* display: flex;
-  flex-direction: column;
-  justify-content: flex-end;   */
-}
 
 div.bot {
   display: flex;
   justify-content: flex-start;
   width: 100%;
   font-weight: bold;
-   overflow: hidden;
+  overflow: hidden;
 }
 
 div.student{
@@ -158,7 +153,6 @@ label {
   text-align: left;
 }
 
-
 #choice {
   width: 2vw;
 }
@@ -176,22 +170,23 @@ label {
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: 700;
-  padding: 8px;
+  padding: 10px 20px;
   text-align: center;
   color: white;
   height: 36px;
-  width: 10%;
 }
+
 .mc-button:hover{
   transform: scale(1.02);
   background-color: #61F1C1;
   color: black;
   text-align: center;
-
 }
+
 .mc-input {
   margin: 10px;
 }
+
 /* div.student{
   animation: .2s ease-in-out 0s  slideInRight;
 } */
@@ -211,13 +206,13 @@ label {
     transform-origin: -1800px 50%;
     opacity: 1;
   }} */
-  #happy {
+
+#happy {
   background-color: #002A42;
   border-radius: 50%;
   padding: 4px;
   margin-left: 10px;
   margin-top:15px ;
-  margin-bottom: 30px;
   height: 10vw;
   max-width: 45px;
   max-height: 40px
@@ -227,33 +222,5 @@ label {
 	-webkit-animation: bounce-in-right 1.1s both;
 	animation: bounce-in-right 1.1s both;
 }
-@-webkit-keyframes bounce-in-right {
-  0% {
-    -webkit-transform: translateX(600px);
-            transform: translateX(600px);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-    opacity: 0;
-  }
-  38% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-    opacity: 1;
-  }
-  55% {
-    -webkit-transform: translateX(68px);
-            transform: translateX(68px);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  72% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-} 
 
 </style>

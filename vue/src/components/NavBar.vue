@@ -4,8 +4,8 @@
           <avatars />  
         </div>
         <div class="menu">
-          <button @click="sendClick('Help for Codee Chatbot')" id="help" class="help button">Help</button>
           <button @click="sendClick('About Codee Chatbot')" id="about" class="about button">About</button>
+          <button @click="sendClick('Help for Codee Chatbot')" id="help" class="help button">Help</button>
           <button @click="sendClick('Interview Question')" id="interview" class="interview button">Interview</button>
           <new-email />
         </div>
