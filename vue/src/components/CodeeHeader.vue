@@ -19,11 +19,10 @@ background-image: linear-gradient(0deg, #e3e3e3 0%, #82828b 100%);
   z-index: 1000;
   text-align: center;
 }
+
 img {
   margin: 1vh;
   max-height: 10vh;
-  
-  
 }
 
 </style>

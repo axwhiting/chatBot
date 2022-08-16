@@ -14,7 +14,7 @@
           <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="A">  {{message.body.split('/')[1]}} </label><br>
           <label><input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="B">  {{message.body.split('/')[2]}} </label><br>
           <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="C">  {{message.body.split('/')[3]}}</label><br>
-          <button class = "mc-button" type="submit" value="Submit" role="button" :disabled="isMcButtonDisabled">Submit</button>
+          <button class = "mc-button" type="submit" value="Submit" role="button" :disabled="isMcButtonDisabled(message.questionId)">Submit</button>
           <!-- <iframe id="gif" class="bounce-in-right" frameBorder="0" src="https://imgflip.com/embed/6q2asj"></iframe> -->
 
         </form>  
@@ -69,17 +69,15 @@ data()
         });
       }, 
       100);
-     }
-  },
-  computed: {
-    isMcButtonDisabled(){
+     },
+    isMcButtonDisabled(questionId){
       let isQuestion = true;
-      if(this.$store.state.messages[this.$store.state.messages.length - 1].type =='question'){
+      if(this.$store.state.messages[this.$store.state.messages.length - 1].questionId ===questionId){
         isQuestion = false;
       }
     return isQuestion;
     }
-  } 
+  }
 } 
 </script>
 
@@ -116,6 +114,15 @@ div.bot p.bot-text, div.bot a, .embed {
   flex-direction:  row;
   opacity: 75%;
   box-shadow: 4px 4px 4px #202e46;
+}
+
+.embed {
+  max-width: 425;
+  max-height: 240;
+} 
+
+iframe {
+  aspect-ratio: ‪1920 / 1080‬;
 
 }
 
@@ -123,8 +130,6 @@ div.student p.bot-text, div.student a{
   background-color: #61F1C1;
   opacity: 75%;
   box-shadow: 4px 4px 4px #2c8366;
-
-
 }
 
 .mc-question {

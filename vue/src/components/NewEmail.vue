@@ -197,29 +197,6 @@ textarea {
   width: 12vw;
 }
 
-/* .emailSubmitButton {
-  background-color: #61F1C1;
-  display: inline-block;
-  cursor: pointer;
-  font-size: 12px;
-  line-height: 1;
-  border-radius: 500px;
-  transition-property: background-color,border-color,color,box-shadow,filter;
-  transition-duration: .3s;
-  border: 1px solid transparent;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 700;
-  text-align: center;
-  padding: 6px 15px;
-  color: black;
-  width: 12vw;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-top: 10px;
-  width: 12vw;
-} */
-
 button:hover{
   transform: scale(1.02);
   background-color: #2B57F1;

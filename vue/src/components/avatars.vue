@@ -1,8 +1,6 @@
 <template>
 <div class="avatars">
      <iframe id="gif" frameBorder="0" src="https://imgflip.com/embed/6q2asj"></iframe></div>
-      
-
 </template>
 
 <script>
