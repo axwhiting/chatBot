@@ -151,7 +151,7 @@ label {
 }
 
 .mc-button {
-  background-color: #a4a8c2;
+  background-color: #61F1C1;;
   display: inline-block;
   cursor: pointer;
   font-size: 14px;
@@ -168,10 +168,17 @@ label {
   height: 36px;
   width: 20%;
 }
+.mc-button:hover{
+  display: flex;
+  transform: scale(1.02);
+  background-color: #2B57F1;
+  color: white;
+}
 
 .mc-input {
   margin: 10px;
 }
+
 div.bot{
 	animation: slide-in-elliptic-right-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 
