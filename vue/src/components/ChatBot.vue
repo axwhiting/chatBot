@@ -4,12 +4,11 @@
     <div v-for="message in this.$store.state.messages" v-bind:key="message.id" 
     
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
-      <img src="@/assets/cropHappy.png" id="happy" alt="Happy robot with arms reached out">
-
-      <p class = "bot-text" v-show="message.type === 'text'">{{message.body}}</p>
-      <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
-      <div class="embed" v-show="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
-      <div class = "mc-question" v-show="message.type === 'question'"> 
+        <img src="@/assets/cropHappy.png" id="happy" alt="Happy robot with arms reached out">
+      <p class = "bot-text" v-if="message.type === 'text'">{{message.body}}</p>
+      <a v-if="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
+      <div class="embed" v-if="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
+      <div class = "mc-question" v-if="message.type === 'question'"> 
         <p>{{message.body.split('/')[0]}}</p> 
         <form class = "mc-form" v-on:submit.prevent="mcaMessage()"> 
           <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="A">  {{message.body.split('/')[1]}} </label><br>
@@ -128,7 +127,7 @@ div.bot p.bot-text, div.bot a, .embed {
 div.student p.bot-text, div.student a{
   background-color: #61F1C1;
   opacity: 75%;
-  box-shadow: 5px 5px 5px #2c8366;
+  box-shadow: 4px 4px 4px #2c8366;
 
 
 }
@@ -140,10 +139,10 @@ div.student p.bot-text, div.student a{
   padding: 1.5%;
   border-radius: 7.5px;
   margin-right: 2%;
-  margin-left:2% ;
+  margin-left:10px ;
   margin-top: 1%;
   margin-bottom: 1%;
-  box-shadow: 5px 5px 5px teal;
+  box-shadow: 4px 4px 4px #202e46;
 }
 
 .mc-form {
@@ -217,7 +216,7 @@ label {
   border-radius: 50%;
   padding: 4px;
   margin-left: 10px;
-  margin-top:10px ;
+  margin-top:15px ;
   margin-bottom: 30px;
   height: 10vw;
   max-width: 45px;
@@ -255,90 +254,6 @@ label {
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-  81% {
-    -webkit-transform: translateX(32px);
-            transform: translateX(32px);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  90% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-  95% {
-    -webkit-transform: translateX(8px);
-            transform: translateX(8px);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  100% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-}
-
-@keyframes bounce-in-right {
-  0% {
-    -webkit-transform: translateX(600px);
-            transform: translateX(600px);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-    opacity: 0;
-  }
-  38% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-    opacity: 1;
-  }
-  55% {
-    -webkit-transform: translateX(68px);
-            transform: translateX(68px);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  72% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-  81% {
-    -webkit-transform: translateX(32px);
-            transform: translateX(32px);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  90% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-  95% {
-    -webkit-transform: translateX(8px);
-            transform: translateX(8px);
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-  }
-  100% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-  }
-}
-#gif{
-   background-color:#162238 ;
-  border-radius:50%;
-  width: 80px;
-  height: 80px;
-  padding: 7px;
-}
+} 
 
 </style>
