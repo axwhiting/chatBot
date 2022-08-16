@@ -25,14 +25,10 @@ export default {
 #gif{
    background-color:#162238 ;
   border-radius:50%;
-  width: 120px;
-  height: 120px;
-  padding: 10%;
+  width: 80px;
+  height: 80px;
+  padding: 7px;
  
- 
-  
-
-  
 }
 
 </style>

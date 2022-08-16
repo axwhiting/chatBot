@@ -21,7 +21,7 @@ background-image: linear-gradient(0deg, #e3e3e3 0%, #4c4c53 100%);
 }
 img {
   margin: 1vh;
-  max-height: 15vh;
+  max-height: 10vh;
   
   
 }
