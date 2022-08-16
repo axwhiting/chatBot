@@ -178,10 +178,14 @@ label {
 .mc-input {
   margin: 10px;
 }
+div.student{
+  animation: .2s ease-in-out 0s  slideInRight;
 
-div.bot{
+
+}
+
+div.bot {
 	animation: slide-in-elliptic-right-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-
 }
 @keyframes slide-in-elliptic-right-fwd {
   0% {
