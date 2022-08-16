@@ -98,14 +98,14 @@ export default {
 * {box-sizing: border-box;}
 
 #showEmailForm{
-    margin-left: 20%;
-    margin: 10px;
+  margin-left: 20%;
+  margin: 10px;
 }
 
 .emailContainer{
-    display: flex;
-    flex-direction: column;
-    align-items:center;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
 }
 
 .emailForm {
@@ -158,7 +158,7 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
- transform: scale(1.02);
+  transform: scale(1.02);
   background-color: #2B57F1;
   color: white;
 }

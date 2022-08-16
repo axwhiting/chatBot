@@ -12,7 +12,7 @@ export default {
 <style scoped>
 
 #gif{
-   background-color:#162238 ;
+  background-color:#162238 ;
   border-radius:50%;
   width: 80px;
   height: 80px;
