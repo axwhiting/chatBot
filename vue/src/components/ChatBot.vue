@@ -114,11 +114,16 @@ div.bot p.bot-text, div.bot a, .embed {
   /* animation: 1s ease-in-out 0s  slideInLeft; */
   flex-direction:  row;
   opacity: 75%;
+  box-shadow: 4px 4px 4px #202e46;
+
 }
 
 div.student p.bot-text, div.student a{
   background-color: #61F1C1;
   opacity: 75%;
+  box-shadow: 5px 5px 5px #2c8366;
+
+
 }
 
 .mc-question {
@@ -130,7 +135,8 @@ div.student p.bot-text, div.student a{
   margin-right: 2%;
   margin-left:2% ;
   margin-top: 1%;
-  margin-bottom: 1%
+  margin-bottom: 1%;
+  box-shadow: 5px 5px 5px teal;
 }
 
 .mc-form {
@@ -146,12 +152,13 @@ label {
   text-align: left;
 }
 
+
 #choice {
   width: 2vw;
 }
 
 .mc-button {
-  background-color: #61F1C1;;
+  background-color: #2B57F1;;
   display: inline-block;
   cursor: pointer;
   font-size: 14px;
@@ -163,17 +170,18 @@ label {
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: 700;
-  padding: 10px 23px;
+  padding: 8px;
   text-align: center;
-  color: black;
+  color: white;
   height: 36px;
-  width: 20%;
+  width: 10%;
 }
 .mc-button:hover{
-  display: flex;
   transform: scale(1.02);
-  background-color: #2B57F1;
-  color: white;
+  background-color: #61F1C1;
+  color: black;
+  text-align: center;
+ 
 }
 
 .mc-input {
@@ -181,6 +189,7 @@ label {
 }
 /* div.student{
   animation: .2s ease-in-out 0s  slideInRight;
+
 
 
 }
