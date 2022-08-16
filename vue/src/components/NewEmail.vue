@@ -195,6 +195,8 @@ textarea {
   margin-right: 10px;
   margin-bottom: 10px;
   width: 12vw;
+  box-shadow: 2px 2px 4px #2c8366;
+
 }
 
 button:hover{
