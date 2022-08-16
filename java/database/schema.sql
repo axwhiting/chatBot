@@ -271,6 +271,6 @@ INSERT INTO interview_questions (display,answer,link,display_type,content_type,c
 INSERT INTO categories (category_name) VALUES
 	('Motivational Quote'),
 	('Pathway'),
-	('Curriculum');
+	('Interview Question');
 
 COMMIT TRANSACTION;
