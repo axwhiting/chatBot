@@ -78,13 +78,13 @@ export default {
       let messagesToSend = "";
       chatHistory.forEach(message => {
         if (message.sender === 'student') {
-          messagesToSend = messagesToSend + 'Student: ' + message.body + '\n';
+          messagesToSend = messagesToSend + 'Student: ' + message.body + '<br>';
         } else if (message.type === 'link') {
-          messagesToSend = messagesToSend + 'Codee: ' + message.body + ': ' + message.link + '\n';
+          messagesToSend = messagesToSend + 'Codee: ' + message.body + ': ' + message.link + '<br>';
         } else if (message.type === 'embed') {
-          messagesToSend = messagesToSend + 'Codee: ' + message.body + ': ' + message.link + '\n';
+          messagesToSend = messagesToSend + 'Codee: ' + message.body + ': ' + message.link + '<br>';
         } else {
-          messagesToSend = messagesToSend + 'Codee: ' + message.body + '\n';
+          messagesToSend = messagesToSend + 'Codee: ' + message.body + '<br>';
         }
         }
       );
@@ -98,14 +98,14 @@ export default {
 * {box-sizing: border-box;}
 
 #showEmailForm{
-    margin-left: 20%;
-    margin: 10px;
+  margin-left: 20%;
+  margin: 10px;
 }
 
 .emailContainer{
-    display: flex;
-    flex-direction: column;
-    align-items:center;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
 }
 
 .emailForm {
@@ -158,7 +158,7 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
- transform: scale(1.02);
+  transform: scale(1.02);
   background-color: #2B57F1;
   color: white;
 }
@@ -196,7 +196,6 @@ textarea {
   margin-bottom: 10px;
   width: 12vw;
   box-shadow: 2px 2px 4px #2c8366;
-
 }
 
 button:hover{

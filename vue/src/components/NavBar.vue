@@ -72,11 +72,11 @@ export default {
 <style scoped>
 .navbar {
   display: grid;
-background-color: #e3e3e3;
-background-image: linear-gradient(0deg, #82828b 0%, #e3e3e3 100%);  grid-template-rows:  auto 1fr;
+  background-color: #e3e3e3;
+  background-image: linear-gradient(0deg, #82828b 0%, #e3e3e3 100%);  grid-template-rows:  auto 1fr;
   grid-template-areas: 
-      "avatar"
-      "menu";
+    "avatar"
+    "menu";
 }
 
 .avatars {
@@ -124,7 +124,6 @@ background-image: linear-gradient(0deg, #82828b 0%, #e3e3e3 100%);  grid-templat
   margin-right: 10px;
   margin-top: 10px;
   box-shadow: 2px 2px 4px #2c8366;
-
 }
 
 .button:hover{
