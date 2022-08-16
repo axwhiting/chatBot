@@ -5,15 +5,15 @@
       <p class = "bot-text" v-show="message.type === 'text'">{{message.body}}</p>
       <a v-show="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
       <div class="embed" v-show="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
-    <div class = "mc-question" v-show="message.type === 'question'"> 
-      <p>{{message.body.split('/')[0]}}</p> 
-      <form class = "mc-form" v-on:submit.prevent="mcaMessage()"> 
-       <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="A">  {{message.body.split('/')[1]}} </label><br>
-        <label><input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="B">  {{message.body.split('/')[2]}} </label><br>
-       <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="C">  {{message.body.split('/')[3]}}</label><br>
-        <button class = "mc-button" type="submit" value="Submit" role="button" :disabled="isMcButtonDisabled">Submit</button>
+      <div class = "mc-question" v-show="message.type === 'question'"> 
+        <p>{{message.body.split('/')[0]}}</p> 
+        <form class = "mc-form" v-on:submit.prevent="mcaMessage()"> 
+          <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="A">  {{message.body.split('/')[1]}} </label><br>
+          <label><input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="B">  {{message.body.split('/')[2]}} </label><br>
+          <label> <input class = "mc-input" type="radio"  v-model="mca.body" name="choice" value="C">  {{message.body.split('/')[3]}}</label><br>
+          <button class = "mc-button" type="submit" value="Submit" role="button" :disabled="isMcButtonDisabled">Submit</button>
         </form>  
-   </div>
+      </div>
     </div>
   </div>
 </template>
@@ -163,6 +163,7 @@ label {
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: 700;
+  padding: 10px 23px;
   text-align: center;
   color: black;
   height: 36px;

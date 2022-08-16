@@ -9,9 +9,9 @@ DROP TABLE IF EXISTS interview_questions;
 CREATE TABLE users (
 	user_id SERIAL,
 	username varchar(50),
-	current_category varchar(10),
-	current_topic varchar(20),
-	current_keyword varchar(10),
+	current_category varchar(20),
+	current_topic varchar(40),
+	current_keyword varchar(30),
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
 
@@ -54,6 +54,8 @@ CREATE TABLE interview_questions (
 );
 
 INSERT INTO responses (category,topic,keyword,subkeyword,content_type,display,display_type,Link,date_last_updated,codee_style) VALUES
+    ('General','Help for Codee Chatbot','General','General','Informational','Here are the things you can ask for help with: Pathway, Motivational Quote, Interview Question. You can try other topics and if I don''t understand, I''ll let you know!','text','n/a','n/a','happy'),
+    ('General','About Codee Chatbot','General','General','Informational','Hi, I''m Codee! I''m a chatbot designed to help Tech Elevator students get ready for their new careers. I can help you find Pathway presentations, ask interview questions, or send motivational quotes if you need a little pick-me-up. I can''t wait to chat with you, just type in the bar to get started!','text','n/a','n/a','happy'),
     ('Pathway','Pathway Program','General','General','Informational','The Pathway Program is broken into 3 phases: Self-Discovery, Career Prep & Personal Branding, Connections & Careers.','text','n/a','n/a','happy'),
     ('Pathway','Pathway Program','General','General','Informational','Each phase will consist of various panels, live workshops, one-on-one sessions with your Pathway Program Director, and asynchronous videos in BootcampOS.','text','n/a','n/a','happy'),
     ('Pathway','Feedback Form','General','General','Internal Link','Pathway Event Feedback','link','https://docs.google.com/forms/d/e/1FAIpQLSdb-YxpZluzW10l-lUncZy_4a_ZDoP0-HvSJIZXBBx4nOcO6A/viewform','n/a','happy'),

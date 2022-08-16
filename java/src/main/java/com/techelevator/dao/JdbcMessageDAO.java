@@ -25,54 +25,49 @@ public class JdbcMessageDAO implements MessageDAO{
 
     @Override
     public List<Message> messages(StudentMessage studentMessage) {
-        List<BotMessage> botMessages = new ArrayList<>();
         List<Message> outputMessages = new ArrayList<Message>();
-        String userName = getUserNameById(studentMessage.getUserId());
-        int lastLogQuestionId = getLastLogQuestionIdByUserId(studentMessage.getUserId());
+        List<BotMessage> botMessages = new ArrayList<>();
 
-        // First Response Back To Student with Their Name
-        if(userName.equals("Default1234User4321") && studentMessage.getSender().equals("click")){
+        int userId = studentMessage.getUserId();
+        String studentMessageBody = studentMessage.getBody();
+
+        String userNameInDatabase = getUserNameById(userId);
+        int lastLogQuestionId = getLastLogQuestionIdByUserId(userId);
+
+        // Handles if user clicks a nav bar button before entering a name
+            // Does not send the studentMessage back to the frontend to display if student sends a message via a click
+        if(userNameInDatabase.equals("Default1234User4321") && studentMessage.getSender().equals("click")){
             updateUserName(studentMessage.getUserId(), "Clicked First, No Name Given");
         }
+        // Sends the StudentMessage back to the frontend to display, as long as student did not send a message via a click
         if(!studentMessage.getSender().equals("click")){
             outputMessages.add(logStudentMessage(studentMessage, studentMessage.getUserId()));
-            if(userName.equals("Default1234User4321")) {
-                if(studentMessage.getBody().equalsIgnoreCase("Codee")){
-                    botMessages.add(mapCustomMessageToBotMessage("That's my name too!","happy"));
-                } else {
-                    botMessages.add(mapCustomMessageToBotMessage("Nice to meet you, " + studentMessage.getBody() + "!", "happy"));
-                }
-                updateUserName(studentMessage.getUserId(), studentMessage.getBody());
-                botMessages.add(getListOfCategories());
-                // Process for Every Message After First Response
+            // Sends Hello BotMessage with username and initial navigation message
+            if(userNameInDatabase.equals("Default1234User4321")) {
+                botMessages.addAll(buildBotResponsesAfterUsernameEntered(userId, studentMessageBody));
             }
         }
-        if (studentMessage.getBody().toLowerCase().contains("thank")) {
+        // Handles if the student thanks the bot
+        if (studentMessageBody.toLowerCase().contains("thank") && botMessages.size() == 0) {
            botMessages.add(mapCustomMessageToBotMessage("You're welcome!", "happy"));
+       // Handles if user is currently answering an interview question
        } else if (lastLogQuestionId != 0) {
-           String interviewQuestionAnswer = getInterviewQuestionAnswerByQuestionId(lastLogQuestionId);
-           if(!interviewQuestionAnswer.equals("n/a")){
-               if(studentMessage.getBody().equalsIgnoreCase(interviewQuestionAnswer)){
-                   botMessages.add(mapCustomMessageToBotMessage("You got it right!", "happy"));
-               } else {
-                   botMessages.add(mapCustomMessageToBotMessage("Sorry the answer was " + interviewQuestionAnswer + ".", "sad"));
-               }
-           }
-       } else if (studentMessage.getBody().toLowerCase().contains("motivat")) {
-           BotMessage quote = quoteService.getQuote();
-           botMessages.add(quote);
-       } else if (studentMessage.getBody().toLowerCase().contains("interview question")){
+           botMessages.add(determineIfStudentAnsweredQuestionCorrectly(lastLogQuestionId, studentMessageBody));
+       // Handles if user wants the bot to send them a motivational quote
+       } else if (studentMessageBody.toLowerCase().contains("motivat") && botMessages.size() == 0) {
+           botMessages.add(quoteService.getQuote());
+       // Handles if user wants the bot to ask them an interview question
+       } else if (studentMessageBody.toLowerCase().contains("interview question") && botMessages.size() == 0){
            botMessages.add(getRandomInterviewQuestion());
+       // Pulls responses from database for Pathway, Help, About
        } else {
-           List<BotMessage> topicMessages = messageLogic(studentMessage);
-           if(topicMessages.size() > 0){
-               botMessages.addAll(topicMessages);
-           } else {
-               BotMessage didntUnderstandMessage = mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.", "sad");
-                botMessages.add(didntUnderstandMessage);
-           }
+            botMessages.addAll(messageLogic(studentMessage));
        }
-
+       // Handles if bot didn't understand the user's question/message
+       if(botMessages.size() == 0 ){
+           botMessages.add(mapCustomMessageToBotMessage("I'm sorry. I didn't quite understand. Try using a term like resume or elevator pitch in your message.", "sad"));
+       }
+       // Logs botMessages in message_log database table
        outputMessages.addAll(logBotMessages(botMessages, studentMessage.getUserId()));
 
        return outputMessages;
@@ -161,6 +156,32 @@ public class JdbcMessageDAO implements MessageDAO{
         }
         return topicMessages;
     }
+
+    public List<BotMessage> buildBotResponsesAfterUsernameEntered(int userId, String usernameEntered){
+        List<BotMessage> botMessages = new ArrayList<BotMessage>();
+        if(usernameEntered.equalsIgnoreCase("Codee")){
+            botMessages.add(mapCustomMessageToBotMessage("That's my name too!","happy"));
+        } else {
+            botMessages.add(mapCustomMessageToBotMessage("Nice to meet you, " + usernameEntered + "!", "happy"));
+        }
+        updateUserName(userId, usernameEntered);
+        botMessages.add(getListOfCategories());
+        return botMessages;
+    }
+
+    public BotMessage determineIfStudentAnsweredQuestionCorrectly(int lastLogQuestionId, String studentAnswer){
+        BotMessage botMessage = null;
+        String interviewQuestionAnswer = getInterviewQuestionAnswerByQuestionId(lastLogQuestionId);
+        if(!interviewQuestionAnswer.equals("n/a")){
+            if(studentAnswer.equalsIgnoreCase(interviewQuestionAnswer)){
+                botMessage = mapCustomMessageToBotMessage("You got it right!", "happy");
+            } else {
+                botMessage = mapCustomMessageToBotMessage("Sorry the answer was " + interviewQuestionAnswer + ".", "sad");
+            }
+        }
+        return botMessage;
+    }
+
 
     public List<BotMessage> getPathwayResources(String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
