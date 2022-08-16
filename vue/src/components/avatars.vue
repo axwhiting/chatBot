@@ -1,7 +1,7 @@
 <template>
 <div class="avatars">
-      <img src="../assets/CodeeHappy.png" id="happy" alt="happy avatar">
-      </div>
+     <iframe id="gif" frameBorder="0" src="https://imgflip.com/embed/6q2asj"></iframe></div>
+      
 
 </template>
 
@@ -21,6 +21,18 @@ export default {
   height: 10vw;
   max-width: 80px;
   max-height: 80px
+}
+#gif{
+   background-color:#162238 ;
+  border-radius:50%;
+  width: 120px;
+  height: 120px;
+  padding: 10%;
+ 
+ 
+  
+
+  
 }
 
 </style>
