@@ -17,6 +17,7 @@ export default {
   width: 80px;
   height: 80px;
   padding: 7px;
+  box-shadow: 0px 0px 4px #202e46;
 }
 
 </style>
