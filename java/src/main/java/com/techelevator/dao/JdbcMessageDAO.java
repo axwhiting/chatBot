@@ -4,6 +4,7 @@ import com.techelevator.model.BotMessage;
 import com.techelevator.model.StudentMessage;
 import com.techelevator.model.Message;
 
+import com.techelevator.services.MemeService;
 import com.techelevator.services.QuoteService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -18,6 +19,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private final JdbcTemplate jdbcTemplate;
     QuoteService quoteService = new QuoteService();
+    MemeService memeService = new MemeService();
 
     public JdbcMessageDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -57,8 +59,11 @@ public class JdbcMessageDAO implements MessageDAO{
        } else if (studentMessageBody.toLowerCase().contains("motivat") && botMessages.size() == 0) {
            botMessages.add(quoteService.getQuote());
        // Handles if user wants the bot to ask them an interview question
-       } else if (studentMessageBody.toLowerCase().contains("interview question") && botMessages.size() == 0){
-           botMessages.add(getRandomInterviewQuestion());
+       } else if (studentMessageBody.toLowerCase().contains("interview question") && botMessages.size() == 0) {
+            botMessages.add(getRandomInterviewQuestion());
+        // Handles if user wants the bot to give them a meme
+        } else if (studentMessageBody.toLowerCase().contains("meme") && botMessages.size() == 0) {
+            botMessages.add(memeService.getMeme());
        // Pulls responses from database for Pathway, Help, About
        } else {
             botMessages.addAll(messageLogic(studentMessage));

@@ -6,6 +6,8 @@
       <p class = "bot-text" v-if="message.type === 'text'">{{message.body}}</p>
       <a v-if="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
       <div class="embed" v-if="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
+      <div v-if="message.type === 'meme'" class="meme"><p>{{message.body}}</p><img v-bind:src="message.link" width="425" /></div>
+      <!-- <div class="embed" v-if="message.type === 'meme'"><iframe v-bind:src="message.link" width="425"/></div> -->
       <div class = "mc-question" v-if="message.type === 'question'"> 
         <p>{{message.body.split('/')[0]}}</p> 
         <form class = "mc-form" v-on:submit.prevent="mcaMessage()"> 
@@ -94,34 +96,30 @@ div.student{
   font-weight: bold;
 }
 
-p.bot-text, a, .embed {
+p.bot-text, a, .embed, .meme {
+  background-color:  #C6E3F0;
   max-width: 60%;
   padding: 1.5%;
   border-radius: 7.5px;
   margin-right: 2%;
   margin-left:10px ;
   margin-top: 1%;
-  margin-bottom: 1%
-}
-  
-div.bot p.bot-text, div.bot a, .embed {
-  background-color:  #C6E3F0;
-  /* animation: 1s ease-in-out 0s  slideInLeft; */
-  flex-direction:  row;
+  margin-bottom: 1%;
+  flex-direction: row;
   opacity: 75%;
   box-shadow: 4px 4px 4px #202e46;
 }
 
-.embed {
-  max-width: 425;
-  max-height: 240;
-} 
-
-iframe {
-  aspect-ratio: ‪1920 / 1080‬;
-
+.meme {
+  display: flex;
+  flex-direction: column;
 }
 
+.meme p, .meme img {
+  display: flex;
+  align-self: center;
+}
+  
 div.student p.bot-text, div.student a{
   background-color: #61F1C1;
   opacity: 75%;
