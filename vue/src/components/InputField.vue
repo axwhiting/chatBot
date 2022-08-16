@@ -1,7 +1,7 @@
 <template>
   <div>
     <form class="form" v-on:submit.prevent="addMessage()">
-      <input class="input" type="text" v-model="msg.body" />
+      <input contenteditable spellcheck="true" class="input" type="text" v-model="msg.body" />
       <button class="button" type="submit" value="Submit" role="button">Send</button>
     </form>
   </div>
