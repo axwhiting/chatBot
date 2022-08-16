@@ -122,8 +122,8 @@ div.student p.bot-text, div.student a{
 }
 
 .mc-question {
-   background-color: #C6E3F0;
-   opacity: 75%;
+  background-color: #C6E3F0;
+  opacity: 75%;
   max-width: 60%;
   padding: 1.5%;
   border-radius: 7.5px;
@@ -151,7 +151,7 @@ label {
 }
 
 .mc-button {
-   background-color: #a4a8c2;
+  background-color: #a4a8c2;
   display: inline-block;
   cursor: pointer;
   font-size: 14px;
