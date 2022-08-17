@@ -74,6 +74,9 @@ export default {
 div {
   display: flex;
 }
+#searching{
+  background-color: transparent;
+flex-direction: row;}
 
 .input {
   display: flex;
@@ -122,4 +125,5 @@ div {
   width:100%;
   justify-content: center;
 }
+
 </style>

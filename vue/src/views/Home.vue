@@ -20,6 +20,8 @@ import ChatBot from '../components/ChatBot.vue';
 import InputField from '../components/InputField.vue';
 import CodeeHeader from '../components/CodeeHeader.vue';
 import NavBar from '../components/NavBar.vue';
+import SearchCody from '..components/SearchCody.vue'
+import SearchCody from '../components/SearchCody.vue';
 // import Avatars from '../components/avatars.vue';
 // import NewEmail from '../components/NewEmail.vue';
 
@@ -29,7 +31,9 @@ export default {
     ChatBot,
     InputField,
     CodeeHeader,
-    NavBar
+    NavBar,
+    SearchCody,
+    SearchCody
     // Avatars,
     // NewEmail
    },
@@ -39,6 +43,7 @@ export default {
 </script>
 
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 div {
