@@ -13,7 +13,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .button{
   display: flex;
   flex-basis: auto;
