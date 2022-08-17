@@ -52,5 +52,13 @@ public class JdbcMessageDaoTests extends BaseDaoTests {
         Assert.assertEquals(expectedResult.getBody(), actualResult.getBody());
     }
 
+    @Test
+    public void botReturnsFashionAdviceWhenAskedWhatToWear() {
+        int expectedResult = 2;
+        studentMessage.setBody("What should I wear to an interview?");
+        List<Message> response = sut.messages(studentMessage);
+        int actualResult = response.size();
+    }
+
 
 }
