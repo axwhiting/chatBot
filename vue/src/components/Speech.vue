@@ -5,8 +5,8 @@
     <p id="notices"></p>
     </div>
 </template>
-
-<script src="speech-to-text.js"></script>
+T
+<script src="../services/speechToText.js"></script>
 <script>
 
 export default {

@@ -8,12 +8,14 @@
       <chat-bot class ="chat-bot"/>
       <nav-bar />
       
+      
     </div>
     </div>
   </div>
 </template>
 
 <script>
+
 import ChatBot from '../components/ChatBot.vue';
 import InputField from '../components/InputField.vue';
 import CodeeHeader from '../components/CodeeHeader.vue';

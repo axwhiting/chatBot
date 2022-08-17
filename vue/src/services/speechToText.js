@@ -4,6 +4,8 @@ let speakyButton = null;
 let notices = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("dom content loaded")
+
     textField = document.getElementById('spokenText');
     speakyButton = document.getElementById('speakyButton');
     notices = document.getElementById('notices');
@@ -25,7 +27,7 @@ function initSpeech() {
         .then( (stream) => {
 
             // Get either the SpeechRecognition API (Chrome/Edge) or webkitSpeechRecognition (Firefox)
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const SpeechRec = window.SpeechRecognition;
 
             // Get an instance of the SpeechRecognition API and initialize it
             SpeechRecognition = new SpeechRec();   
