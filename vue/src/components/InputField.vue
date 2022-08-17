@@ -73,7 +73,7 @@ export default {
       this.msg.userId = this.$store.state.userId;
        chatService.sendMessage(this.msg).then(response => {
          response.data.forEach(message => {
-           this.$store.commit("ADD_MESSAGE", message);
+           this.$store.commit("ADD_MESSAGE", message)
            this.scrollToBottom();
          })
        });
@@ -116,7 +116,39 @@ export default {
           this.addMessage();
         }
         this.micCounter = this.micCounter + 1;
+    },
+    getBigram(word) {
+      let result = [];
+      for (let i = 0; i <word.length-1; i++) {
+        result.push(word[i] + word[i + 1]);
       }
+      return result;
+    },
+    getSimilarity(word1,word2) {
+      word1 = word1.toLowerCase();
+      word2 = word2.toLowerCase();
+      const bigram1 = this.getBigram(word1), bigram2 = this.getBigram(word2);
+      let similar = [];
+      for(let i = 0; i < bigram1.length; i++) {
+        if (bigram2.indexOf(bigram1[i])> -1) {
+          similar.push(bigram1[i]);
+        }
+      }
+    return similar.length/Math.max(bigram1.length,bigram2.length);
+  }, 
+  AutoCorrect(word,knownWords=this.chatService, similarityThreshold=0.5){
+    let maxSimilarity = 0;
+    let mostSimilar = word;
+
+    for (let i = 0; i < knownWords.body.length; i++){
+      let similarity = this.getSimilarity(knownWords.length, word)
+      if (similarity > maxSimilarity) {
+        maxSimilarity = similarity;
+        mostSimilar = knownWords[i];
+      }
+      return mostSimilar > similarityThreshold ? mostSimilar : word; 
+    } 
+  }
   },
   created() {
     chatService.getInitialMessages().then(response => {
