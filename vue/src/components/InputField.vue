@@ -29,29 +29,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initSpeech() {  
-    // Get Microphone access
-    navigator.mediaDevices.getUserMedia({ audio: true} )
-        .then( () => {
-            
-            // Get either the SpeechRecognition API (Chrome/Edge) or webkitSpeechRecognition (Firefox)
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  // Get Microphone access
+  navigator.mediaDevices.getUserMedia({ audio: true} )
+    .then( () => {      
+      // Get either the SpeechRecognition API (Chrome/Edge) or webkitSpeechRecognition (Firefox)
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-            // Get an instance of the SpeechRecognition API and initialize it
-            SpeechRecognition = new SpeechRec();   
-            SpeechRecognition.lang = "en-US";
-            SpeechRecognition.continuous = false;
-            SpeechRecognition.interimResults = false;
+      // Get an instance of the SpeechRecognition API and initialize it
+      SpeechRecognition = new SpeechRec();   
+      SpeechRecognition.lang = "en-US";
+      SpeechRecognition.continuous = false;
+      SpeechRecognition.interimResults = false;
 
-            // Set an event listen for when the SpeechRecognition API encounters and error
-            SpeechRecognition.onerror = (error) => { console.error(error); }
+      // Set an event listen for when the SpeechRecognition API encounters and error
+      SpeechRecognition.onerror = (error) => { console.error(error); }
 
-            speakyButton.disabled = false;
-        })
-        .catch( error => {
-            console.error(error);
-            alert("Please enable access to the microphone");
-        });
-
+      speakyButton.disabled = false;
+  })
+  .catch( error => {
+      console.error(error);
+      alert("Please enable access to the microphone");
+  });
 }
 
 export default { 
@@ -98,27 +96,27 @@ export default {
        }, 
        100);
      },
-    micButtonClicked() {
-      if(this.isListening) {
-        this.isListening = false;
-      } else {
-        this.isListening = true;
+      micButtonClicked() {
+        if(this.isListening) {
+          this.isListening = false;
+        } else {
+          this.isListening = true;
+        }
+        if(this.micCounter % 2 === 0) {
+          SpeechRecognition.start();
+          SpeechRecognition.onresult = (event) => {
+                  // Get what was said as text
+                  let whatWasSaid = event.results[0][0].transcript.toLowerCase();
+                  // Set the value to the text box
+                  textField.value = whatWasSaid;
+              }
+        } else {
+          SpeechRecognition.stop();
+          this.msg.body = textField.value;
+          this.addMessage();
+        }
+        this.micCounter = this.micCounter + 1;
       }
-      if(this.micCounter % 2 === 0) {
-        SpeechRecognition.start();
-         SpeechRecognition.onresult = (event) => {
-                // Get what was said as text
-                let whatWasSaid = event.results[0][0].transcript.toLowerCase();
-                // Set the value to the text box
-                textField.value = whatWasSaid;
-            }
-      } else {
-        SpeechRecognition.stop();
-        this.msg.body = textField.value;
-        this.addMessage();
-      }
-      this.micCounter = this.micCounter + 1;
-    }
   },
   created() {
     chatService.getInitialMessages().then(response => {
