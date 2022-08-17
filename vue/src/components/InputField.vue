@@ -179,7 +179,7 @@ flex-direction: row;}
   background-color:#ebf2f0;
   margin-left: 2%;
   width: 85%;
-  height: 2.5vh;
+  height: 2.9vh;
 }
 
 .button{
@@ -203,6 +203,7 @@ flex-direction: row;}
   height: 36px;
   margin-left: 4px;
   margin-right: 10px;
+  box-shadow: 2px 2px 4px #2c8366;
 }
 
 .button:hover{

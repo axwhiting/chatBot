@@ -69,28 +69,25 @@ export default {
        100);
      },
     saySomething() {
-      let i = this.counter;
       let msgToRead = this.getSpeechReady();
-      if (i === 0) {
-        msgToRead = this.getSpeechReady();
-      }
-      for (i = this.counter; i < this.$store.state.messages.length; i++) {
-        if ((this.$store.state.messages[i].type === 'text') 
-          && this.$store.state.messages[i].sender === 'bot') {
-            
-            msgToRead.text = this.$store.state.messages[i].body;
-            window.speechSynthesis.speak(msgToRead);
+      let botMessages = [];
+      let currentMessages = this.$store.state.messages;
+      for (let i = currentMessages.length - 1; i >= 0; i--) {
+        if (currentMessages[i].sender === 'bot' && currentMessages[i].type === 'text') {
+          botMessages.unshift(currentMessages[i]);
+        } else {
+          break;
         }
       }
-      this.counter = i;        
+        botMessages.forEach(message => {
+          msgToRead.text = message.body;
+          window.speechSynthesis.speak(msgToRead);
+        })   
     },
     getSpeechReady() {
       let msgToRead = new SpeechSynthesisUtterance();
       var voices = speechSynthesis.getVoices();
       msgToRead.voice = voices[4];
-      speechSynthesis.getVoices().forEach(function(voice) {
-      console.log(voice.name, voice.default ? voice.default :'');
-      });
       msgToRead.lang = "en-US";
       msgToRead.pitch = .65;
       msgToRead.volume = 1;
