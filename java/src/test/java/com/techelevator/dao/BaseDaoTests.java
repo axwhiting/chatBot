@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,4 +22,7 @@ public abstract class BaseDaoTests {
         dataSource.getConnection().rollback();
     }
 
+    protected DataSource getDataSource() {
+        return dataSource;
+    }
 }

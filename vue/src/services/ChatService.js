@@ -10,17 +10,8 @@ export default {
   sendMessage(msg) {
     return http.post('/messages', msg);
   },
-  getAllTopics(){
-    return http.get('/topics')
-  },
-  getSenderKeyword(keyword){
-    return http.get(`/topics/${keyword}`)
-  },
   getInitialMessages(){
     return http.get('/messages/welcome')
-  },
-  getMotivationalQuote() {
-    return http.get('/quote')
   }
 
 }

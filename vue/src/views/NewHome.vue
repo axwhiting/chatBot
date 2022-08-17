@@ -6,6 +6,7 @@
         <div class="body">
             <nav-bar class="navbar"/>
             <chat-bot class="chatbot"/>
+            <!-- <speech /> -->
             <input-field id="input-field"/>
         </div>
     </div>
@@ -16,6 +17,7 @@ import CodeeHeader from '../components/CodeeHeader.vue';
 import ChatBot from '../components/ChatBot.vue';
 import NavBar from '../components/NavBar.vue';
 import InputField from '../components/InputField.vue';
+// import Speech from '../components/Speech.vue'
 
 export default {
     name: "homev2",
@@ -23,7 +25,8 @@ export default {
         CodeeHeader,
         ChatBot,
         NavBar,
-        InputField
+        InputField,
+        // Speech
     }
 }
 </script>

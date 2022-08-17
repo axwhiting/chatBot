@@ -8,6 +8,7 @@
           <button @click="sendClick('Help for Codee Chatbot')" id="help" class="help button">Help</button>
           <button @click="sendClick('Get meme')" id="meme" class="meme button">Meme</button>
           <button @click="sendClick('Interview Question')" id="interview" class="interview button">Interview</button>
+          <button @click="saySomething()" id="speech" class="speech button">Talk to me</button>
           <new-email />
         </div>
     </div>
@@ -26,6 +27,7 @@ export default {
   data()
    {
     return {
+      counter: 0,
       msg: {
         messageId: "",
         userId: "",
@@ -33,7 +35,8 @@ export default {
         sender: "click",
         type: "text",
         link:""
-      }
+      },
+      voices: []
     }
   },
   methods: {
@@ -64,7 +67,40 @@ export default {
           });
        }, 
        100);
-     } 
+     },
+    saySomething() {
+      let i = this.counter;
+      let msgToRead = this.getSpeechReady();
+      if (i === 0) {
+        msgToRead = this.getSpeechReady();
+      }
+      for (i = this.counter; i < this.$store.state.messages.length; i++) {
+        if ((this.$store.state.messages[i].type === 'text') 
+          && this.$store.state.messages[i].sender === 'bot') {
+            
+            msgToRead.text = this.$store.state.messages[i].body;
+            window.speechSynthesis.speak(msgToRead);
+        }
+      }
+      this.counter = i;        
+    },
+    getSpeechReady() {
+      let msgToRead = new SpeechSynthesisUtterance();
+      var voices = speechSynthesis.getVoices();
+      msgToRead.voice = voices[4];
+      speechSynthesis.getVoices().forEach(function(voice) {
+      console.log(voice.name, voice.default ? voice.default :'');
+      });
+      msgToRead.lang = "en-US";
+      msgToRead.pitch = .65;
+      msgToRead.volume = 1;
+      msgToRead.rate = 1;
+      return msgToRead;
+    } 
+  },
+  created() {
+    this.getSpeechReady;
+    this.voices = speechSynthesis.getVoices();
   }
 
 }
