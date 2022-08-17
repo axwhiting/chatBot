@@ -106,7 +106,9 @@ public class JdbcMessageDAO implements MessageDAO{
                     botMessages.addAll(getKeywordMessages(currentCategory, currentTopic, keyword));
                 } if(botMessages.size() > 0){
                     updateUserCurrentDiscussionPosition(userId, currentCategory, currentTopic, keyword);
-                    botMessages.add(buildSubkeywordWouldYouLikeToKnowMoreMessage(currentTopic, keyword));
+                    if(buildSubkeywordWouldYouLikeToKnowMoreMessage(currentTopic, keyword) != null) {
+                        botMessages.add(buildSubkeywordWouldYouLikeToKnowMoreMessage(currentTopic, keyword));
+                    }
                     break;
                 }
             }
@@ -118,6 +120,9 @@ public class JdbcMessageDAO implements MessageDAO{
                     botMessages.addAll(getTopicMessages(currentCategory, topic));
                 } if(botMessages.size() > 0){
                     updateUserCurrentDiscussionPosition(userId, currentCategory, topic, "None");
+                    if(buildKeywordWouldYouLikeToKnowMoreMessage(topic) != null) {
+                        botMessages.add(buildKeywordWouldYouLikeToKnowMoreMessage(topic));
+                    }
                     break;
                 }
             }
@@ -131,6 +136,9 @@ public class JdbcMessageDAO implements MessageDAO{
                         if (receivedMessageLowerCase.contains(keyword.toLowerCase())) {
                             botMessages.addAll(getKeywordMessagesByTopic(topic, keyword));
                             updateUserCurrentDiscussionPosition(userId, "Pathway", topic, keyword);
+                            if(buildSubkeywordWouldYouLikeToKnowMoreMessage(currentTopic, keyword) != null) {
+                                botMessages.add(buildSubkeywordWouldYouLikeToKnowMoreMessage(currentTopic, keyword));
+                            }
                             break;
                         }
                     }
@@ -147,6 +155,9 @@ public class JdbcMessageDAO implements MessageDAO{
                     if (botMessages.size() == 0){
                         botMessages.addAll(getTopicMessagesByTopic(topic));
                         updateUserCurrentDiscussionPosition(userId, "Pathway", topic, "None");
+                        if(buildKeywordWouldYouLikeToKnowMoreMessage(topic) != null) {
+                            botMessages.add(buildKeywordWouldYouLikeToKnowMoreMessage(topic));
+                        }
                         break;
                     }
                 }
@@ -185,7 +196,7 @@ public class JdbcMessageDAO implements MessageDAO{
             if(studentAnswer.equalsIgnoreCase(interviewQuestionAnswer)){
                 botMessage = mapCustomMessageToBotMessage("You got it right!", "happy");
             } else {
-                botMessage = mapCustomMessageToBotMessage("Sorry the answer was " + interviewQuestionAnswer + ".", "sad");
+                botMessage = mapCustomMessageToBotMessage("Sorry, the answer was " + interviewQuestionAnswer + ".", "sad");
             }
         }
         return botMessage;
@@ -431,6 +442,28 @@ public class JdbcMessageDAO implements MessageDAO{
             subkeywordMessage = mapCustomMessageToBotMessage(subkeywordMessageBody, "happy");
         }
         return subkeywordMessage;
+    }
+
+    private BotMessage buildKeywordWouldYouLikeToKnowMoreMessage(String topic) {
+        BotMessage keywordMessage = null;
+        List<String> listOfKeywords = listOfKeywordsByTopic(topic);
+        if(listOfKeywords.size() > 0) {
+            String keywordMessageBody = "Would you like to know more about ";
+            if (listOfKeywords.size() == 1) {
+                keywordMessageBody = keywordMessageBody + listOfKeywords.get(0) + "?";
+            } else {
+                for (int i = 0; i < listOfKeywords.size(); i++) {
+                    if (i != listOfKeywords.size() - 1) {
+                        keywordMessageBody = keywordMessageBody + listOfKeywords.get(i) + ", ";
+                    } else {
+                        keywordMessageBody = keywordMessageBody + "or " + listOfKeywords.get(i) + "?";
+                    }
+
+                }
+            }
+            keywordMessage = mapCustomMessageToBotMessage(keywordMessageBody, "happy");
+        }
+        return keywordMessage;
     }
 
     // User Table Methods
