@@ -1,15 +1,21 @@
 <template>
   <div>
     <form class="form" v-on:submit.prevent="addMessage()">
-      <input contenteditable spellcheck="true" class="input" type="text" v-model="msg.body" />
+      <input contenteditable spellcheck="true" class="input" type="text" id="spokenText" v-model="msg.body" />
       <button class="button" type="submit" value="Submit" role="button">Send</button>
+      <speech />
     </form>
   </div>
 </template>
 
 <script>
 import chatService from '@/services/ChatService'
+import Speech from './Speech.vue';
+
 export default {
+  components: {
+    Speech
+  },
   data()
    {
     return {
@@ -101,7 +107,7 @@ div {
   color: black;
   height: 36px;
   margin-left: 4px;
-  margin-right: 2%;
+  margin-right: 10px;
 }
 
 .button:hover{
@@ -116,5 +122,4 @@ div {
   width:100%;
   justify-content: center;
 }
-
 </style>
