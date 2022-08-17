@@ -29,29 +29,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initSpeech() {  
-    // Get Microphone access
-    navigator.mediaDevices.getUserMedia({ audio: true} )
-        .then( () => {
-            
-            // Get either the SpeechRecognition API (Chrome/Edge) or webkitSpeechRecognition (Firefox)
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  // Get Microphone access
+  navigator.mediaDevices.getUserMedia({ audio: true} )
+    .then( () => {      
+      // Get either the SpeechRecognition API (Chrome/Edge) or webkitSpeechRecognition (Firefox)
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-            // Get an instance of the SpeechRecognition API and initialize it
-            SpeechRecognition = new SpeechRec();   
-            SpeechRecognition.lang = "en-US";
-            SpeechRecognition.continuous = false;
-            SpeechRecognition.interimResults = false;
+      // Get an instance of the SpeechRecognition API and initialize it
+      SpeechRecognition = new SpeechRec();   
+      SpeechRecognition.lang = "en-US";
+      SpeechRecognition.continuous = false;
+      SpeechRecognition.interimResults = false;
 
-            // Set an event listen for when the SpeechRecognition API encounters and error
-            SpeechRecognition.onerror = (error) => { console.error(error); }
+      // Set an event listen for when the SpeechRecognition API encounters and error
+      SpeechRecognition.onerror = (error) => { console.error(error); }
 
-            speakyButton.disabled = false;
-        })
-        .catch( error => {
-            console.error(error);
-            alert("Please enable access to the microphone");
-        });
-
+      speakyButton.disabled = false;
+  })
+  .catch( error => {
+      console.error(error);
+      alert("Please enable access to the microphone");
+  });
 }
 
 export default { 
@@ -98,73 +96,80 @@ export default {
        }, 
        100);
      },
-    micButtonClicked() {
-      if(this.isListening) {
-        this.isListening = false;
-      } else {
-        this.isListening = true;
-      }
-      if(this.micCounter % 2 === 0) {
-        SpeechRecognition.start();
-         SpeechRecognition.onresult = (event) => {
-                // Get what was said as text
-                let whatWasSaid = event.results[0][0].transcript.toLowerCase();
-                // Set the value to the text box
-                textField.value = whatWasSaid;
-            }
-      } else {
-        SpeechRecognition.stop();
-        this.msg.body = textField.value;
-        this.addMessage();
-      }
-      this.micCounter = this.micCounter + 1;
+      micButtonClicked() {
+        if(this.isListening) {
+          this.isListening = false;
+        } else {
+          this.isListening = true;
+        }
+        if(this.micCounter % 2 === 0) {
+          SpeechRecognition.start();
+          SpeechRecognition.onresult = (event) => {
+                  // Get what was said as text
+                  let whatWasSaid = event.results[0][0].transcript.toLowerCase();
+                  // Set the value to the text box
+                  textField.value = whatWasSaid;
+              }
+        } else {
+          SpeechRecognition.stop();
+          this.msg.body = textField.value;
+          this.addMessage();
+        }
+        this.micCounter = this.micCounter + 1;
     },
-     getBigram(word) {
+    getBigram(word) {
       let result = [];
       for (let i = 0; i <word.length-1; i++) {
         result.push(word[i] + word[i + 1]);
       }
       return result;
     },
-    
-     getSimilarity(word1,word2) {
+    getSimilarity(word1,word2) {
       word1 = word1.toLowerCase();
       word2 = word2.toLowerCase();
-     const bigram1 = this.getBigram(word1), bigram2 = this.getBigram(word2);
+      const bigram1 = this.getBigram(word1), bigram2 = this.getBigram(word2);
       let similar = [];
       for(let i = 0; i < bigram1.length; i++) {
         if (bigram2.indexOf(bigram1[i])> -1) {
           similar.push(bigram1[i]);
         }
       }
-      return similar.length/Math.max(bigram1.length,bigram2.length);
-    
-  }, AutoCorrect(word,knownWords=this.chatService, similarityThreshold=0.5){
+    return similar.length/Math.max(bigram1.length,bigram2.length);
+  }, 
+  AutoCorrect(word,knownWords=this.ListOfTopics(), similarityThreshold=0.5){
     let maxSimilarity = 0;
     let mostSimilar = word;
-     for (let i = 0; i < knownWords; i++){
+     for (let i = 0; i < knownWords.length; i++){
       let similarity = this.getSimilarity(knownWords.length, word)
       if (similarity > maxSimilarity) {
         maxSimilarity = similarity;
         mostSimilar = knownWords[i];
       }
       return mostSimilar > similarityThreshold ? mostSimilar : word; 
-    }
+    } 
+    
   },
+  // ListOfTopics(){
+  //   let topics = []
 
+  //   for (let i = 0, len = chatService.getTopics(), text = ""; i < len; i++) {
+  //        text += topics + "<br>";
+  //    return topics;
+    
 
-  },
+  // }
+  
+  
   created() {
     chatService.getInitialMessages().then(response => {
       response.data.forEach(botMessage => {
         this.$store.commit("ADD_MESSAGE", botMessage)
         this.$store.commit("UPDATE_ID", botMessage.userId)
       });
-      })
- }
-      
+    })
+  }
 }
-
+}
 </script>
 
 <style scoped>
