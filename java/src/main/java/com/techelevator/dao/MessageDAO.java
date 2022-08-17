@@ -12,6 +12,8 @@ public interface MessageDAO {
 
     List<Message> messages(StudentMessage studentMessage);
     List<BotMessage> getInitialMessages();
+
+   public List<String> listOfAllTopics();
 }
 
 

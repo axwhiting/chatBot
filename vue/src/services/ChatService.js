@@ -12,6 +12,9 @@ export default {
   },
   getInitialMessages(){
     return http.get('/messages/welcome')
+  },
+  getTopics(){
+    return http.get('/topics')
   }
 
 }

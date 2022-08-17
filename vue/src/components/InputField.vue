@@ -73,7 +73,7 @@ export default {
    methods:{
      addMessage() {
       this.msg.userId = this.$store.state.userId;
-       chatService.sendMessage(this.msg).then(response => {
+      chatService.sendMessage(this.msg).then(response => {
          response.data.forEach(message => {
            this.$store.commit("ADD_MESSAGE", message)
            this.scrollToBottom();
@@ -142,16 +142,15 @@ export default {
   }, AutoCorrect(word,knownWords=this.chatService, similarityThreshold=0.5){
     let maxSimilarity = 0;
     let mostSimilar = word;
-
-    for (let i = 0; i < knownWords.body.length; i++){
+     for (let i = 0; i < knownWords; i++){
       let similarity = this.getSimilarity(knownWords.length, word)
       if (similarity > maxSimilarity) {
         maxSimilarity = similarity;
         mostSimilar = knownWords[i];
       }
       return mostSimilar > similarityThreshold ? mostSimilar : word; 
-    } 
-  }
+    }
+  },
 
 
   },
