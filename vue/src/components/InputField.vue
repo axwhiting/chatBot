@@ -1,15 +1,20 @@
 <template>
   <div>
     <form class="form" v-on:submit.prevent="addMessage()">
-      <input contenteditable spellcheck="true" class="input" type="text" v-model="msg.body" />
+      <input contenteditable spellcheck="true" class="input" type="text" id="spokenText" v-model="msg.body" />
       <button class="button" type="submit" value="Submit" role="button">Send</button>
+      <button class="button speakyButton"><img id="speakyButton" src="..\assets\mic.png"></button>
+      <p id="notices"></p>
     </form>
   </div>
 </template>
 
 <script>
 import chatService from '@/services/ChatService'
+import '@/services/speechToText'
+
 export default {
+  
   data()
    {
     return {
@@ -101,7 +106,7 @@ div {
   color: black;
   height: 36px;
   margin-left: 4px;
-  margin-right: 2%;
+  margin-right: 10px;
 }
 
 .button:hover{
@@ -117,4 +122,13 @@ div {
   justify-content: center;
 }
 
+.speakyButton {
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+#speakyButton {
+  height: 20px;
+  display: flex;
+}
 </style>
