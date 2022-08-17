@@ -75,8 +75,10 @@ data()
       }
     return isQuestion;
     }
-  }
-} 
+   }
+    
+}
+   
 </script>
 
 <style scoped>
