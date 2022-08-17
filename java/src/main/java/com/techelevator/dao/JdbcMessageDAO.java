@@ -21,7 +21,7 @@ public class JdbcMessageDAO implements MessageDAO{
     QuoteService quoteService = new QuoteService();
     MemeService memeService = new MemeService();
 
-    private JdbcMessageDAO(JdbcTemplate jdbcTemplate) {
+    JdbcMessageDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -166,7 +166,7 @@ public class JdbcMessageDAO implements MessageDAO{
         return botMessages;
     }
 
-    private List<BotMessage> buildBotResponsesAfterUsernameEntered(int userId, String usernameEntered){
+    public List<BotMessage> buildBotResponsesAfterUsernameEntered(int userId, String usernameEntered){
         List<BotMessage> botMessages = new ArrayList<BotMessage>();
         if(usernameEntered.equalsIgnoreCase("Codee")){
             botMessages.add(mapCustomMessageToBotMessage("That's my name too!","happy"));
