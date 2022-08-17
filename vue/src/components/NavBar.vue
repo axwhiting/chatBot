@@ -27,7 +27,7 @@ export default {
   data()
    {
     return {
-      counter: 2,
+      counter: 0,
       msg: {
         messageId: "",
         userId: "",
@@ -35,7 +35,8 @@ export default {
         sender: "click",
         type: "text",
         link:""
-      }
+      },
+      voices: []
     }
   },
   methods: {
@@ -69,13 +70,10 @@ export default {
      },
     saySomething() {
       let i = this.counter;
-      let msgToRead = new SpeechSynthesisUtterance();
-        var voices = speechSynthesis.getVoices();
-        msgToRead.voice = voices[2];
-        msgToRead.lang = "en-US";
-        msgToRead.pitch = 2;
-        msgToRead.volume = 1;
-        msgToRead.rate = 1;
+      let msgToRead = this.getSpeechReady();
+      if (i === 0) {
+        msgToRead = this.getSpeechReady();
+      }
       for (i = this.counter; i < this.$store.state.messages.length; i++) {
         if ((this.$store.state.messages[i].type === 'text') 
           && this.$store.state.messages[i].sender === 'bot') {
@@ -85,7 +83,24 @@ export default {
         }
       }
       this.counter = i;        
+    },
+    getSpeechReady() {
+      let msgToRead = new SpeechSynthesisUtterance();
+      var voices = speechSynthesis.getVoices();
+      msgToRead.voice = voices[4];
+      speechSynthesis.getVoices().forEach(function(voice) {
+      console.log(voice.name, voice.default ? voice.default :'');
+      });
+      msgToRead.lang = "en-US";
+      msgToRead.pitch = .65;
+      msgToRead.volume = 1;
+      msgToRead.rate = 1;
+      return msgToRead;
     } 
+  },
+  created() {
+    this.getSpeechReady;
+    this.voices = speechSynthesis.getVoices();
   }
 
 }
