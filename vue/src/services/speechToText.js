@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     textField = document.getElementById('spokenText');
     speakyButton = document.getElementById('speakyButton');
     notices = document.getElementById('notices');
+    console.log("Dom content loaded");
 
     // Once the DOM is loaded, initialize the Speech to Text engine
     initSpeech();
@@ -22,8 +23,8 @@ function initSpeech() {
   
     // Get Microphone access
     navigator.mediaDevices.getUserMedia({ audio: true} )
-        .then( (stream) => {
-
+        .then( () => {
+            
             // Get either the SpeechRecognition API (Chrome/Edge) or webkitSpeechRecognition (Firefox)
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
 
