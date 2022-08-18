@@ -178,6 +178,9 @@ export default {
 div {
   display: flex;
 }
+#searching{
+  background-color: transparent;
+flex-direction: row;}
 
 .input {
   display: flex;

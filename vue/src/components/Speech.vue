@@ -38,7 +38,6 @@ export default {
 }
 
 .button:hover{
-  display: flex;
   transform: scale(1.02);
   background-color: #2B57F1;
   color: white;
