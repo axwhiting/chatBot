@@ -174,6 +174,17 @@ public class JdbcMessageDAO implements MessageDAO{
                 }
             }
         }
+        if(botMessages.size() == 0) {
+            List<String> listOfJobSearchTools = listOfJobSearchToolsKeywords();
+            for(String tool : listOfJobSearchTools){
+                if(receivedMessageLowerCase.contains(tool.toLowerCase())){
+                    botMessages.addAll(getKeywordMessagesByTopic("Job Search", tool));
+                } if(botMessages.size() > 0){
+                    updateUserCurrentDiscussionPosition(userId, "Pathway", "Job Search", tool);
+                    break;
+                }
+            }
+        }
         return botMessages;
     }
 
@@ -232,15 +243,15 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private BotMessage getListOfTopics(){
         String topicsList = "";
-        String sql = "SELECT DISTINCT topic FROM responses WHERE category ILIKE 'Pathway'";
+        String sql = "SELECT DISTINCT topic_display FROM responses WHERE category ILIKE 'Pathway'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         boolean isfirstResult = true;
         while( results.next() ) {
             if(isfirstResult){
-                topicsList = results.getString("topic");
+                topicsList = results.getString("topic_display");
                 isfirstResult = false;
             } else {
-                topicsList = topicsList + ", " + results.getString("topic");
+                topicsList = topicsList + ", " + results.getString("topic_display");
             }
         }
         String customMessage = "I'm happy discuss to following topics with you: " + topicsList + ". Which topic would you like to discuss?";
@@ -285,82 +296,92 @@ public class JdbcMessageDAO implements MessageDAO{
     }
 
     // DISTINCT Database Entry Lists Methods
-    private List<String> listOfTopics(){
-        List<String> topicsList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT topic FROM responses";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        while( results.next() ) {
-            topicsList.add(results.getString("topic"));
-        }
-        return topicsList;
-    }
-
-    private List<String> listOfCategories2(){
-        List<String> topicList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT category FROM responses";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        while( results.next() ) {
-            topicList.add(results.getString("category"));
-        }
-        return topicList;
-    }
-
     private List<String> listOfTopics(String category){
         List<String> topicList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT topic FROM responses WHERE category = ? AND topic != 'General'";
+        String sql = "SELECT DISTINCT topic_search FROM responses WHERE category = ? AND topic_search != 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category);
         while( results.next() ) {
-            topicList.add(results.getString("topic"));
+            topicList.add(results.getString("topic_search"));
         }
         return topicList;
     }
 
     public List<String> listOfAllTopics(){
         List<String> topicsList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT topic FROM responses";
+        String sql = "SELECT DISTINCT topic_search FROM responses";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while( results.next() ) {
-            topicsList.add(results.getString("topic"));
+            topicsList.add(results.getString("topic_search"));
         }
         return topicsList;
     }
 
     private List<String> listOfKeywords(String category, String topic){
         List<String> keywordList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT keyword FROM responses WHERE category = ? AND topic = ? AND keyword != 'General'";
+        String sql = "SELECT DISTINCT keyword_search FROM responses WHERE category = ? AND topic_search = ? AND keyword_search != 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic);
         while( results.next() ) {
-            keywordList.add(results.getString("keyword"));
+            keywordList.add(results.getString("keyword_search"));
         }
         return keywordList;
     }
 
     private List<String> listOfKeywordsByTopic(String topic){
         List<String> keywordList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT keyword FROM responses WHERE topic = ? AND keyword != 'General'";
+        String sql = "SELECT DISTINCT keyword_search FROM responses WHERE topic_search = ? AND keyword_search != 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
         while( results.next() ) {
-            keywordList.add(results.getString("keyword"));
+            keywordList.add(results.getString("keyword_search"));
+        }
+        return keywordList;
+    }
+
+    private List<String> listOfDisplayKeywordsByTopic(String topic){
+        List<String> keywordList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT keyword_display FROM responses WHERE topic_search = ? AND keyword_search != 'General' AND keyword_search != 'Presentation'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
+        while( results.next() ) {
+            keywordList.add(results.getString("keyword_display"));
+        }
+        return keywordList;
+    }
+
+    private List<String> listOfJobSearchToolsKeywords(){
+        List<String> keywordList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT keyword_search FROM responses WHERE topic_search = 'Job Search' AND keyword_search NOT IN('General', 'Presentation', 'Board', 'Term', 'Pronge', 'Recruiter') ";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while( results.next() ) {
+            keywordList.add(results.getString("keyword_search"));
         }
         return keywordList;
     }
 
     private List<String> listOfSubkeywords(String category, String topic, String keyword){
         List<String> subkeywordList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT subkeyword FROM responses WHERE category = ? AND topic = ? AND keyword = ? AND subkeyword != 'General'";
+        String sql = "SELECT DISTINCT subkeyword_search FROM responses WHERE category = ? AND topic_search = ? AND keyword_search = ? AND subkeyword_search != 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic, keyword);
         while( results.next() ) {
-            subkeywordList.add(results.getString("subkeyword"));
+            subkeywordList.add(results.getString("subkeyword_search"));
         }
         return subkeywordList;
     }
 
     private List<String> listOfSubkeywordsByTopic(String topic){
         List<String> subkeywordList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT subkeyword FROM responses WHERE topic = ? AND subkeyword != 'General'";
+        String sql = "SELECT DISTINCT subkeyword_search FROM responses WHERE topic_search = ? AND subkeyword_search != 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
         while( results.next() ) {
-            subkeywordList.add(results.getString("subkeyword"));
+            subkeywordList.add(results.getString("subkeyword_search"));
+        }
+        return subkeywordList;
+    }
+
+    private List<String> listOfDisplaySubkeywordsByTopic(String topic, String keyword){
+        List<String> subkeywordList = new ArrayList<String>();
+        String sql = "SELECT DISTINCT subkeyword_display FROM responses WHERE topic_search = ? AND keyword_search = ?AND subkeyword_search != 'General' AND subkeyword_search != 'Presentation'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic, keyword);
+        while( results.next() ) {
+            subkeywordList.add(results.getString("subkeyword_display"));
         }
         return subkeywordList;
     }
@@ -368,7 +389,7 @@ public class JdbcMessageDAO implements MessageDAO{
     // Messages Based on Discussion Position Methods
     private List<BotMessage> getTopicMessages(String category, String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
-        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword = 'General'";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic_search ILIKE ? AND keyword_search = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic);
         while (results.next()) {
             topicMessages.add(mapRowToBotMessageResponse(results));
@@ -377,7 +398,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private List<BotMessage> getTopicMessagesByTopic(String topic) {
         List<BotMessage> topicMessages = new ArrayList<>();
-        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE topic ILIKE ? AND keyword = 'General'";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE topic_search ILIKE ? AND keyword_search = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
         while (results.next()) {
             topicMessages.add(mapRowToBotMessageResponse(results));
@@ -387,7 +408,7 @@ public class JdbcMessageDAO implements MessageDAO{
     private List<BotMessage> getKeywordMessages(String category, String topic, String keyword) {
         List<BotMessage> keywordMessages = new ArrayList<>();
         // todo: look into whether subkeyword should always be marked General when keyword is marked General
-        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword ILIKE ? AND subkeyword = 'General'";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic_search ILIKE ? AND keyword_search ILIKE ? AND subkeyword_search = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic, keyword);
         while (results.next()) {
             keywordMessages.add(mapRowToBotMessageResponse(results));
@@ -396,7 +417,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private List<BotMessage> getKeywordMessagesByTopic(String topic, String keyword) {
         List<BotMessage> keywordMessages = new ArrayList<>();
-        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE topic ILIKE ? AND keyword ILIKE ? AND subkeyword = 'General'";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE topic_search ILIKE ? AND keyword_search ILIKE ? AND subkeyword_search = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic, keyword);
         while (results.next()) {
             keywordMessages.add(mapRowToBotMessageResponse(results));
@@ -405,7 +426,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private List<BotMessage> getSubkeywordMessages(String category, String topic, String keyword, String subkeyword) {
         List<BotMessage> subkeywordMessages = new ArrayList<>();
-        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic ILIKE ? AND keyword ILIKE ? AND subkeyword ILIKE ?";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic_search ILIKE ? AND keyword_search ILIKE ? AND subkeyword_search ILIKE ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic, keyword, subkeyword);
         while (results.next()) {
             subkeywordMessages.add(mapRowToBotMessageResponse(results));
@@ -414,7 +435,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private List<BotMessage> getSubkeywordMessagesByTopic(String topic, String subkeyword) {
         List<BotMessage> subkeywordMessages = new ArrayList<>();
-        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE  topic ILIKE ? AND subkeyword ILIKE ?";
+        String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE topic_search ILIKE ? AND subkeyword_search ILIKE ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic, subkeyword);
         while (results.next()) {
             subkeywordMessages.add(mapRowToBotMessageResponse(results));
@@ -424,7 +445,7 @@ public class JdbcMessageDAO implements MessageDAO{
     // Follow-up messages - Asks if student wants to go further into a topic
     private BotMessage buildSubkeywordWouldYouLikeToKnowMoreMessage(String topic, String keyword) {
         BotMessage subkeywordMessage = null;
-        List<String> listOfSubkeywords = listOfSubkeywords("Pathway", topic, keyword);
+        List<String> listOfSubkeywords = listOfDisplaySubkeywordsByTopic(topic, keyword);
         if(listOfSubkeywords.size() > 0) {
             String subkeywordMessageBody = "Would you like to know more about ";
             if (listOfSubkeywords.size() == 1) {
@@ -446,7 +467,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private BotMessage buildKeywordWouldYouLikeToKnowMoreMessage(String topic) {
         BotMessage keywordMessage = null;
-        List<String> listOfKeywords = listOfKeywordsByTopic(topic);
+        List<String> listOfKeywords = listOfDisplayKeywordsByTopic(topic);
         if(listOfKeywords.size() > 0) {
             String keywordMessageBody = "Would you like to know more about ";
             if (listOfKeywords.size() == 1) {
