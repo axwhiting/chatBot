@@ -22,6 +22,7 @@ public class MemeService {
         botMessage.setSender("bot");
         botMessage.setType("meme");
         botMessage.setBody(meme.getTitle());
+        botMessage.setCodeeStyle("happy");
         return botMessage;
     }
 
