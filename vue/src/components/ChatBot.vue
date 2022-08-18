@@ -4,7 +4,7 @@
     
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
         <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeeStyle === 'happy'" src="@/assets/cropHappy.png" id="happy" alt="Happy robot with arms reached out">
-        <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeStyle === 'sad'" src="@/assets/codeeSadArms.png" alt="sad robot">
+        <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeeStyle === 'sad'" src="@/assets/codeeSadArms.png" alt="sad robot">
         <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeeStyle === 'magnifier'" src="@/assets/codeeMagArms.png" alt="curious robot with magnifiying glass over one eye">
         <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeeStyle === 'lightbulb'" src="@/assets/codeeLightbulbarms.png" alt="excited robot with a lightbulb displayed as his face">
       <p class = "bot-text" v-if="message.type === 'text'">{{message.body}}</p>
@@ -18,6 +18,7 @@
           <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="A" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[1]}} </label><br>
           <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="B" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[2]}} </label><br>
           <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="C" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[3]}}</label><br>    
+          <button class="mc-button" :class="isMcButtonDisabled(message.questionId) ?  'disabled-mc-button' : 'enabled-mc-button'" type="submit" value="Submit" role="button" :disabled="isMcButtonDisabled(message.questionId)">Submit</button>
         </form>  
       </div>
     </div>
