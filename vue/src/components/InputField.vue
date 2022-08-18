@@ -72,20 +72,22 @@ export default {
      
      addMessage() {
       this.msg.userId = this.$store.state.userId;
-      chatService.sendMessage(this.msg).then(response => {
-         response.data.forEach(message => {
-           this.$store.commit("ADD_MESSAGE", message)
-           this.scrollToBottom();
-         })
-       });
-      this.msg = {
-        messageId: "",
-        userId: "",
-        body: "",
-        sender: "student",
-        type: "text",
-        link:""
-      }
+      if(this.msg.body != ""){
+        chatService.sendMessage(this.msg).then(response => {
+          response.data.forEach(message => {
+            this.$store.commit("ADD_MESSAGE", message)
+            this.scrollToBottom();
+          })
+        });
+        this.msg = {
+          messageId: "",
+          userId: "",
+          body: "",
+          sender: "student",
+          type: "text",
+          link:""
+        }
+        }
      },
      scrollToBottom() {
        setTimeout( () => {
@@ -186,6 +188,9 @@ export default {
 div {
   display: flex;
 }
+#searching{
+  background-color: transparent;
+flex-direction: row;}
 
 .input {
   display: flex;

@@ -16,6 +16,7 @@ public class QuoteService {
         botMessage.setLink("n/a");
         botMessage.setType("text");
         botMessage.setSender("bot");
+        botMessage.setCodeeStyle("lightbulb");
         return botMessage;
     }
 
