@@ -32,11 +32,6 @@ CREATE TABLE responses (
     codee_style varChar(10)
 );
 
-CREATE TABLE categories (
-	category_id SERIAL,
-	category_name varchar(50)
-);
-
 CREATE TABLE messageLog (
         message_id SERIAL,
         user_id int,
@@ -189,10 +184,5 @@ INSERT INTO interview_questions (display,answer,link,display_type,content_type,c
     ('Explain the difference between a primary key and a foreign key in a relational database. /A.A primary key is a unique value by which a row of data can be referenced in a table. A foreign key is a value in a table that exists in other tables to reference a unique related row in the source table. /B.A primary key is the first column in a table. A foreign key is a table’s primary key used to create a relationship with another table. /C.A primary key is a unique value used to identify a row of data in a table. It is used as a foreign key in other tables to override the values in that row.','A','n/a','question','text','magnifier'),
     ('What is MVC? Why do we use it? /A.It is the Model-View-Controller pattern used to create a specific view of our server code for the user. /B.It is the Model-ViewModel-Controller pattern used to create a front-end view of our server. /C.It is the Model-View-Controller pattern used to decouple our data source from our code.','C','n/a','question','text','magnifier'),
     ('What does it mean for a request to be stateless? /A.It means the request doesn''t have a Vuex state and each request must include all information needed by the server to respond each time a request is made. /B.It means that the server does not retain any information about the request once the response is sent. Each request is independent and must include all information needed by the server to respond each time a request is made. /C.Requests do not include information about the user, so the server must authenticate the user each time a request is made.','','n/a','question','text','magnifier');
-
-INSERT INTO categories (category_name) VALUES
-	('Motivational Quote'),
-	('Pathway'),
-	('Interview Question');
 
 COMMIT TRANSACTION;
