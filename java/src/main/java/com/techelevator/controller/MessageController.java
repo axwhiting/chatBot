@@ -30,4 +30,8 @@ public class MessageController {
     public List<BotMessage> getInitialMessages() { return messageDAO.getInitialMessages();
     }
 
+    @RequestMapping(value = "/Topics", method = RequestMethod.GET)
+    private List<String> listOfAllTopics() { return messageDAO.listOfAllTopics();
+    }
+
 }

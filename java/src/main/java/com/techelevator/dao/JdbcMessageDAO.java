@@ -315,7 +315,7 @@ public class JdbcMessageDAO implements MessageDAO{
         return topicList;
     }
 
-    private List<String> listOfAllTopics(){
+    public List<String> listOfAllTopics(){
         List<String> topicsList = new ArrayList<String>();
         String sql = "SELECT DISTINCT topic FROM responses";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
