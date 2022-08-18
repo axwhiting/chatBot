@@ -155,6 +155,7 @@ input[type=submit] {
   margin-left: 10px;
   margin-right: 10px;
   margin-top: 10px;
+  box-shadow: 2px 2px 4px #2c8366;
 }
 
 input[type=submit]:hover {
