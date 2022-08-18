@@ -147,6 +147,15 @@ export default {
       }
       return mostSimilar > similarityThreshold ? mostSimilar : word; 
     } 
+    // ListOfTopics(){
+  //   let topics = []
+
+  //   for (let i = 0, len = chatService.getTopics(), text = ""; i < len; i++) {
+  //        text += topics + "<br>";
+  //    return topics;
+    
+
+  // }
   }
   
  },
