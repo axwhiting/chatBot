@@ -29,6 +29,8 @@ Meme API: [Meme_API](https://github.com/D3vd/Meme_Api)
 
 Meme source: [Programmer Humor Subreddit](https://www.reddit.com/r/ProgrammerHumor/)
 
+Email Service: [EmailJS](https://www.emailjs.com/)
+
 ## Authors and Acknowledgment
 #### Team Alpha
 [Ashley Whiting](https://www.linkedin.com/in/ashleynwhiting/)

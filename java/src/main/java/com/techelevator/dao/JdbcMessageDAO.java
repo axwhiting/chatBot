@@ -164,14 +164,11 @@ public class JdbcMessageDAO implements MessageDAO{
             }
         }
         if(botMessages.size() == 0) {
-            List<String> categories = listOfCategories();
-            for(String category : categories){
-                if(receivedMessageLowerCase.contains(category.toLowerCase())){
-                    botMessages.add(getListOfTopics());
-                } if(botMessages.size() > 0){
-                    updateUserCurrentDiscussionPosition(userId, category, "None", "None");
-                    break;
-                }
+            String category = "Pathway";
+            if(receivedMessageLowerCase.contains(category.toLowerCase())){
+                botMessages.add(getListOfTopics());
+            } if(botMessages.size() > 0){
+                updateUserCurrentDiscussionPosition(userId, category, "None", "None");
             }
         }
         if(botMessages.size() == 0) {
@@ -196,7 +193,7 @@ public class JdbcMessageDAO implements MessageDAO{
             botMessages.add(mapCustomMessageToBotMessage("Nice to meet you, " + usernameEntered + "!", "happy"));
         }
         updateUserName(userId, usernameEntered);
-        botMessages.add(getListOfCategories());
+        botMessages.add(mapCustomMessageToBotMessage("Enter one of the categories below to get started: Pathway, Interview Question, Motivational Quote, or Meme.", "magnifier"));
         return botMessages;
     }
 
@@ -210,24 +207,6 @@ public class JdbcMessageDAO implements MessageDAO{
                 botMessage = mapCustomMessageToBotMessage("Sorry, the answer was " + interviewQuestionAnswer + ".", "sad");
             }
         }
-        return botMessage;
-    }
-
-    private BotMessage getListOfCategories() {
-        String categories = "";
-        String sql = "SELECT DISTINCT category_name FROM categories";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        boolean isFirstResult = true;
-        while ( results.next() ) {
-            if (isFirstResult) {
-                categories = results.getString("category_name");
-                isFirstResult = false;
-            } else {
-                categories = categories + ", " + results.getString("category_name");
-            }
-        }
-        String customMessage = "Enter one of the categories below to get started: " + categories + ".";
-        BotMessage botMessage = mapCustomMessageToBotMessage(customMessage, "magnifier");
         return botMessage;
     }
 

@@ -32,11 +32,6 @@ CREATE TABLE responses (
     codee_style varChar(10)
 );
 
-CREATE TABLE categories (
-	category_id SERIAL,
-	category_name varchar(50)
-);
-
 CREATE TABLE messageLog (
         message_id SERIAL,
         user_id int,
@@ -58,10 +53,7 @@ CREATE TABLE interview_questions (
 
 INSERT INTO responses (category,topic_display,topic_search,keyword_display,keyword_search,subkeyword_display,subkeyword_search,content_type,display,display_type,link,date_last_updated,codee_style) VALUES
     ('General','About Codee','About Codee','General','General','General','General','Informational','Hi, I''m Codee! I''m a chatbot designed to help Tech Elevator students get ready for their new careers. I can help you find Pathway presentations, ask interview questions, or send motivational quotes if you need a little pick-me-up. I can''t wait to chat with you, just type in the bar to get started!','text','n/a','n/a','happy'),
-    ('General','Help for Codee','Help for Codee','General','General','General','General','Informational','Here are the things you can ask for help with: Pathway, Motivational Quote, Interview Question. You can try other topics and if I don''t understand, I''ll let you know!','text','n/a','n/a','happy'),
-    ('General','Chatbot','Chatbot','Worst','Worst','General','General','Informational','Worst Chatbot Logo','embed','https://drive.google.com/file/d/1sT4vXkn7Dhz3KlYBjptKakKlwyxUbI-t/preview','n/a','happy'),
-    ('General','Chatbot','Chatbot','Worst','Worst','General','General','Informational','I didn''t know you could make a chatbot artificially dumb.','text','n/a','n/a','happy'),
-    ('Pathway','assignments','Assignments','general','General','General','General','Informational','Pathway assignments include writing a resume, crafting an elevator pitch, and updating your LinkedIn profile. ','text','n/a','n/a','happy'),
+    ('General','Help for Codee','Help for Codee','General','General','General','General','Informational','I can help you find information related to the Pathway Program or send you a motivational quote or meme if you need a pick-me-up. Try typing what you want in the search bar. You can try other topics and if I don''t understand, I''ll let you know! If you want to ask your question out loud, just click the microphone button so I can hear you and click it again when you''re done speaking. If you want me to read my response, click the "Talk to Me" button on the left.','text','n/a','n/a','happy'),    ('Pathway','assignments','Assignments','general','General','General','General','Informational','Pathway assignments include writing a resume, crafting an elevator pitch, and updating your LinkedIn profile. ','text','n/a','n/a','happy'),
     ('Pathway','assignments','Assignments','grading','Grading','General','General','Informational','Pathway assignments are graded on a six point scale.','text','n/a','n/a','happy'),
     ('Pathway','assignments','Assignments','grading','Grading','Scale','Scale','Informational','Not Attempted (0 points) - No meaningful attempt was made to complete the assignment by the deadline.','text','n/a','n/a','happy'),
     ('Pathway','assignments','Assignments','grading','Grading','Scale','Scale','Informational','Incomplete (1 point) - An attempt was made to complete the assignment by the deadline, but the assignment is incomplete and/or missing 90% of the requirements or more OR an attempt was made to complete the assignment, but it was turned in 24 hours after the deadline and is missing 50% of the requirements.','text','n/a','n/a','happy'),
@@ -192,10 +184,5 @@ INSERT INTO interview_questions (display,answer,link,display_type,content_type,c
     ('Explain the difference between a primary key and a foreign key in a relational database. /A.A primary key is a unique value by which a row of data can be referenced in a table. A foreign key is a value in a table that exists in other tables to reference a unique related row in the source table. /B.A primary key is the first column in a table. A foreign key is a table’s primary key used to create a relationship with another table. /C.A primary key is a unique value used to identify a row of data in a table. It is used as a foreign key in other tables to override the values in that row.','A','n/a','question','text','magnifier'),
     ('What is MVC? Why do we use it? /A.It is the Model-View-Controller pattern used to create a specific view of our server code for the user. /B.It is the Model-ViewModel-Controller pattern used to create a front-end view of our server. /C.It is the Model-View-Controller pattern used to decouple our data source from our code.','C','n/a','question','text','magnifier'),
     ('What does it mean for a request to be stateless? /A.It means the request doesn''t have a Vuex state and each request must include all information needed by the server to respond each time a request is made. /B.It means that the server does not retain any information about the request once the response is sent. Each request is independent and must include all information needed by the server to respond each time a request is made. /C.Requests do not include information about the user, so the server must authenticate the user each time a request is made.','','n/a','question','text','magnifier');
-
-INSERT INTO categories (category_name) VALUES
-	('Motivational Quote'),
-	('Pathway'),
-	('Interview Question');
 
 COMMIT TRANSACTION;
