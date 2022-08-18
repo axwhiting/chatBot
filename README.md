@@ -33,6 +33,8 @@ Meme source: [Programmer Humor Subreddit](https://www.reddit.com/r/ProgrammerHum
 
 Email Service: [EmailJS](https://www.emailjs.com/)
 
+Images for interview dress code: [CultivatedCulture](https://cultivatedculture.com/what-to-wear-to-an-interview/)
+
 ## Authors and Acknowledgment
 #### Team Alpha
 [Ashley Whiting](https://www.linkedin.com/in/ashleynwhiting/)
