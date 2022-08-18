@@ -58,6 +58,8 @@ INSERT INTO responses (category,topic_display,topic_search,keyword_display,keywo
     ('General','Chatbot','Chatbot','Worst','Worst','General','General','Informational','I didn''t know you could make a chatbot artificially dumb.','text','n/a','n/a','happy'),
     ('General','Chatbot','Chatbot','Best','Best','General','General','Informational','Best Chatbot','embed','https://drive.google.com/file/d/1oMNCPaygLmnblx5T2CdWBWXT4TYSLhp3/preview','n/a','happy'),
     ('General','Chatbot','Chatbot','Best','Best','General','General','Informational','It''s me silly!','text','n/a','n/a','happy'),
+    ('General','Instructor','Instructor','Best','Best','General','General','Informational','Brian Lauvray','text','n/a','n/a','happy'),
+    ('General','Class','Class','Best','Best','General','General','Informational','Java Blue (specifically Columbus Cohort 17)','text','n/a','n/a','happy'),
     ('Pathway','assignments','Assignments','general','General','General','General','Informational','Pathway assignments include writing a resume, crafting an elevator pitch, and updating your LinkedIn profile. ','text','n/a','n/a','happy'),
     ('Pathway','assignments','Assignments','grading','Grading','General','General','Informational','Pathway assignments are graded on a six point scale.','text','n/a','n/a','happy'),
     ('Pathway','assignments','Assignments','grading','Grading','Scale','Scale','Informational','Not Attempted (0 points) - No meaningful attempt was made to complete the assignment by the deadline.','text','n/a','n/a','happy'),
