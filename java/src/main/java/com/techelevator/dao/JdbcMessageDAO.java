@@ -227,7 +227,7 @@ public class JdbcMessageDAO implements MessageDAO{
         while( results.next() ) {
             topicsList.add(results.getString("topic_display"));
         }
-        String customMessage = "I'm to happy discuss to the following topics with you: ";
+        String customMessage = "I'm happy to discuss the following topics with you: ";
         for (int i = 0; i < topicsList.size(); i++) {
             if (i != topicsList.size() - 1) {
                 customMessage = customMessage + topicsList.get(i) + ", ";
