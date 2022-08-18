@@ -7,7 +7,6 @@
         <input type="text" name="name">
         <label>Recipient Email:</label>
         <input type="email" name="email">
-        <!-- add option for "last message" vs "all message" -->
         <div class="email-options-container">
           <label class="email-options"><input type="radio" name="email" v-on:change.prevent="lastMessages()">Send Codee's last messages.</label>
           <label class="email-options"><input type="radio" name="email" v-on:change.prevent="fullChatLog()">Send full chat log.</label>
@@ -95,7 +94,9 @@ export default {
 </script>
  
 <style scoped>
-* {box-sizing: border-box;}
+* {
+  box-sizing: border-box;
+}
 
 #showEmailForm{
   margin-left: 20%;
