@@ -4,8 +4,8 @@
       <input contenteditable spellcheck="true" class="input" type="text" id="spokenText" v-model="msg.body" />
       <button class="button" type="submit" value="Submit" role="button">Send</button>
       <button class="button speakyButton" :class="isListening ? 'listening' : 'notListening'" v-on:click.prevent="micButtonClicked()">
-        <img class="micOffBlack" id="speakyButton" v-if="!isListening" src="..\assets\mic_off.png">
-        <img id="speakyButton" v-if="isListening" src="..\assets\mic_on.png" >
+        <img class="micOffBlack" id="speakyButton" v-if="!isListening" src="..\assets\mic_off.png" alt="microphone icon with line through it">
+        <img id="speakyButton" v-if="isListening" src="..\assets\mic_on.png" alt="microhpone icon">
       </button>
     </form>
   </div>
