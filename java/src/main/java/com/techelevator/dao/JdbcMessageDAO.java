@@ -338,7 +338,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private List<String> listOfDisplayKeywordsByTopic(String topic){
         List<String> keywordList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT keyword_display FROM responses WHERE topic_search = ? AND keyword_search != 'General' AND keyword_search != 'Presentation'";
+        String sql = "SELECT DISTINCT keyword_display FROM responses WHERE category != 'General' AND topic_search = ? AND keyword_search != 'General' AND keyword_search != 'Presentation'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic);
         while( results.next() ) {
             keywordList.add(results.getString("keyword_display"));
@@ -378,7 +378,7 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private List<String> listOfDisplaySubkeywordsByTopic(String topic, String keyword){
         List<String> subkeywordList = new ArrayList<String>();
-        String sql = "SELECT DISTINCT subkeyword_display FROM responses WHERE topic_search = ? AND keyword_search = ?AND subkeyword_search != 'General' AND subkeyword_search != 'Presentation'";
+        String sql = "SELECT DISTINCT subkeyword_display FROM responses WHERE category != 'General' AND topic_search = ? AND keyword_search = ?AND subkeyword_search != 'General' AND subkeyword_search != 'Presentation'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, topic, keyword);
         while( results.next() ) {
             subkeywordList.add(results.getString("subkeyword_display"));
