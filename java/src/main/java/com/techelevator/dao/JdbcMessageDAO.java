@@ -221,19 +221,22 @@ public class JdbcMessageDAO implements MessageDAO{
     }
 
     private BotMessage getListOfTopics(){
-        String topicsList = "";
         String sql = "SELECT DISTINCT topic_display FROM responses WHERE category ILIKE 'Pathway'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        boolean isfirstResult = true;
+        List<String> topicsList = new ArrayList<String>();
         while( results.next() ) {
-            if(isfirstResult){
-                topicsList = results.getString("topic_display");
-                isfirstResult = false;
-            } else {
-                topicsList = topicsList + ", " + results.getString("topic_display");
-            }
+            topicsList.add(results.getString("topic_display"));
         }
-        String customMessage = "I'm happy discuss to following topics with you: " + topicsList + ". Which topic would you like to discuss?";
+        String customMessage = "I'm to happy discuss to the following topics with you: ";
+        for (int i = 0; i < topicsList.size(); i++) {
+            if (i != topicsList.size() - 1) {
+                customMessage = customMessage + topicsList.get(i) + ", ";
+            } else {
+                customMessage = customMessage + "or " + topicsList.get(i) + ".";
+            }
+
+        }
+        customMessage =customMessage + " Which topic would you like to discuss?";
         BotMessage botMessage = mapCustomMessageToBotMessage(customMessage, "magnifier");
         return botMessage;
     }
@@ -386,7 +389,6 @@ public class JdbcMessageDAO implements MessageDAO{
 
     private List<BotMessage> getKeywordMessages(String category, String topic, String keyword) {
         List<BotMessage> keywordMessages = new ArrayList<>();
-        // todo: look into whether subkeyword should always be marked General when keyword is marked General
         String sql = "SELECT response_id, display, display_type, link, codee_style FROM responses WHERE category ILIKE ? AND topic_search ILIKE ? AND keyword_search ILIKE ? AND subkeyword_search = 'General'";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, category, topic, keyword);
         while (results.next()) {
