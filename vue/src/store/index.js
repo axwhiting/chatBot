@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     userId : null,
     messages: [],
+    listOfTopics:["resume","Interview", "Networking", "Cover Letter"],
     spokenMessage: {
       messageId: "",
       userId: "",
