@@ -5,7 +5,6 @@
       <button class="button" type="submit" value="Submit" role="button">Send</button>
       <button class="button speakyButton" :class="isListening ? 'listening' : 'notListening'" v-on:click.prevent="micButtonClicked()">
         <img class="micOffBlack" id="speakyButton" v-if="!isListening" src="..\assets\mic_off.png">
-        <!-- <img class="micOffWhite" id="speakyButton" v-if="!isListening" src="..\assets\mic_off_white.png"> -->
         <img id="speakyButton" v-if="isListening" src="..\assets\mic_on.png" >
       </button>
     </form>
@@ -69,6 +68,7 @@ export default {
     }
   },
    methods:{
+     
      addMessage() {
       this.msg.userId = this.$store.state.userId;
       if(this.msg.body != ""){
@@ -129,6 +129,7 @@ export default {
     getSimilarity(word1,word2) {
       word1 = word1.toLowerCase();
       word2 = word2.toLowerCase();
+      console.log(word1)
       const bigram1 = this.getBigram(word1), bigram2 = this.getBigram(word2);
       let similar = [];
       for(let i = 0; i < bigram1.length; i++) {
@@ -138,28 +139,21 @@ export default {
       }
     return similar.length/Math.max(bigram1.length,bigram2.length);
   }, 
-  AutoCorrect(word,knownWords=this.ListOfTopics(), similarityThreshold=0.5){
-    let maxSimilarity = 0;
+  AutoCorrect(word, keywords=this.$store.state.listOfTopics, similarityThreshold=0.5){
+    let maxSimilarity = 0
     let mostSimilar = word;
-     for (let i = 0; i < knownWords.length; i++){
-      let similarity = this.getSimilarity(knownWords.length, word)
+    if (mostSimilar != keywords ){
+     return mostSimilar;
+     } else
+     for (let i = 0; i < keywords.length; i++){
+      let similarity = this.getSimilarity( keywords, word)
       if (similarity > maxSimilarity) {
         maxSimilarity = similarity;
-        mostSimilar = knownWords[i];
+        mostSimilar = keywords[i];
       }
       return mostSimilar > similarityThreshold ? mostSimilar : word; 
     } 
-    // ListOfTopics(){
-  //   let topics = []
-
-  //   for (let i = 0, len = chatService.getTopics(), text = ""; i < len; i++) {
-  //        text += topics + "<br>";
-  //    return topics;
-    
-
-  // }
   }
-  
  },
   created() {
     chatService.getInitialMessages().then(response => {
@@ -169,7 +163,10 @@ export default {
       });
     })
   }
-}
+   }
+
+
+
 
 </script>
 

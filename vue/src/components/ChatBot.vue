@@ -1,7 +1,6 @@
 <template>
   <div class="the-big-div"> 
     <div v-for="message in this.$store.state.messages" v-bind:key="message.id" 
-    
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
         <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeeStyle === 'happy'" src="@/assets/cropHappy.png" id="happy" alt="Happy robot with arms reached out">
         <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeeStyle === 'sad'" src="@/assets/codeeSadArms.png" alt="sad robot">
@@ -11,7 +10,6 @@
       <a v-if="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
       <div class="embed" v-if="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
       <div v-if="message.type === 'meme'" class="meme"><p>{{message.body}}</p><img v-bind:src="message.link" width="425" /></div>
-      <!-- <div class="embed" v-if="message.type === 'meme'"><iframe v-bind:src="message.link" width="425"/></div> -->
       <div class = "mc-question" v-if="message.type === 'question'"> 
         <p>{{message.body.split('/')[0]}}</p> 
         <form class = "mc-form" v-on:submit.prevent="mcaMessage()"> 
@@ -86,6 +84,10 @@ data()
 </script>
 
 <style scoped>
+
+.the-big-div {
+  overflow-x: hidden;
+}
 
 div.bot {
   display: flex;
@@ -198,14 +200,14 @@ label {
   margin: 10px;
 }
 
-/* div.student{
+div.student{
   animation: .2s ease-in-out 0s  slideInRight;
-} */
-
-/* div.bot {
-	animation: slide-in-elliptic-right-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-
 }
+
+div.bot {
+	animation: slide-in-elliptic-right-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
 @keyframes slide-in-elliptic-right-fwd {
   0% {
     transform: translateX(800px) rotateY(-30deg) scale(0);
@@ -216,7 +218,8 @@ label {
     transform: translateX(0) rotateY(0) scale(1);
     transform-origin: -1800px 50%;
     opacity: 1;
-  }} */
+  }
+}
 
 #happy {
   background-color: #002A42;
