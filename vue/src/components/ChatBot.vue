@@ -3,10 +3,10 @@
     <div v-for="message in this.$store.state.messages" v-bind:key="message.id" 
     
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
-        <img v-if="message.sender === 'bot' && message.codeeStyle === 'happy'" src="@/assets/cropHappy.png" id="happy" alt="Happy robot with arms reached out">
-        <img v-if="message.sender === 'bot' && message.codeStyle === 'sad'" src="" alt="sad robot">
-        <img v-if="message.sender === 'bot' && message.codeeStyle === 'magnifier'" src="" alt="curious robot with magnifiying glass over one eye">
-        <img v-if="message.sender === 'bot' && message.codeeStyle === 'lightbulb'" src="" alt="excited robot with a lightbulb displayed as his face">
+        <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeeStyle === 'happy'" src="@/assets/cropHappy.png" id="happy" alt="Happy robot with arms reached out">
+        <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeStyle === 'sad'" src="@/assets/codeeSadArms.png" alt="sad robot">
+        <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeeStyle === 'magnifier'" src="@/assets/codeeMagArms.png" alt="curious robot with magnifiying glass over one eye">
+        <img class="codeeStyle" v-if="message.sender === 'bot' && message.codeeStyle === 'lightbulb'" src="@/assets/codeeLightbulbarms.png" alt="excited robot with a lightbulb displayed as his face">
       <p class = "bot-text" v-if="message.type === 'text'">{{message.body}}</p>
       <a v-if="message.type === 'link'" v-bind:href="message.link" target="_blank">{{message.body}}</a>
       <div class="embed" v-if="message.type === 'embed'"><iframe  v-bind:src="message.link" width="425" height="240" allow="autoplay" /></div>
@@ -17,8 +17,7 @@
         <form class = "mc-form" v-on:submit.prevent="mcaMessage()"> 
           <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="A" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[1]}} </label><br>
           <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="B" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[2]}} </label><br>
-          <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="C" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[3]}}</label><br>
-    
+          <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="C" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[3]}}</label><br>    
         </form>  
       </div>
     </div>
@@ -219,6 +218,17 @@ label {
   }} */
 
 #happy {
+  background-color: #002A42;
+  border-radius: 50%;
+  padding: 4px;
+  margin-left: 10px;
+  margin-top:15px ;
+  height: 10vw;
+  max-width: 45px;
+  max-height: 40px
+}
+
+.codeeStyle {
   background-color: #002A42;
   border-radius: 50%;
   padding: 4px;
