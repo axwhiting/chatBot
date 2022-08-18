@@ -3,11 +3,21 @@
 // let speakyButton = null;
 // let notices = null;
 
+<<<<<<< HEAD
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("dom content loaded")
+
+    textField = document.getElementById('spokenText');
+    speakyButton = document.getElementById('speakyButton');
+    notices = document.getElementById('notices');
+    console.log("Dom content loaded");
+=======
 // document.addEventListener('DOMContentLoaded', () => {
 //     textField = document.getElementById('spokenText');
 //     speakyButton = document.getElementById('speakyButton');
 //     notices = document.getElementById('notices');
 //     console.log("Dom content loaded");
+>>>>>>> b73c6260996b629aae1e9df9fafb03755bb3d96a
 
 //     // Once the DOM is loaded, initialize the Speech to Text engine
 //     initSpeech();
@@ -25,8 +35,13 @@
 //     navigator.mediaDevices.getUserMedia({ audio: true} )
 //         .then( () => {
             
+<<<<<<< HEAD
+            // Get either the SpeechRecognition API (Chrome/Edge) or webkitSpeechRecognition (Firefox)
+            const SpeechRec = window.SpeechRecognition;
+=======
 //             // Get either the SpeechRecognition API (Chrome/Edge) or webkitSpeechRecognition (Firefox)
 //             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+>>>>>>> b73c6260996b629aae1e9df9fafb03755bb3d96a
 
 //             // Get an instance of the SpeechRecognition API and initialize it
 //             SpeechRecognition = new SpeechRec();   

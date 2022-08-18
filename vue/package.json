@@ -31,6 +31,7 @@
     "eslint": "^7.21.0",
     "eslint-plugin-vue": "^7.7.0",
     "vue-loader-v16": "npm:vue-loader@16.1.2",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.12",
+    "vue-text-to-speech": "^1.0.6"
   }
 }

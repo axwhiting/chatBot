@@ -1,6 +1,7 @@
 <template>
   <div class="the-big-div"> 
     <div v-for="message in this.$store.state.messages" v-bind:key="message.id" 
+    
       v-bind:class="{bot:message.sender === 'bot', student:message.sender === 'student'}">
         <img v-if="message.sender === 'bot' && message.codeeStyle === 'happy'" src="@/assets/cropHappy.png" id="happy" alt="Happy robot with arms reached out">
         <img v-if="message.sender === 'bot' && message.codeStyle === 'sad'" src="" alt="sad robot">
@@ -17,7 +18,7 @@
           <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="A" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[1]}} </label><br>
           <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="B" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[2]}} </label><br>
           <label> <input class="mc-input" type="radio"  v-model="mca.body" v-bind:name="message.questionId" value="C" :disabled="isMcButtonDisabled(message.questionId)">  {{message.body.split('/')[3]}}</label><br>
-          <button class="mc-button" :class="isMcButtonDisabled(message.questionId) ?  'disabled-mc-button' : 'enabled-mc-button'" type="submit" value="Submit" role="button" :disabled="isMcButtonDisabled(message.questionId)">Submit</button>
+    
         </form>  
       </div>
     </div>
