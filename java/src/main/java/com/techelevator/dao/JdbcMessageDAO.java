@@ -429,6 +429,8 @@ public class JdbcMessageDAO implements MessageDAO{
             String subkeywordMessageBody = "Would you like to know more about ";
             if (listOfSubkeywords.size() == 1) {
                 subkeywordMessageBody = subkeywordMessageBody + listOfSubkeywords.get(0) + "?";
+            } else if (listOfSubkeywords.size() == 2) {
+                    subkeywordMessageBody = subkeywordMessageBody + listOfSubkeywords.get(0) + " or " + listOfSubkeywords.get(1) + "?";
             } else {
                 for (int i = 0; i < listOfSubkeywords.size(); i++) {
                     if (i != listOfSubkeywords.size() - 1) {
@@ -451,6 +453,8 @@ public class JdbcMessageDAO implements MessageDAO{
             String keywordMessageBody = "Would you like to know more about ";
             if (listOfKeywords.size() == 1) {
                 keywordMessageBody = keywordMessageBody + listOfKeywords.get(0) + "?";
+            } else if (listOfKeywords.size() == 2) {
+                keywordMessageBody = keywordMessageBody + listOfKeywords.get(0) + " or " + listOfKeywords.get(1) + "?";
             } else {
                 for (int i = 0; i < listOfKeywords.size(); i++) {
                     if (i != listOfKeywords.size() - 1) {
