@@ -5,6 +5,8 @@ Codee is a chatbot designed to assist Tech Elevator students with their job sear
 ## Description
 Codee prompts students and responds to keywords with relevant information. He can help students find information on a broad variety of topics related to their job search, including help with resumes, interview prep, and more. Codee can also give students motivational quotes or humorous memes if they need a little pick-me-up. If students need help preparing for technical interview questions, they can ask Codee for sample questions.
 
+![codeeGif](./codee.gif)
+
 ### Features
 #### Pathway Help: 
 Students can ask for help finding resources related to the Pathway Program. They can identify broad topics and drill down to specific bits of information, presentations, or videos. They can even get help figuring out what to wear to an interview!
