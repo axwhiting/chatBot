@@ -5,7 +5,6 @@
       <button class="button" type="submit" value="Submit" role="button">Send</button>
       <button class="button speakyButton" :class="isListening ? 'listening' : 'notListening'" v-on:click.prevent="micButtonClicked()">
         <img class="micOffBlack" id="speakyButton" v-if="!isListening" src="..\assets\mic_off.png">
-        <!-- <img class="micOffWhite" id="speakyButton" v-if="!isListening" src="..\assets\mic_off_white.png"> -->
         <img id="speakyButton" v-if="isListening" src="..\assets\mic_on.png" >
       </button>
     </form>
@@ -149,17 +148,7 @@ export default {
       }
       return mostSimilar > similarityThreshold ? mostSimilar : word; 
     } 
-    // ListOfTopics(){
-  //   let topics = []
-
-  //   for (let i = 0, len = chatService.getTopics(), text = ""; i < len; i++) {
-  //        text += topics + "<br>";
-  //    return topics;
-    
-
-  // }
   }
-  
  },
   created() {
     chatService.getInitialMessages().then(response => {
